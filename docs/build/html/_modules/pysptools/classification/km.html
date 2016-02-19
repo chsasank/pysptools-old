@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.classification.km &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pysptools.classification.km</h1><div class="highlight"><pre>
+<span class="c1">#</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Copyright (c) 2013-2014, Christian Therien</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1"># km.py - This file is part of the PySptools package.</span>
+<span class="c1">#</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">KMeans class</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sklearn.cluster</span> <span class="kn">as</span> <span class="nn">cluster</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">out</span>
+<span class="kn">from</span> <span class="nn">.inval</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="KMeans"><a class="viewcode-back" href="../../../pysptools.classification.html#pysptools.classification.km.KMeans">[docs]</a><span class="k">class</span> <span class="nc">KMeans</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; KMeans clustering algorithm adapted to hyperspectral imaging &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cluster</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="s1">&#39;KMeans&#39;</span><span class="p">)</span>
+
+    <span class="nd">@PredictInputValidation</span><span class="p">(</span><span class="s1">&#39;KMeans&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">&#39;k-means++&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        KMeans clustering algorithm adapted to hyperspectral imaging.</span>
+<span class="sd">        It is a simple wrapper to the scikit-learn version.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            M: `numpy array`</span>
+<span class="sd">              A HSI cube (m x n x p).</span>
+
+<span class="sd">            n_clusters: `int [default 5]`</span>
+<span class="sd">                The number of clusters to generate.</span>
+
+<span class="sd">            n_jobs: `int [default 1]`</span>
+<span class="sd">                Taken from scikit-learn doc:</span>
+<span class="sd">                The number of jobs to use for the computation. This works by breaking down the pairwise matrix into n_jobs even slices and computing them in parallel.</span>
+<span class="sd">                If -1 all CPUs are used. If 1 is given, no parallel computing code is used at all, which is useful for debugging. For n_jobs below -1, (n_cpus + 1 + n_jobs) are used. Thus for n_jobs = -2, all CPUs but one are used.</span>
+
+<span class="sd">            init: `string or array [default &#39;k-means++&#39;]`</span>
+<span class="sd">                Taken from scikit-learn doc: Method for initialization, defaults to `k-means++`:</span>
+<span class="sd">                `k-means++` : selects initial cluster centers for k-mean clustering in a smart way to speed up convergence. See section Notes in k_init for more details.</span>
+<span class="sd">                `random`: choose k observations (rows) at random from data for the initial centroids.</span>
+<span class="sd">                If an ndarray is passed, it should be of shape (n_clusters, n_features) and gives the initial centers.</span>
+
+
+<span class="sd">        Returns: `numpy array`</span>
+<span class="sd">              A cluster map (m x n x c), c is the clusters number .</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">numBands</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="n">n_clusters</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="n">h</span><span class="p">,</span> <span class="n">numBands</span><span class="p">))</span>
+        <span class="n">clf</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">init</span><span class="p">)</span>
+        <span class="n">cls</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cluster</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster</span>
+
+    <span class="nd">@PlotInputValidation3</span><span class="p">(</span><span class="s1">&#39;KMeans&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="s1">&#39;Accent&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the cluster map.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            path: `string`</span>
+<span class="sd">              The path where to put the plot.</span>
+
+<span class="sd">            interpolation: `string [default none]`</span>
+<span class="sd">              A matplotlib interpolation method.</span>
+
+<span class="sd">            colorMap: `string [default &#39;Accent&#39;]`</span>
+<span class="sd">              A color map element of</span>
+<span class="sd">              [&#39;Accent&#39;, &#39;Dark2&#39;, &#39;Paired&#39;, &#39;Pastel1&#39;, &#39;Pastel2&#39;, &#39;Set1&#39;, &#39;Set2&#39;, &#39;Set3&#39;],</span>
+<span class="sd">              &quot;Accent&quot; is the default and it fall back on &quot;Jet&quot;.</span>
+
+<span class="sd">            suffix: `string [default None]`</span>
+<span class="sd">              Add a suffix to the file name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cluster</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="n">colorMap</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span>
+
+    <span class="nd">@DisplayInputValidation3</span><span class="p">(</span><span class="s1">&#39;KMeans&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="s1">&#39;Accent&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display the cluster map.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            path: `string`</span>
+<span class="sd">              The path where to put the plot.</span>
+
+<span class="sd">            interpolation: `string [default none]`</span>
+<span class="sd">              A matplotlib interpolation method.</span>
+
+<span class="sd">            colorMap: `string [default &#39;Accent&#39;]`</span>
+<span class="sd">              A color map element of</span>
+<span class="sd">              [&#39;Accent&#39;, &#39;Dark2&#39;, &#39;Paired&#39;, &#39;Pastel1&#39;, &#39;Pastel2&#39;, &#39;Set1&#39;, &#39;Set2&#39;, &#39;Set3&#39;],</span>
+<span class="sd">              &quot;Accent&quot; is the default and it fall back on &quot;Jet&quot;.</span>
+
+<span class="sd">            suffix: `string [default None]`</span>
+<span class="sd">              Add a suffix to the title.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cluster</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="n">colorMap</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span></div>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

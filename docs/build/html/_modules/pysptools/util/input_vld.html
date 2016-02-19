@@ -1,0 +1,440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.util.input_vld &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pysptools.util.input_vld</h1><div class="highlight"><pre>
+<span class="c1">#</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Copyright (c) 2013-2014, Christian Therien</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1"># input_vld.py - This file is part of the PySptools package.</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="simple_decorator"><a class="viewcode-back" href="../../../pysptools.util.html#pysptools.util.input_vld.simple_decorator">[docs]</a><span class="k">def</span> <span class="nf">simple_decorator</span><span class="p">(</span><span class="n">decorator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A well behaved decorator.</span>
+<span class="sd">        Ref. wiki.python.org</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">new_decorator</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">__doc__</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">g</span>
+    <span class="c1"># Now a few lines needed to make simple_decorator itself</span>
+    <span class="c1"># be a well-behaved decorator.</span>
+    <span class="n">new_decorator</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="n">decorator</span><span class="o">.</span><span class="n">__name__</span>
+    <span class="n">new_decorator</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">decorator</span><span class="o">.</span><span class="n">__doc__</span>
+    <span class="n">new_decorator</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">decorator</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_decorator</span></div>
+
+
+<div class="viewcode-block" id="InputValidation"><a class="viewcode-back" href="../../../pysptools.util.html#pysptools.util.input_vld.InputValidation">[docs]</a><span class="k">class</span> <span class="nc">InputValidation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Validate some classes inputs. &quot;&quot;&quot;</span>
+
+    <span class="c1"># input_type</span>
+
+    <span class="n">axes_type</span> <span class="o">=</span> <span class="mi">14</span>
+    <span class="n">bool_type</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">cmap_exist</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">cube_type</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">cube_type2</span> <span class="o">=</span> <span class="mi">17</span> <span class="c1"># more restricted, for HySime</span>
+    <span class="n">far_type</span> <span class="o">=</span> <span class="mi">18</span> <span class="c1"># for HfcVd</span>
+    <span class="n">float_type</span> <span class="o">=</span> <span class="mi">23</span>
+    <span class="n">float_type2</span> <span class="o">=</span> <span class="mi">24</span>
+    <span class="n">index_range</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">int_type</span> <span class="o">=</span> <span class="mi">13</span>
+    <span class="n">int_type2</span> <span class="o">=</span> <span class="mi">16</span> <span class="c1"># int or None</span>
+    <span class="n">labels_type</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="n">lib_type</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">list_type</span> <span class="o">=</span> <span class="mi">22</span>
+    <span class="n">mask_type</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">spectrum_length</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">spectrum_type</span> <span class="o">=</span> <span class="mi">11</span>
+    <span class="n">string_type</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">string_type2</span> <span class="o">=</span> <span class="mi">21</span>
+    <span class="n">suffix_type</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="n">threshold_type</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">threshold_type2</span> <span class="o">=</span> <span class="mi">12</span>
+    <span class="n">threshold_type3</span> <span class="o">=</span> <span class="mi">19</span> <span class="c1"># for AbundanceClassification</span>
+    <span class="n">transform_type</span> <span class="o">=</span> <span class="mi">15</span>
+    <span class="c1"># new entries</span>
+    <span class="n">columns_type</span> <span class="o">=</span> <span class="mi">25</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_id</span> <span class="o">=</span> <span class="n">class_id</span>
+
+<div class="viewcode-block" id="InputValidation.dispatch"><a class="viewcode-back" href="../../../pysptools.util.html#pysptools.util.input_vld.InputValidation.dispatch">[docs]</a>    <span class="k">def</span> <span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check_type</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">cube_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cube_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">lib_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lib_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_threshold_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmap_exist</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap_exist</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_suffix_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_range</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index_range</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">bool_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bool_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum_length</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spectrum_length</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_labels_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mask_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectrum_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spectrum_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold_type2</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_threshold_type2</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_int_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_axes_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_type2</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_int_type2</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">cube_type2</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cube_type2</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">far_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_far_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">threshold_type3</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_threshold_type3</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">string_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_string_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">string_type2</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_string_type2</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">float_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_float_type</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">float_type2</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_float_type2</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns_type</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_int_type2</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_cube_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} is not a numpy.array&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">M</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">err2</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} have {3} dimension(s), expected 3 dimensions&#39;</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err2</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_lib_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">E</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">E</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} is not a numpy.array&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">E</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">E</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">err2</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} have {3} dimension(s), expected 2 dimensions&#39;</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err2</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">,</span> <span class="n">E</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_threshold_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">E</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">float</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), threshold have {2}, expected float or list type&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">!=</span> <span class="n">E</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">err2</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), threshold have length {2}, expected length {3}&#39;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err2</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">threshold</span><span class="p">),</span> <span class="n">E</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="n">err3</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), threshold value is {2}, expected value between 0.0 and 1.0&#39;</span>
+            <span class="k">if</span> <span class="n">threshold</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">threshold</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err3</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">threshold</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">err4</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), threshold value is {2} at index {3}, expected value between 0.0 and 1.0&#39;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">threshold</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">threshold</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">threshold</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err4</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">threshold</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_spectrum_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">M_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">E</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">E_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">E</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="n">E</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), the {2} spectrum length is different to the {3} spectrum length&#39;</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">M_id</span><span class="p">,</span> <span class="n">E_id</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">E</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="n">E</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">err2</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), the {2} spectrum length is different to the {3} spectrum length&#39;</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err2</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">M_id</span><span class="p">,</span> <span class="n">E_id</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_cmap_exist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">to_call</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="c1"># = args[2]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), call {2} before calling {3}&#39;</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">to_call</span><span class="p">,</span> <span class="n">method</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_suffix_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">suffix</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), suffix is not of str type or None&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_bool_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} is not of bool type&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_index_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">n_em</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span> <span class="k">return</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="n">n_em</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), indexing at {2} is out of range, expected a value between 1 and {3} or the string </span><span class="se">\&#39;</span><span class="s1">all</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">n_em</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_labels_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span> <span class="ow">and</span> <span class="n">labels</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), labels is not a list or None&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_mask_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">and</span> <span class="n">mask</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), mask is not a numpy.array&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="n">mask</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">err2</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), mask have {2} dimension(s), expected 2 dimensions&#39;</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err2</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_spectrum_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} is not a numpy.array&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">err2</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} have {3} dimension(s), a vector is expected&#39;</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err2</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_threshold_type2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">float</span> <span class="ow">and</span> <span class="n">threshold</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), threshold is not of float type or None&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_int_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} is not of int type&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_axes_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">dict</span> <span class="ow">and</span> <span class="n">axes</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), axes is not of dict type or None&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_transform_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">transform</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), transform is not a numpy.array&#39;</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">transform</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">err2</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), transform have {2} dimension(s), expected 3 dimensions&#39;</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err2</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">transform</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">q</span><span class="o">-</span><span class="mi">1</span> <span class="o">!=</span> <span class="n">transform</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+            <span class="n">err3</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), q equal {2} and transform have {3} components, expected q == components - 1&#39;</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err3</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">transform</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+
+    <span class="k">def</span> <span class="nf">_int_type2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">and</span> <span class="n">number</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} is not of int type or None&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_cube_type2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">M</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} is not a numpy.array&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">M</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">err2</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} have {3} dimension(s), expected 3 dimensions&#39;</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err2</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">numBands</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">if</span> <span class="n">numBands</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">err3</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), too few bands to estimate the noise&#39;</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">err3</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_far_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">far</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">far</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="n">far</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span><span class="p">):</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), far have {2}, expected list type&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">far</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">far</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">far</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">far</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+                    <span class="n">err2</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), far value is {2} at index {3}, expected value &lt; 1&#39;</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err2</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">far</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_threshold_type3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">float</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), threshold have {2}, expected float or list type&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">!=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
+            <span class="n">err2</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), threshold have length {2}, expected length {3}&#39;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err2</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">threshold</span><span class="p">),</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="n">err3</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), threshold value is {2}, expected value between 0.0 and 1.0&#39;</span>
+            <span class="k">if</span> <span class="n">threshold</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">threshold</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err3</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">threshold</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">err4</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), threshold value is {2} at index {3}, expected value between 0.0 and 1.0&#39;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">threshold</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">threshold</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">threshold</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err4</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">threshold</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_string_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} is not of string type&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_string_type2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span> <span class="ow">and</span> <span class="n">string</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} is not of string type or None&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_list_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} is not of list type&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_float_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">flt</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">flt</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} is not of float type&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_float_type2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">flt</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">obj_id</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">flt</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">float</span> <span class="ow">and</span> <span class="n">flt</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">err1</span> <span class="o">=</span> <span class="s1">&#39;in {0}.{1}(), {2} is not of float type or None&#39;</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err1</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">))</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,906 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.eea package &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pysptools-eea-package">
+<h1>pysptools.eea package<a class="headerlink" href="#pysptools-eea-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pysptools.eea.docstring">
+<span id="pysptools-eea-docstring-module"></span><h2>pysptools.eea.docstring module<a class="headerlink" href="#module-pysptools.eea.docstring" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pysptools.eea.eea">
+<span id="pysptools-eea-eea-module"></span><h2>pysptools.eea.eea module<a class="headerlink" href="#module-pysptools.eea.eea" title="Permalink to this headline">¶</a></h2>
+<p>ATGP, FIPPI, PPI functions</p>
+<dl class="function">
+<dt id="pysptools.eea.eea.ATGP">
+<code class="descclassname">pysptools.eea.eea.</code><code class="descname">ATGP</code><span class="sig-paren">(</span><em>data</em>, <em>q</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/eea.html#ATGP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea.ATGP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatic Target Generation Process endmembers induction algorithm</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data ((m x n) x p)</li>
+<li><strong>q</strong> &#8211; <cite>int</cite>
+Number of endmembers to be induced (positive integer &gt; 0)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>tuple: numpy array, numpy array</cite></dt>
+<dd><ul class="first last simple">
+<li>Set of induced endmembers (N x p).</li>
+<li>Induced endmembers indexes vector.</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>A. Plaza, C.-I. Chang, &#8220;Impact of Initialization on Design of Endmember
+Extraction Algorithms&#8221;, Geoscience and Remote Sensing, IEEE Transactions on,
+vol. 44, no. 11, pgs. 3397-3407, 2006.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.eea.eea.FIPPI">
+<code class="descclassname">pysptools.eea.eea.</code><code class="descname">FIPPI</code><span class="sig-paren">(</span><em>M</em>, <em>q=None</em>, <em>far=None</em>, <em>maxit=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/eea.html#FIPPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea.FIPPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fast Iterative Pixel Purity Index (FIPPI) endmqbers
+induction algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data ((m x n) x p)</li>
+<li><strong>q</strong> &#8211; <cite>int [default None]</cite>
+Number of endmembers to be induced, if None use
+HfcVd to determine the number of endmembers to induce.</li>
+<li><strong>far</strong> &#8211; <cite>float [default None]</cite>
+False alarm rate(s), a parameter to HfcVd equal to 10**-5
+by default.</li>
+<li><strong>maxit</strong> &#8211; <a href="#id1"><span class="problematic" id="id2">`</span></a>int [default None]
+Maximum number of iterations. Default = 3*p.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>tuple: numpy array, numpy array</cite></dt>
+<dd><ul class="first last simple">
+<li>Set of induced endmembers (N x p).</li>
+<li>Array of indices into the array data corresponding to the
+induced endmembers.</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Chang, C.-I., &#8220;A fast iterative algorithm for implementation of pixel purity index&#8221;,
+Geoscience and Remote Sensing Letters, IEEE, vol. 3, no. 1, pags. 63-67, 2006.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.eea.eea.PPI">
+<code class="descclassname">pysptools.eea.eea.</code><code class="descname">PPI</code><span class="sig-paren">(</span><em>M</em>, <em>q</em>, <em>numSkewers</em>, <em>ini_skewers=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/eea.html#PPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea.PPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the pixel purity index algorithm for endmember finding.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data ((m x n) x p).</li>
+<li><strong>q</strong> &#8211; <cite>int</cite>
+Number of endmembers to find.</li>
+<li><strong>numSkewers</strong> &#8211; <cite>int</cite>
+Number of &#8220;skewer&#8221; vectors to project data onto.</li>
+<li><strong>ini_skewers</strong> &#8211; <cite>numpy array [default None]</cite>
+You can generate skewers from another source.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Recovered endmembers (N x p).</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.eea.eea.mATGP">
+<code class="descclassname">pysptools.eea.eea.</code><code class="descname">mATGP</code><span class="sig-paren">(</span><em>data</em>, <em>q</em>, <em>mask</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/eea.html#mATGP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea.mATGP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatic Target Generation Process endmembers induction algorithm.
+The endmembers search is masked.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data ((m x n) x p)</li>
+<li><strong>q</strong> &#8211; <cite>int</cite>
+Number of endmembers to be induced (positive integer &gt; 0)</li>
+<li><strong>mask</strong> &#8211; <cite>numpy array</cite>
+A binary mask, if True the corresponding spectrum is part of the
+endmembers search.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>tuple: numpy array, numpy array</cite></dt>
+<dd><ul class="first last simple">
+<li>Set of induced endmembers (N x p).</li>
+<li>Induced endmembers indexes vector.</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>A. Plaza y C.-I. Chang, &#8220;Impact of Initialization on Design of Endmember
+Extraction Algorithms&#8221;, Geoscience and Remote Sensing, IEEE Transactions on,
+vol. 44, no. 11, pgs. 3397-3407, 2006.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.eea.eea.mNFINDR">
+<code class="descclassname">pysptools.eea.eea.</code><code class="descname">mNFINDR</code><span class="sig-paren">(</span><em>data</em>, <em>mask</em>, <em>q</em>, <em>transform=None</em>, <em>maxit=None</em>, <em>ATGP_init=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/eea.html#mNFINDR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea.mNFINDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>N-FINDR endmembers induction algorithm.
+The endmembers search is masked.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data ((m x n) x p)</li>
+<li><strong>mask</strong> &#8211; <cite>numpy array [default None]</cite>
+A binary mask, if True the corresponding signal is part of the
+endmembers search.</li>
+<li><strong>transform</strong> &#8211; <cite>numpy array [default None]</cite>
+The transformed &#8216;data&#8217; matrix by MNF (N x components). In this
+case the number of components must == q-1. If None, the built-in
+call to PCA is used to transform the data.</li>
+<li><strong>q</strong> &#8211; <cite>int</cite>
+Number of endmembers to be induced.</li>
+<li><strong>maxit</strong> &#8211; <cite>int [default None]</cite>
+Maximum number of iterations. Default = 3*q.</li>
+<li><strong>ATGP_init</strong> &#8211; <cite>boolean [default False]</cite>
+Use ATGP to generate the first endmembers set instead
+of a random selection.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>tuple: numpy array, numpy array, numpy array, int</cite></dt>
+<dd><ul class="first last simple">
+<li>Set of induced endmembers (N x p)</li>
+<li>Set of transformed induced endmembers (N x p)</li>
+<li>Array of indices into the array data corresponding to the
+induced endmembers</li>
+<li>The number of iterations.</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Winter, M. E., &#8220;N-FINDR: an algorithm for fast autonomous spectral
+end-member determination in hyperspectral data&#8221;, presented at the Imaging
+Spectrometry V, Denver, CO, USA, 1999, vol. 3753, pgs. 266-275.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.eea.eea_int">
+<span id="pysptools-eea-eea-int-module"></span><h2>pysptools.eea.eea_int module<a class="headerlink" href="#module-pysptools.eea.eea_int" title="Permalink to this headline">¶</a></h2>
+<p>PPI, NFINDR, ATGP, FIPPI classes</p>
+<dl class="class">
+<dt id="pysptools.eea.eea_int.ATGP">
+<em class="property">class </em><code class="descclassname">pysptools.eea.eea_int.</code><code class="descname">ATGP</code><a class="reference internal" href="_modules/pysptools/eea/eea_int.html#ATGP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea_int.ATGP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Automatic target generation process endmembers induction algorithm.</p>
+<dl class="method">
+<dt id="pysptools.eea.eea_int.ATGP.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>axes=None</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.eea.eea_int.ATGP.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the endmembers to a IPython Notebook.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>axes</strong> &#8211; <p><cite>dictionary [default None]</cite>
+* axes[&#8216;wavelength&#8217;] : a wavelengths list (1D python list).</p>
+<blockquote>
+<div>If None or not specified the list is automaticaly numbered starting at 1.</div></blockquote>
+<ul>
+<li>axes[&#8216;x&#8217;] : the x axis label, &#8216;Wavelength&#8217; if None or not specified.
+axes[&#8216;x&#8217;] is copied verbatim.</li>
+<li>axes[&#8216;y&#8217;] : the y axis label, &#8216;Brightness&#8217; if None or not specified.
+axes[&#8216;y&#8217;] is copied verbatim.</li>
+</ul>
+</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the title.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.ATGP.extract">
+<code class="descname">extract</code><span class="sig-paren">(</span><em>M</em>, <em>q</em>, <em>normalize=False</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.eea.eea_int.ATGP.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the endmembers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>q</strong> &#8211; <cite>int</cite>
+Number of endmembers to be induced (positive integer &gt; 0).</li>
+<li><strong>normalize</strong> &#8211; <cite>boolean [default False]</cite>
+Normalize M before unmixing.</li>
+<li><strong>mask</strong> &#8211; <cite>numpy array [default None]</cite>
+A binary mask, if True the corresponding signal is part of the
+endmembers search.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Set of induced endmembers (N x p).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>A. Plaza y C.-I. Chang, &#8220;Impact of Initialization on Design of Endmember
+Extraction Algorithms&#8221;, Geoscience and Remote Sensing, IEEE Transactions on,
+vol. 44, no. 11, pgs. 3397-3407, 2006.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.ATGP.get_idx">
+<code class="descname">get_idx</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/eea_int.html#ATGP.get_idx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea_int.ATGP.get_idx" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Array of indices into the HSI cube corresponding to the
+induced endmembers</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.ATGP.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>axes=None</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.eea.eea_int.ATGP.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the endmembers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>axes</strong> &#8211; <p><cite>dictionary [default None]</cite>
+* axes[&#8216;wavelength&#8217;] : a wavelengths list (1D python list).</p>
+<blockquote>
+<div>If None or not specified the list is automaticaly numbered starting at 1.</div></blockquote>
+<ul>
+<li>axes[&#8216;x&#8217;] : the x axis label, &#8216;Wavelength&#8217; if None or not specified.
+axes[&#8216;x&#8217;] is copied verbatim.</li>
+<li>axes[&#8216;y&#8217;] : the y axis label, &#8216;Brightness&#8217; if None or not specified.
+axes[&#8216;y&#8217;] is copied verbatim.</li>
+</ul>
+</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.eea.eea_int.FIPPI">
+<em class="property">class </em><code class="descclassname">pysptools.eea.eea_int.</code><code class="descname">FIPPI</code><a class="reference internal" href="_modules/pysptools/eea/eea_int.html#FIPPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea_int.FIPPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Fast Iterative Pixel Purity Index (FIPPI) endmembers
+induction algorithm.</p>
+<dl class="method">
+<dt id="pysptools.eea.eea_int.FIPPI.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>axes=None</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.eea.eea_int.FIPPI.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the endmembers to a IPython Notebook.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>axes</strong> &#8211; <p><cite>dictionary [default None]</cite>
+* axes[&#8216;wavelength&#8217;] : a wavelengths list (1D python list).</p>
+<blockquote>
+<div>If None or not specified the list is automaticaly numbered starting at 1.</div></blockquote>
+<ul>
+<li>axes[&#8216;x&#8217;] : the x axis label, &#8216;Wavelength&#8217; if None or not specified.
+axes[&#8216;x&#8217;] is copied verbatim.</li>
+<li>axes[&#8216;y&#8217;] : the y axis label, &#8216;Brightness&#8217; if None or not specified.
+axes[&#8216;y&#8217;] is copied verbatim.</li>
+</ul>
+</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the title.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.FIPPI.extract">
+<code class="descname">extract</code><span class="sig-paren">(</span><em>M</em>, <em>q=None</em>, <em>maxit=None</em>, <em>normalize=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.eea.eea_int.FIPPI.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the endmembers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>q</strong> &#8211; <cite>int [default None]</cite>
+Number of endmembers to be induced, if None use
+HfcVd to determine the number of endmembers to induce.</li>
+<li><strong>maxit</strong> &#8211; <cite>int [default None]</cite>
+Maximum number of iterations. Default = 3*q.</li>
+<li><strong>normalize</strong> &#8211; <cite>boolean [default False]</cite>
+Normalize M before unmixing.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Set of induced endmembers (N x p).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Chang, C.-I., &#8220;A fast iterative algorithm for implementation of pixel purity index&#8221;,
+Geoscience and Remote Sensing Letters, IEEE, vol. 3, no. 1, pags. 63-67, 2006.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.FIPPI.get_idx">
+<code class="descname">get_idx</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/eea_int.html#FIPPI.get_idx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea_int.FIPPI.get_idx" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Array of indices into the HSI cube corresponding to the
+induced endmembers.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.FIPPI.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>axes=None</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.eea.eea_int.FIPPI.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the endmembers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>axes</strong> &#8211; <p><cite>dictionary [default None]</cite>
+* axes[&#8216;wavelength&#8217;] : a wavelengths list (1D python list).</p>
+<blockquote>
+<div>If None or not specified the list is automaticaly numbered starting at 1.</div></blockquote>
+<ul>
+<li>axes[&#8216;x&#8217;] : the x axis label, &#8216;Wavelength&#8217; if None or not specified.
+axes[&#8216;x&#8217;] is copied verbatim.</li>
+<li>axes[&#8216;y&#8217;] : the y axis label, &#8216;Brightness&#8217; if None or not specified.
+axes[&#8216;y&#8217;] is copied verbatim.</li>
+</ul>
+</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.eea.eea_int.NFINDR">
+<em class="property">class </em><code class="descclassname">pysptools.eea.eea_int.</code><code class="descname">NFINDR</code><a class="reference internal" href="_modules/pysptools/eea/eea_int.html#NFINDR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea_int.NFINDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>N-FINDR endmembers induction algorithm.</p>
+<dl class="method">
+<dt id="pysptools.eea.eea_int.NFINDR.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>axes=None</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.eea.eea_int.NFINDR.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the endmembers to a IPython Notebook.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>axes</strong> &#8211; <p><cite>dictionary [default None]</cite>
+* axes[&#8216;wavelength&#8217;] : a wavelengths list (1D python list).</p>
+<blockquote>
+<div>If None or not specified the list is automaticaly numbered starting at 1.</div></blockquote>
+<ul>
+<li>axes[&#8216;x&#8217;] : the x axis label, &#8216;Wavelength&#8217; if None or not specified.
+axes[&#8216;x&#8217;] is copied verbatim.</li>
+<li>axes[&#8216;y&#8217;] : the y axis label, &#8216;Brightness&#8217; if None or not specified.
+axes[&#8216;y&#8217;] is copied verbatim.</li>
+</ul>
+</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the title.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.NFINDR.extract">
+<code class="descname">extract</code><span class="sig-paren">(</span><em>M</em>, <em>q</em>, <em>transform=None</em>, <em>maxit=None</em>, <em>normalize=False</em>, <em>ATGP_init=False</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.eea.eea_int.NFINDR.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the endmembers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>q</strong> &#8211; <cite>int</cite>
+The number of endmembers to be induced.</li>
+<li><strong>transform</strong> &#8211; <cite>numpy array [default None]</cite>
+The transformed &#8216;M&#8217; cube by MNF (m x n x components). In this
+case the number of components must == q-1. If None, the built-in
+call to PCA is used to transform M in q-1 components.</li>
+<li><strong>maxit</strong> &#8211; <cite>int [default None]</cite>
+The maximum number of iterations. Default is 3*p.</li>
+<li><strong>normalize</strong> &#8211; <cite>boolean [default False]</cite>
+If True, M is normalized before doing the endmembers induction.</li>
+<li><strong>ATGP_init</strong> &#8211; <cite>boolean [default False]</cite>
+Use ATGP to generate the first endmembers set instead
+of a random selection.</li>
+<li><strong>mask</strong> &#8211; <cite>numpy array [default None]</cite>
+A binary mask, when <em>True</em> the corresponding signal is part of the
+endmembers search.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Set of induced endmembers (N x p).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Winter, M. E., &#8220;N-FINDR: an algorithm for fast autonomous spectral
+end-member determination in hyperspectral data&#8221;, presented at the Imaging
+Spectrometry V, Denver, CO, USA, 1999, vol. 3753, pgs. 266-275.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The division by (factorial(p-1)) is an invariant for this algorithm,
+for this reason it is skipped.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.NFINDR.get_endmembers_transform">
+<code class="descname">get_endmembers_transform</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/eea_int.html#NFINDR.get_endmembers_transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea_int.NFINDR.get_endmembers_transform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.NFINDR.get_idx">
+<code class="descname">get_idx</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/eea_int.html#NFINDR.get_idx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea_int.NFINDR.get_idx" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns <span class="classifier-delimiter">:</span> <span class="classifier">numpy array</span></dt>
+<dd>Array of indices into the HSI cube corresponding to the
+induced endmembers</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.NFINDR.get_iterations">
+<code class="descname">get_iterations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/eea_int.html#NFINDR.get_iterations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea_int.NFINDR.get_iterations" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The number of iterations.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.NFINDR.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>axes=None</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.eea.eea_int.NFINDR.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the endmembers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>axes</strong> &#8211; <p><cite>dictionary [default None]</cite>
+* axes[&#8216;wavelength&#8217;] : a wavelengths list (1D python list).</p>
+<blockquote>
+<div>If None or not specified the list is automaticaly numbered starting at 1.</div></blockquote>
+<ul>
+<li>axes[&#8216;x&#8217;] : the x axis label, &#8216;Wavelength&#8217; if None or not specified.
+axes[&#8216;x&#8217;] is copied verbatim.</li>
+<li>axes[&#8216;y&#8217;] : the y axis label, &#8216;Brightness&#8217; if None or not specified.
+axes[&#8216;y&#8217;] is copied verbatim.</li>
+</ul>
+</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.eea.eea_int.PPI">
+<em class="property">class </em><code class="descclassname">pysptools.eea.eea_int.</code><code class="descname">PPI</code><a class="reference internal" href="_modules/pysptools/eea/eea_int.html#PPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea_int.PPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Performs the pixel purity index algorithm for endmember finding.</p>
+<dl class="method">
+<dt id="pysptools.eea.eea_int.PPI.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>axes=None</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.eea.eea_int.PPI.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the endmembers to a IPython Notebook.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>axes</strong> &#8211; <p><cite>dictionary [default None]</cite>
+* axes[&#8216;wavelength&#8217;] : a wavelengths list (1D python list).</p>
+<blockquote>
+<div>If None or not specified the list is automaticaly numbered starting at 1.</div></blockquote>
+<ul>
+<li>axes[&#8216;x&#8217;] : the x axis label, &#8216;Wavelength&#8217; if None or not specified.
+axes[&#8216;x&#8217;] is copied verbatim.</li>
+<li>axes[&#8216;y&#8217;] : the y axis label, &#8216;Brightness&#8217; if None or not specified.
+axes[&#8216;y&#8217;] is copied verbatim.</li>
+</ul>
+</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the title.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.PPI.extract">
+<code class="descname">extract</code><span class="sig-paren">(</span><em>M</em>, <em>q</em>, <em>numSkewers=10000</em>, <em>normalize=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.eea.eea_int.PPI.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the endmembers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>q</strong> &#8211; <cite>int</cite>
+Number of endmembers to find.</li>
+<li><strong>numSkewers</strong> &#8211; <cite>int [default 10000]</cite>
+Number of &#8220;skewer&#8221; vectors to project data onto.
+In general, recommendation from the literature is 10000 skewers.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Recovered endmembers (N x p).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.PPI.get_idx">
+<code class="descname">get_idx</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/eea_int.html#PPI.get_idx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.eea_int.PPI.get_idx" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Array of indices into the HSI cube corresponding to the
+induced endmembers</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.eea.eea_int.PPI.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>axes=None</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.eea.eea_int.PPI.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the endmembers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>axes</strong> &#8211; <p><cite>dictionary [default None]</cite>
+* axes[&#8216;wavelength&#8217;] : a wavelengths list (1D python list).</p>
+<blockquote>
+<div>If None or not specified the list is automaticaly numbered starting at 1.</div></blockquote>
+<ul>
+<li>axes[&#8216;x&#8217;] : the x axis label, &#8216;Wavelength&#8217; if None or not specified.
+axes[&#8216;x&#8217;] is copied verbatim.</li>
+<li>axes[&#8216;y&#8217;] : the y axis label, &#8216;Brightness&#8217; if None or not specified.
+axes[&#8216;y&#8217;] is copied verbatim.</li>
+</ul>
+</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.eea.inval">
+<span id="pysptools-eea-inval-module"></span><h2>pysptools.eea.inval module<a class="headerlink" href="#module-pysptools.eea.inval" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.eea.inval.DisplayInputValidation">
+<code class="descclassname">pysptools.eea.inval.</code><code class="descname">DisplayInputValidation</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/inval.html#DisplayInputValidation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.inval.DisplayInputValidation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.eea.inval.ExtractInputValidation1">
+<code class="descclassname">pysptools.eea.inval.</code><code class="descname">ExtractInputValidation1</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/inval.html#ExtractInputValidation1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.inval.ExtractInputValidation1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.eea.inval.ExtractInputValidation2">
+<code class="descclassname">pysptools.eea.inval.</code><code class="descname">ExtractInputValidation2</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/inval.html#ExtractInputValidation2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.inval.ExtractInputValidation2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.eea.inval.ExtractInputValidation3">
+<code class="descclassname">pysptools.eea.inval.</code><code class="descname">ExtractInputValidation3</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/inval.html#ExtractInputValidation3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.inval.ExtractInputValidation3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.eea.inval.ExtractInputValidation4">
+<code class="descclassname">pysptools.eea.inval.</code><code class="descname">ExtractInputValidation4</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/inval.html#ExtractInputValidation4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.inval.ExtractInputValidation4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.eea.inval.PlotInputValidation">
+<code class="descclassname">pysptools.eea.inval.</code><code class="descname">PlotInputValidation</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/inval.html#PlotInputValidation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.inval.PlotInputValidation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.eea.nfindr">
+<span id="pysptools-eea-nfindr-module"></span><h2>pysptools.eea.nfindr module<a class="headerlink" href="#module-pysptools.eea.nfindr" title="Permalink to this headline">¶</a></h2>
+<p>NFINDR function</p>
+<dl class="function">
+<dt id="pysptools.eea.nfindr.NFINDR">
+<code class="descclassname">pysptools.eea.nfindr.</code><code class="descname">NFINDR</code><span class="sig-paren">(</span><em>data</em>, <em>q</em>, <em>transform=None</em>, <em>maxit=None</em>, <em>ATGP_init=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/nfindr.html#NFINDR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.eea.nfindr.NFINDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>N-FINDR endmembers induction algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> &#8211; <cite>numpy array</cite>
+Column data matrix [nvariables x nsamples].</li>
+<li><strong>q</strong> &#8211; <cite>int</cite>
+Number of endmembers to be induced.</li>
+<li><strong>transform</strong> &#8211; <cite>numpy array [default None]</cite>
+The transformed &#8216;data&#8217; matrix by MNF (N x components). In this
+case the number of components must == q-1. If None, the built-in
+call to PCA is used to transform the data.</li>
+<li><strong>maxit</strong> &#8211; <cite>int [default None]</cite>
+Maximum number of iterations. Default = 3*q.</li>
+<li><strong>ATGP_init</strong> &#8211; <cite>boolean [default False]</cite>
+Use ATGP to generate the first endmembers set instead
+of a random selection.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>tuple: numpy array, numpy array, int</cite></dt>
+<dd><ul class="first last simple">
+<li>Set of induced endmembers (N x p)</li>
+<li>Set of transformed induced endmembers (N x p)</li>
+<li>Array of indices into the array data corresponding to the
+induced endmembers</li>
+<li>The number of iterations.</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Winter, M. E., &#8220;N-FINDR: an algorithm for fast autonomous spectral
+end-member determination in hyperspectral data&#8221;, presented at the Imaging
+Spectrometry V, Denver, CO, USA, 1999, vol. 3753, pgs. 266-275.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id3">
+<h2>pysptools.eea.nfindr module<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-pysptools.eea.nfindr"></span><p>NFINDR function</p>
+<dl class="function">
+<dt>
+<code class="descclassname">pysptools.eea.nfindr.</code><code class="descname">NFINDR</code><span class="sig-paren">(</span><em>data</em>, <em>q</em>, <em>transform=None</em>, <em>maxit=None</em>, <em>ATGP_init=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/eea/nfindr.html#NFINDR"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>N-FINDR endmembers induction algorithm.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> &#8211; <cite>numpy array</cite>
+Column data matrix [nvariables x nsamples].</li>
+<li><strong>q</strong> &#8211; <cite>int</cite>
+Number of endmembers to be induced.</li>
+<li><strong>transform</strong> &#8211; <cite>numpy array [default None]</cite>
+The transformed &#8216;data&#8217; matrix by MNF (N x components). In this
+case the number of components must == q-1. If None, the built-in
+call to PCA is used to transform the data.</li>
+<li><strong>maxit</strong> &#8211; <cite>int [default None]</cite>
+Maximum number of iterations. Default = 3*q.</li>
+<li><strong>ATGP_init</strong> &#8211; <cite>boolean [default False]</cite>
+Use ATGP to generate the first endmembers set instead
+of a random selection.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>tuple: numpy array, numpy array, int</cite></dt>
+<dd><ul class="first last simple">
+<li>Set of induced endmembers (N x p)</li>
+<li>Set of transformed induced endmembers (N x p)</li>
+<li>Array of indices into the array data corresponding to the
+induced endmembers</li>
+<li>The number of iterations.</li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Winter, M. E., &#8220;N-FINDR: an algorithm for fast autonomous spectral
+end-member determination in hyperspectral data&#8221;, presented at the Imaging
+Spectrometry V, Denver, CO, USA, 1999, vol. 3753, pgs. 266-275.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pysptools-eea-setup-nfindr-module">
+<h2>pysptools.eea.setup_nfindr module<a class="headerlink" href="#pysptools-eea-setup-nfindr-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pysptools.eea">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pysptools.eea" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pysptools.eea package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pysptools.eea.docstring">pysptools.eea.docstring module</a></li>
+<li><a class="reference internal" href="#module-pysptools.eea.eea">pysptools.eea.eea module</a></li>
+<li><a class="reference internal" href="#module-pysptools.eea.eea_int">pysptools.eea.eea_int module</a></li>
+<li><a class="reference internal" href="#module-pysptools.eea.inval">pysptools.eea.inval module</a></li>
+<li><a class="reference internal" href="#module-pysptools.eea.nfindr">pysptools.eea.nfindr module</a></li>
+<li><a class="reference internal" href="#id3">pysptools.eea.nfindr module</a></li>
+<li><a class="reference internal" href="#pysptools-eea-setup-nfindr-module">pysptools.eea.setup_nfindr module</a></li>
+<li><a class="reference internal" href="#module-pysptools.eea">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pysptools.eea.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/pysptools.eea.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

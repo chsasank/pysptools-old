@@ -1,0 +1,743 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.util package &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pysptools-util-package">
+<h1>pysptools.util package<a class="headerlink" href="#pysptools-util-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pysptools.util.USGS_ENVI_to_JSON">
+<span id="pysptools-util-usgs-envi-to-json-module"></span><h2>pysptools.util.USGS_ENVI_to_JSON module<a class="headerlink" href="#module-pysptools.util.USGS_ENVI_to_JSON" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.util.USGS_ENVI_to_JSON.translate_lib_envi">
+<code class="descclassname">pysptools.util.USGS_ENVI_to_JSON.</code><code class="descname">translate_lib_envi</code><span class="sig-paren">(</span><em>path</em>, <em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/USGS_ENVI_to_JSON.html#translate_lib_envi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.USGS_ENVI_to_JSON.translate_lib_envi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.util.data_format">
+<span id="pysptools-util-data-format-module"></span><h2>pysptools.util.data_format module<a class="headerlink" href="#module-pysptools.util.data_format" title="Permalink to this headline">¶</a></h2>
+<p>convert2d, convert3d, normalize functions</p>
+<dl class="function">
+<dt id="pysptools.util.data_format.convert2d">
+<code class="descclassname">pysptools.util.data_format.</code><code class="descname">convert2d</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/data_format.html#convert2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.data_format.convert2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a 3D data cube (m x n x p) to a 2D matrix of points
+where N = m*n.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>2D data matrix (N x p)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.util.data_format.convert3d">
+<code class="descclassname">pysptools.util.data_format.</code><code class="descname">convert3d</code><span class="sig-paren">(</span><em>N</em>, <em>h</em>, <em>w</em>, <em>sigLast=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/data_format.html#convert3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.data_format.convert3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a 1D (N) or 2D matrix (p x N) or (N x p) to a 3D
+data cube (m x n x p) where N = m * n</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>N</strong> &#8211; <cite>numpy array</cite>
+1D (N) or 2D data matrix (p x N) or (N x p)</li>
+<li><strong>h</strong> &#8211; <cite>integer</cite>
+Height axis length (or y axis) of the cube.</li>
+<li><strong>w</strong> &#8211; <cite>integer</cite>
+Width axis length (or x axis) of the cube.</li>
+<li><strong>siglast</strong> &#8211; <cite>True [default False]</cite>
+Determine if input N is (p x N) or (N x p).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>A 3D data cube (m x n x p)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.util.data_format.normalize">
+<code class="descclassname">pysptools.util.data_format.</code><code class="descname">normalize</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/data_format.html#normalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.data_format.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes M to be in range [0, 1].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>M</strong> &#8211; <cite>numpy array</cite>
+1D, 2D or 3D data.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Normalized data.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.util.display">
+<span id="pysptools-util-display-module"></span><h2>pysptools.util.display module<a class="headerlink" href="#module-pysptools.util.display" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.util.display.display_linear_stretch">
+<code class="descclassname">pysptools.util.display.</code><code class="descname">display_linear_stretch</code><span class="sig-paren">(</span><em>M</em>, <em>R</em>, <em>G</em>, <em>B</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/display.html#display_linear_stretch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.display.display_linear_stretch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a linear stretched RGB image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>R</strong> &#8211; <cite>int</cite>
+A band number that will render the red color.</li>
+<li><strong>G</strong> &#8211; <cite>int</cite>
+A band number that will render the green color.</li>
+<li><strong>B</strong> &#8211; <cite>int</cite>
+A band number that will render the blue color.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Add a suffix to the title.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.util.display.plot_linear_stretch">
+<code class="descclassname">pysptools.util.display.</code><code class="descname">plot_linear_stretch</code><span class="sig-paren">(</span><em>M</em>, <em>path</em>, <em>R</em>, <em>G</em>, <em>B</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/display.html#plot_linear_stretch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.display.plot_linear_stretch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a linear stretched RGB image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>R</strong> &#8211; <cite>int</cite>
+A band number that will render the red color.</li>
+<li><strong>G</strong> &#8211; <cite>int</cite>
+A band number that will render the green color.</li>
+<li><strong>B</strong> &#8211; <cite>int</cite>
+A band number that will render the blue color.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Add a suffix to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.util.envi">
+<span id="pysptools-util-envi-module"></span><h2>pysptools.util.envi module<a class="headerlink" href="#module-pysptools.util.envi" title="Permalink to this headline">¶</a></h2>
+<p>load_ENVI_file, load_ENVI_spec_lib functions</p>
+<dl class="function">
+<dt id="pysptools.util.envi.load_ENVI_file">
+<code class="descclassname">pysptools.util.envi.</code><code class="descname">load_ENVI_file</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/envi.html#load_ENVI_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.envi.load_ENVI_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the data and the header from an ENVI file.
+It use the SPy (spectral) library. At &#8216;file_name&#8217; give the envi header file name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_name</strong> &#8211; <cite>path string</cite>
+The complete path to the file to load. Use the header file name.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>tuple</cite></dt>
+<dd><dl class="first last docutils">
+<dt>data: <cite>numpy array</cite></dt>
+<dd>A (m x n x p) HSI cube.</dd>
+<dt>head: <cite>dictionary</cite></dt>
+<dd>Starting at version 0.13.1, the ENVI file header</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.util.envi.load_ENVI_spec_lib">
+<code class="descclassname">pysptools.util.envi.</code><code class="descname">load_ENVI_spec_lib</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/envi.html#load_ENVI_spec_lib"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.envi.load_ENVI_spec_lib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a ENVI .sli file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_name</strong> &#8211; <cite>path string</cite>
+The complete path to the library file to load.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd><p class="first">A (n x p) HSI cube.</p>
+<dl class="last docutils">
+<dt>head: <cite>dictionary</cite></dt>
+<dd>Starting at version 0.13.1, the ENVI file header</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.util.fns">
+<span id="pysptools-util-fns-module"></span><h2>pysptools.util.fns module<a class="headerlink" href="#module-pysptools.util.fns" title="Permalink to this headline">¶</a></h2>
+<p>corr, cov functions</p>
+<dl class="function">
+<dt id="pysptools.util.fns.corr">
+<code class="descclassname">pysptools.util.fns.</code><code class="descname">corr</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/fns.html#corr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.fns.corr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the sample autocorrelation matrix of a 2D matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>M</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data (N x p)</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Sample autocorrelation matrix.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.util.fns.cov">
+<code class="descclassname">pysptools.util.fns.</code><code class="descname">cov</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/fns.html#cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.fns.cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the sample covariance matrix of a 2D matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>M</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data (N x p)</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>sample covariance matrix</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.util.input_vld">
+<span id="pysptools-util-input-vld-module"></span><h2>pysptools.util.input_vld module<a class="headerlink" href="#module-pysptools.util.input_vld" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.util.input_vld.InputValidation">
+<em class="property">class </em><code class="descclassname">pysptools.util.input_vld.</code><code class="descname">InputValidation</code><span class="sig-paren">(</span><em>class_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/input_vld.html#InputValidation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.input_vld.InputValidation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Validate some classes inputs.</p>
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.axes_type">
+<code class="descname">axes_type</code><em class="property"> = 14</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.axes_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.bool_type">
+<code class="descname">bool_type</code><em class="property"> = 4</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.bool_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.cmap_exist">
+<code class="descname">cmap_exist</code><em class="property"> = 5</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.cmap_exist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.columns_type">
+<code class="descname">columns_type</code><em class="property"> = 25</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.columns_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.cube_type">
+<code class="descname">cube_type</code><em class="property"> = 1</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.cube_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.cube_type2">
+<code class="descname">cube_type2</code><em class="property"> = 17</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.cube_type2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.input_vld.InputValidation.dispatch">
+<code class="descname">dispatch</code><span class="sig-paren">(</span><em>check_type</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/input_vld.html#InputValidation.dispatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.dispatch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.far_type">
+<code class="descname">far_type</code><em class="property"> = 18</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.far_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.float_type">
+<code class="descname">float_type</code><em class="property"> = 23</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.float_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.float_type2">
+<code class="descname">float_type2</code><em class="property"> = 24</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.float_type2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.index_range">
+<code class="descname">index_range</code><em class="property"> = 8</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.index_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.int_type">
+<code class="descname">int_type</code><em class="property"> = 13</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.int_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.int_type2">
+<code class="descname">int_type2</code><em class="property"> = 16</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.int_type2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.labels_type">
+<code class="descname">labels_type</code><em class="property"> = 9</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.labels_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.lib_type">
+<code class="descname">lib_type</code><em class="property"> = 2</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.lib_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.list_type">
+<code class="descname">list_type</code><em class="property"> = 22</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.list_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.mask_type">
+<code class="descname">mask_type</code><em class="property"> = 10</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.mask_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.spectrum_length">
+<code class="descname">spectrum_length</code><em class="property"> = 6</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.spectrum_length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.spectrum_type">
+<code class="descname">spectrum_type</code><em class="property"> = 11</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.spectrum_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.string_type">
+<code class="descname">string_type</code><em class="property"> = 20</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.string_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.string_type2">
+<code class="descname">string_type2</code><em class="property"> = 21</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.string_type2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.suffix_type">
+<code class="descname">suffix_type</code><em class="property"> = 7</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.suffix_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.threshold_type">
+<code class="descname">threshold_type</code><em class="property"> = 3</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.threshold_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.threshold_type2">
+<code class="descname">threshold_type2</code><em class="property"> = 12</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.threshold_type2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.threshold_type3">
+<code class="descname">threshold_type3</code><em class="property"> = 19</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.threshold_type3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.util.input_vld.InputValidation.transform_type">
+<code class="descname">transform_type</code><em class="property"> = 15</em><a class="headerlink" href="#pysptools.util.input_vld.InputValidation.transform_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.util.input_vld.simple_decorator">
+<code class="descclassname">pysptools.util.input_vld.</code><code class="descname">simple_decorator</code><span class="sig-paren">(</span><em>decorator</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/input_vld.html#simple_decorator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.input_vld.simple_decorator" title="Permalink to this definition">¶</a></dt>
+<dd><p>A well behaved decorator.
+Ref. wiki.python.org</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.util.rois">
+<span id="pysptools-util-rois-module"></span><h2>pysptools.util.rois module<a class="headerlink" href="#module-pysptools.util.rois" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.util.rois.ROIs">
+<em class="property">class </em><code class="descclassname">pysptools.util.rois.</code><code class="descname">ROIs</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/rois.html#ROIs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.rois.ROIs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Manage regions of interest (ROIs).</p>
+<dl class="method">
+<dt id="pysptools.util.rois.ROIs.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>id</em>, <em>*rois</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/rois.html#ROIs.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.rois.ROIs.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a named ROI.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> &#8211; <cite>string</cite>
+The class (or cluster) name.</li>
+<li><strong>rois</strong> &#8211; <cite>dictionary list</cite>
+Each parameter, a dictionary, represent a rectangle or a polygon. They use matrix coordinates.
+For a rectangle: {&#8216;rec&#8217;: (upper_left_line, upper_left_column, lower_right_line, lower_right_column)}
+For a polygone: {&#8216;poly&#8217;: ((l1,c1),(l2,c2), ...)}, <strong>l</strong> stand for line and <strong>c</strong> for column. The polygon don&#8217;t need to be close.
+You can define one or more rectangle and/or polygon for a same cluster.
+The polygon and the rectangle must be well formed.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.rois.ROIs.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/rois.html#ROIs.display"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.rois.ROIs.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the ROIs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>colorMap</strong> &#8211; <cite>string [default &#8216;Accent&#8217;]</cite>
+A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Add a suffix to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.rois.ROIs.get_labels">
+<code class="descname">get_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/rois.html#ROIs.get_labels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.rois.ROIs.get_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a labels list.</p>
+<dl class="docutils">
+<dt>Return: <cite>list</cite></dt>
+<dd>A labels list.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.rois.ROIs.get_mask">
+<code class="descname">get_mask</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/rois.html#ROIs.get_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.rois.ROIs.get_mask" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.rois.ROIs.get_next">
+<code class="descname">get_next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/rois.html#ROIs.get_next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.rois.ROIs.get_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator, return at each step: the cluster name and a ROI list.</p>
+<dl class="docutils">
+<dt>Return: <cite>tuple</cite></dt>
+<dd>Cluster name, ROI list.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.rois.ROIs.n_clusters">
+<code class="descname">n_clusters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/rois.html#ROIs.n_clusters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.rois.ROIs.n_clusters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.rois.ROIs.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/rois.html#ROIs.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.rois.ROIs.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the ROIs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>colorMap</strong> &#8211; <cite>string [default &#8216;Accent&#8217;]</cite>
+A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Add a suffix to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.util.utests_inval">
+<span id="pysptools-util-utests-inval-module"></span><h2>pysptools.util.utests_inval module<a class="headerlink" href="#module-pysptools.util.utests_inval" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.util.utests_inval.TestInputValidation">
+<em class="property">class </em><code class="descclassname">pysptools.util.utests_inval.</code><code class="descname">TestInputValidation</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_axes_type">
+<code class="descname">test_axes_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_axes_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_axes_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_bool_type">
+<code class="descname">test_bool_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_bool_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_bool_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_cmap_exist">
+<code class="descname">test_cmap_exist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_cmap_exist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_cmap_exist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_cube_type">
+<code class="descname">test_cube_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_cube_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_cube_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_cube_type2">
+<code class="descname">test_cube_type2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_cube_type2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_cube_type2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_far_type">
+<code class="descname">test_far_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_far_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_far_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_float_type">
+<code class="descname">test_float_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_float_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_float_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_float_type2">
+<code class="descname">test_float_type2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_float_type2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_float_type2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_index_range">
+<code class="descname">test_index_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_index_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_index_range" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_int_type">
+<code class="descname">test_int_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_int_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_int_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_int_type2">
+<code class="descname">test_int_type2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_int_type2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_int_type2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_labels_type">
+<code class="descname">test_labels_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_labels_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_labels_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_lib_type">
+<code class="descname">test_lib_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_lib_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_lib_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_list_type">
+<code class="descname">test_list_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_list_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_list_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_mask_type">
+<code class="descname">test_mask_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_mask_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_mask_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_spectrum_length">
+<code class="descname">test_spectrum_length</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_spectrum_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_spectrum_length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_spectrum_type">
+<code class="descname">test_spectrum_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_spectrum_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_spectrum_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_string_type">
+<code class="descname">test_string_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_string_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_string_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_string_type2">
+<code class="descname">test_string_type2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_string_type2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_string_type2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_suffix_type">
+<code class="descname">test_suffix_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_suffix_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_suffix_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_threshold_type">
+<code class="descname">test_threshold_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_threshold_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_threshold_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_threshold_type2">
+<code class="descname">test_threshold_type2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_threshold_type2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_threshold_type2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_threshold_type3">
+<code class="descname">test_threshold_type3</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_threshold_type3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_threshold_type3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.utests_inval.TestInputValidation.test_transform_type">
+<code class="descname">test_transform_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/util/utests_inval.html#TestInputValidation.test_transform_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.util.utests_inval.TestInputValidation.test_transform_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.util">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pysptools.util" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pysptools.util package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pysptools.util.USGS_ENVI_to_JSON">pysptools.util.USGS_ENVI_to_JSON module</a></li>
+<li><a class="reference internal" href="#module-pysptools.util.data_format">pysptools.util.data_format module</a></li>
+<li><a class="reference internal" href="#module-pysptools.util.display">pysptools.util.display module</a></li>
+<li><a class="reference internal" href="#module-pysptools.util.envi">pysptools.util.envi module</a></li>
+<li><a class="reference internal" href="#module-pysptools.util.fns">pysptools.util.fns module</a></li>
+<li><a class="reference internal" href="#module-pysptools.util.input_vld">pysptools.util.input_vld module</a></li>
+<li><a class="reference internal" href="#module-pysptools.util.rois">pysptools.util.rois module</a></li>
+<li><a class="reference internal" href="#module-pysptools.util.utests_inval">pysptools.util.utests_inval module</a></li>
+<li><a class="reference internal" href="#module-pysptools.util">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pysptools.util.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/pysptools.util.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

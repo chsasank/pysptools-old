@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.util.rois &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pysptools.util.rois</h1><div class="highlight"><pre>
+<span class="c1">#</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Copyright (c) 2013-2015, Christian Therien</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1"># rois.py - This file is part of the PySptools package.</span>
+<span class="c1">#</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="ROIs"><a class="viewcode-back" href="../../../pysptools.util.html#pysptools.util.rois.ROIs">[docs]</a><span class="k">class</span> <span class="nc">ROIs</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manage regions of interest (ROIs).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Support regions of interest.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            x: `int`</span>
+<span class="sd">              The cube horizontal dimension (M.shape[0]).</span>
+
+<span class="sd">            y: `int`</span>
+<span class="sd">              The cube vertical dimension (M.shape[1]).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rois</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_clusters</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># mask: a value of zero is X, and a value of 1,2... is y, 1 for the first</span>
+        <span class="c1"># roi, 2 for the next roi ...</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ROIs.add"><a class="viewcode-back" href="../../../pysptools.util.html#pysptools.util.rois.ROIs.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="o">*</span><span class="n">rois</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a named ROI.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            id: `string`</span>
+<span class="sd">              The class (or cluster) name.</span>
+
+<span class="sd">            rois: `dictionary list`</span>
+<span class="sd">              Each parameter, a dictionary, represent a rectangle or a polygon. They use matrix coordinates.</span>
+<span class="sd">              For a rectangle: {&#39;rec&#39;: (upper_left_line, upper_left_column, lower_right_line, lower_right_column)}</span>
+<span class="sd">              For a polygone: {&#39;poly&#39;: ((l1,c1),(l2,c2), ...)}, **l** stand for line and **c** for column. The polygon don&#39;t need to be close.</span>
+<span class="sd">              You can define one or more rectangle and/or polygon for a same cluster.</span>
+<span class="sd">              The polygon and the rectangle must be well formed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rois</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">id</span><span class="p">,</span> <span class="n">rois</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_clusters</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_post_to_mask</span><span class="p">(</span><span class="n">rois</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_clusters</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ROIs.n_clusters"><a class="viewcode-back" href="../../../pysptools.util.html#pysptools.util.rois.ROIs.n_clusters">[docs]</a>    <span class="k">def</span> <span class="nf">n_clusters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_clusters</span></div>
+
+<div class="viewcode-block" id="ROIs.get_mask"><a class="viewcode-back" href="../../../pysptools.util.html#pysptools.util.rois.ROIs.get_mask">[docs]</a>    <span class="k">def</span> <span class="nf">get_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask</span></div>
+
+<div class="viewcode-block" id="ROIs.get_next"><a class="viewcode-back" href="../../../pysptools.util.html#pysptools.util.rois.ROIs.get_next">[docs]</a>    <span class="k">def</span> <span class="nf">get_next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterator, return at each step: the cluster name and a ROI list.</span>
+
+<span class="sd">        Return: `tuple`</span>
+<span class="sd">            Cluster name, ROI list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rois</span><span class="p">:</span>
+            <span class="n">id_</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">rois</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">yield</span> <span class="n">id_</span><span class="p">,</span> <span class="n">rois</span></div>
+
+<div class="viewcode-block" id="ROIs.get_labels"><a class="viewcode-back" href="../../../pysptools.util.html#pysptools.util.rois.ROIs.get_labels">[docs]</a>    <span class="k">def</span> <span class="nf">get_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a labels list.</span>
+
+<span class="sd">        Return: `list`</span>
+<span class="sd">            A labels list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rois</span><span class="p">:</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">labels</span></div>
+
+    <span class="k">def</span> <span class="nf">_post_to_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rois</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rois</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;rec&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                <span class="n">x1</span><span class="p">,</span><span class="n">y1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y2</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;rec&#39;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">x1</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">x2</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">y1</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">y2</span><span class="p">):</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span>
+            <span class="k">if</span> <span class="s1">&#39;poly&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+                <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="kn">as</span> <span class="nn">patches</span>
+                <span class="n">poly1</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">Polygon</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;poly&#39;</span><span class="p">],</span> <span class="n">closed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                        <span class="k">if</span> <span class="n">poly1</span><span class="o">.</span><span class="n">get_path</span><span class="p">()</span><span class="o">.</span><span class="n">contains_point</span><span class="p">((</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">))</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span>
+
+<div class="viewcode-block" id="ROIs.plot"><a class="viewcode-back" href="../../../pysptools.util.html#pysptools.util.rois.ROIs.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="s1">&#39;Accent&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the ROIs.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            path: `string`</span>
+<span class="sd">              The path where to put the plot.</span>
+
+<span class="sd">            colorMap: `string [default &#39;Accent&#39;]`</span>
+<span class="sd">              A color map element of</span>
+<span class="sd">              [&#39;Accent&#39;, &#39;Dark2&#39;, &#39;Paired&#39;, &#39;Pastel1&#39;, &#39;Pastel2&#39;, &#39;Set1&#39;, &#39;Set2&#39;, &#39;Set3&#39;],</span>
+<span class="sd">              &quot;Accent&quot; is the default and it fall back on &quot;Jet&quot;.</span>
+
+<span class="sd">            suffix: `string [default None]`</span>
+<span class="sd">              Add a suffix to the file name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pysptools.classification</span> <span class="kn">import</span> <span class="n">Output</span>
+        <span class="n">plt</span> <span class="o">=</span> <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;ROIs&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_clusters</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(),</span> <span class="n">colorMap</span><span class="o">=</span><span class="n">colorMap</span><span class="p">,</span> <span class="n">firstBlack</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ROIs.display"><a class="viewcode-back" href="../../../pysptools.util.html#pysptools.util.rois.ROIs.display">[docs]</a>    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="s1">&#39;Accent&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display the ROIs.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            colorMap: `string [default &#39;Accent&#39;]`</span>
+<span class="sd">              A color map element of</span>
+<span class="sd">              [&#39;Accent&#39;, &#39;Dark2&#39;, &#39;Paired&#39;, &#39;Pastel1&#39;, &#39;Pastel2&#39;, &#39;Set1&#39;, &#39;Set2&#39;, &#39;Set3&#39;],</span>
+<span class="sd">              &quot;Accent&quot; is the default and it fall back on &quot;Jet&quot;.</span>
+
+<span class="sd">            suffix: `string [default None]`</span>
+<span class="sd">              Add a suffix to the file name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">pysptools.classification</span> <span class="kn">import</span> <span class="n">Output</span>
+        <span class="n">plt</span> <span class="o">=</span> <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;ROIs&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_clusters</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_labels</span><span class="p">(),</span> <span class="n">colorMap</span><span class="o">=</span><span class="n">colorMap</span><span class="p">,</span> <span class="n">firstBlack</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

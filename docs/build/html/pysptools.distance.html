@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.distance package &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pysptools-distance-package">
+<h1>pysptools.distance package<a class="headerlink" href="#pysptools-distance-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pysptools.distance.dist">
+<span id="pysptools-distance-dist-module"></span><h2>pysptools.distance.dist module<a class="headerlink" href="#module-pysptools.distance.dist" title="Permalink to this headline">¶</a></h2>
+<p>SAM, SID, NormXCorr, chebyshev functions</p>
+<dl class="function">
+<dt id="pysptools.distance.dist.NormXCorr">
+<code class="descclassname">pysptools.distance.dist.</code><code class="descname">NormXCorr</code><span class="sig-paren">(</span><em>s1</em>, <em>s2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/dist.html#NormXCorr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.dist.NormXCorr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the normalized cross correlation distance between two vector.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>s1</strong> &#8211; <cite>numpy array</cite>
+The first vector.</li>
+<li><strong>s2</strong> &#8211; <cite>numpy array</cite>
+The second vector.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>float</cite></dt>
+<dd>NormXCorr distance between s1 and s2, dist is between [-1, 1].
+A value of one indicate a perfect match.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.distance.dist.SAM">
+<code class="descclassname">pysptools.distance.dist.</code><code class="descname">SAM</code><span class="sig-paren">(</span><em>s1</em>, <em>s2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/dist.html#SAM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.dist.SAM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the spectral angle mapper between two vectors (in radians).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>s1</strong> &#8211; <cite>numpy array</cite>
+The first vector.</li>
+<li><strong>s2</strong> &#8211; <cite>numpy array</cite>
+The second vector.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>float</cite></dt>
+<dd>The angle between vectors s1 and s2 in radians.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.distance.dist.SID">
+<code class="descclassname">pysptools.distance.dist.</code><code class="descname">SID</code><span class="sig-paren">(</span><em>s1</em>, <em>s2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/dist.html#SID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.dist.SID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the spectral information divergence between two vectors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>s1</strong> &#8211; <cite>numpy array</cite>
+The first vector.</li>
+<li><strong>s2</strong> &#8211; <cite>numpy array</cite>
+The second vector.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>float</cite></dt>
+<dd>Spectral information divergence between s1 and s2.</dd>
+<dt>Reference</dt>
+<dd>C.-I. Chang, &#8220;An Information-Theoretic Approach to SpectralVariability,
+Similarity, and Discrimination for Hyperspectral Image&#8221;
+IEEE TRANSACTIONS ON INFORMATION THEORY, VOL. 46, NO. 5, AUGUST 2000.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.distance.dist.chebyshev">
+<code class="descclassname">pysptools.distance.dist.</code><code class="descname">chebyshev</code><span class="sig-paren">(</span><em>s1</em>, <em>s2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/dist.html#chebyshev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.dist.chebyshev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the chebychev distance between two vector.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>s1</strong> &#8211; <cite>numpy array</cite>
+The first vector.</li>
+<li><strong>s2</strong> &#8211; <cite>numpy array</cite>
+The second vector.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>float</cite></dt>
+<dd>Chebychev distance between s1 and s2.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.distance.dist.classify">
+<code class="descclassname">pysptools.distance.dist.</code><code class="descname">classify</code><span class="sig-paren">(</span><em>fn</em>, <em>M</em>, <em>E</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/dist.html#classify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.dist.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify SAM or SID on a HSI cube
+Can&#8217;t be use with NormXCorr</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.distance.utests">
+<span id="pysptools-distance-utests-module"></span><h2>pysptools.distance.utests module<a class="headerlink" href="#module-pysptools.distance.utests" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.distance.utests.TestChebyshevFunction">
+<em class="property">class </em><code class="descclassname">pysptools.distance.utests.</code><code class="descname">TestChebyshevFunction</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestChebyshevFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestChebyshevFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="pysptools.distance.utests.TestChebyshevFunction.runTest">
+<code class="descname">runTest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestChebyshevFunction.runTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestChebyshevFunction.runTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestChebyshevFunction.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestChebyshevFunction.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestChebyshevFunction.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestChebyshevFunction.test_distance">
+<code class="descname">test_distance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestChebyshevFunction.test_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestChebyshevFunction.test_distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.distance.utests.TestNormXCorrFunction">
+<em class="property">class </em><code class="descclassname">pysptools.distance.utests.</code><code class="descname">TestNormXCorrFunction</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestNormXCorrFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestNormXCorrFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="pysptools.distance.utests.TestNormXCorrFunction.norm">
+<code class="descname">norm</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestNormXCorrFunction.norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestNormXCorrFunction.norm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysptools.distance.utests.TestNormXCorrFunction.precision">
+<code class="descname">precision</code><em class="property"> = 1000000</em><a class="headerlink" href="#pysptools.distance.utests.TestNormXCorrFunction.precision" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestNormXCorrFunction.runTest">
+<code class="descname">runTest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestNormXCorrFunction.runTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestNormXCorrFunction.runTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestNormXCorrFunction.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestNormXCorrFunction.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestNormXCorrFunction.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestNormXCorrFunction.test_distance">
+<code class="descname">test_distance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestNormXCorrFunction.test_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestNormXCorrFunction.test_distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.distance.utests.TestSAMFunction">
+<em class="property">class </em><code class="descclassname">pysptools.distance.utests.</code><code class="descname">TestSAMFunction</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSAMFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSAMFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="pysptools.distance.utests.TestSAMFunction.runTest">
+<code class="descname">runTest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSAMFunction.runTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSAMFunction.runTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestSAMFunction.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSAMFunction.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSAMFunction.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestSAMFunction.test_distance">
+<code class="descname">test_distance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSAMFunction.test_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSAMFunction.test_distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.distance.utests.TestSIDFunction">
+<em class="property">class </em><code class="descclassname">pysptools.distance.utests.</code><code class="descname">TestSIDFunction</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSIDFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSIDFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="pysptools.distance.utests.TestSIDFunction.runTest">
+<code class="descname">runTest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSIDFunction.runTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSIDFunction.runTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestSIDFunction.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSIDFunction.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSIDFunction.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestSIDFunction.test_distance">
+<code class="descname">test_distance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSIDFunction.test_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSIDFunction.test_distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.distance.utests.TestSafeDistance">
+<em class="property">class </em><code class="descclassname">pysptools.distance.utests.</code><code class="descname">TestSafeDistance</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSafeDistance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSafeDistance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="pysptools.distance.utests.TestSafeDistance.runTest">
+<code class="descname">runTest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSafeDistance.runTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSafeDistance.runTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestSafeDistance.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSafeDistance.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSafeDistance.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestSafeDistance.test_BadFnName">
+<code class="descname">test_BadFnName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSafeDistance.test_BadFnName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSafeDistance.test_BadFnName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestSafeDistance.test_BadType">
+<code class="descname">test_BadType</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSafeDistance.test_BadType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSafeDistance.test_BadType" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestSafeDistance.test_WrongArrayDimension">
+<code class="descname">test_WrongArrayDimension</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSafeDistance.test_WrongArrayDimension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSafeDistance.test_WrongArrayDimension" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysptools.distance.utests.TestSafeDistance.test_distance">
+<code class="descname">test_distance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#TestSafeDistance.test_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.TestSafeDistance.test_distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.distance.utests.safe_distance">
+<code class="descclassname">pysptools.distance.utests.</code><code class="descname">safe_distance</code><span class="sig-paren">(</span><em>fn</em>, <em>s1</em>, <em>s2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/distance/utests.html#safe_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.distance.utests.safe_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate the inputs and call distance fn</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.distance">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pysptools.distance" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pysptools.distance package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pysptools.distance.dist">pysptools.distance.dist module</a></li>
+<li><a class="reference internal" href="#module-pysptools.distance.utests">pysptools.distance.utests module</a></li>
+<li><a class="reference internal" href="#module-pysptools.distance">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pysptools.distance.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/pysptools.distance.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.distance.utests &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pysptools.distance.utests</h1><div class="highlight"><pre>
+<span class="c1">#</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Copyright (c) 2013-2014, Christian Therien</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1"># utests.py - This file is part of the PySptools package.</span>
+<span class="c1">#</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pysptools.distance</span> <span class="kn">import</span> <span class="n">SAM</span><span class="p">,</span> <span class="n">SID</span><span class="p">,</span> <span class="n">chebyshev</span><span class="p">,</span> <span class="n">NormXCorr</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># todo</span>
+<span class="c1"># test same length</span>
+<span class="c1"># test numpy array ?, if not translate ?</span>
+
+
+<div class="viewcode-block" id="TestSAMFunction"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSAMFunction">[docs]</a><span class="k">class</span> <span class="nc">TestSAMFunction</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TestSAMFunction.setUp"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSAMFunction.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="mf">0.26554161733900966</span></div>
+        <span class="c1">#self.vec3 = np.array([1,2,3,4,5,9])</span>
+
+<div class="viewcode-block" id="TestSAMFunction.runTest"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSAMFunction.runTest">[docs]</a>    <span class="k">def</span> <span class="nf">runTest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;==&gt; runTest: TestSAMFunction&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_distance</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TestSAMFunction.test_distance"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSAMFunction.test_distance">[docs]</a>    <span class="k">def</span> <span class="nf">test_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">SAM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vec1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">vec2</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="TestSIDFunction"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSIDFunction">[docs]</a><span class="k">class</span> <span class="nc">TestSIDFunction</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TestSIDFunction.setUp"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSIDFunction.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="mf">0.1099607220673022</span></div>
+        <span class="c1">#self.vec3 = np.array([1,2,3,4,5,9])</span>
+
+<div class="viewcode-block" id="TestSIDFunction.runTest"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSIDFunction.runTest">[docs]</a>    <span class="k">def</span> <span class="nf">runTest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;==&gt; runTest: TestSIDFunction&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_distance</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TestSIDFunction.test_distance"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSIDFunction.test_distance">[docs]</a>    <span class="k">def</span> <span class="nf">test_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">SID</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vec1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">vec2</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="TestChebyshevFunction"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestChebyshevFunction">[docs]</a><span class="k">class</span> <span class="nc">TestChebyshevFunction</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TestChebyshevFunction.setUp"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestChebyshevFunction.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="mi">5</span></div>
+        <span class="c1">#self.vec3 = np.array([1,2,3,4,5,9])</span>
+
+<div class="viewcode-block" id="TestChebyshevFunction.runTest"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestChebyshevFunction.runTest">[docs]</a>    <span class="k">def</span> <span class="nf">runTest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;==&gt; runTest: TestChebyshevFunction&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_distance</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TestChebyshevFunction.test_distance"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestChebyshevFunction.test_distance">[docs]</a>    <span class="k">def</span> <span class="nf">test_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">chebyshev</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vec1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">vec2</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="TestNormXCorrFunction"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestNormXCorrFunction">[docs]</a><span class="k">class</span> <span class="nc">TestNormXCorrFunction</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="n">precision</span> <span class="o">=</span> <span class="mi">1000000</span>
+
+<div class="viewcode-block" id="TestNormXCorrFunction.norm"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestNormXCorrFunction.norm">[docs]</a>    <span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TestNormXCorrFunction.setUp"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestNormXCorrFunction.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+        <span class="c1">#self.vec2 = np.array([6,17,8,99,10])</span>
+        <span class="c1"># compare with 0.999999</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mf">0.999999</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TestNormXCorrFunction.runTest"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestNormXCorrFunction.runTest">[docs]</a>    <span class="k">def</span> <span class="nf">runTest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;==&gt; runTest: TestNormXCorrFunction&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_distance</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TestNormXCorrFunction.test_distance"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestNormXCorrFunction.test_distance">[docs]</a>    <span class="k">def</span> <span class="nf">test_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">NormXCorr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vec1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">vec2</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span></div></div>
+
+
+<span class="c1">##def safe_distance(fn, s1, s2):</span>
+<span class="c1">##    &quot;&quot;&quot; Validate the inputs and call distance fn &quot;&quot;&quot;</span>
+<span class="c1">##    from types import *</span>
+<span class="c1">##    if not(fn in (SAM, SID, chebyshev, NormXCorr)):</span>
+<span class="c1">##        print &#39;BadFnName&#39;</span>
+<span class="c1">##        raise Exception</span>
+<span class="c1">##    if type(s1) is ListType:</span>
+<span class="c1">##        s1 = np.array(s1)</span>
+<span class="c1">##    if type(s2) is ListType:</span>
+<span class="c1">##        s2 = np.array(s2)</span>
+<span class="c1">##    if type(s1) is np.ndarray and type(s2) is np.ndarray:</span>
+<span class="c1">##        if (len(s1.shape) == 1 and len(s2.shape) == 1</span>
+<span class="c1">##            and s1.shape[0] == s2.shape[0]):</span>
+<span class="c1">##            return fn(s1,s2)</span>
+<span class="c1">##        else:</span>
+<span class="c1">##            print &#39;WrongArrayDimension&#39;</span>
+<span class="c1">##            raise Exception</span>
+<span class="c1">##    else:</span>
+<span class="c1">##        return fn(s1,s2)</span>
+<span class="c1">##    print &#39;BadType&#39;</span>
+<span class="c1">##    raise Exception</span>
+
+<span class="c1"># I dont now if I will keep this function,</span>
+<span class="c1"># it seems pretty useless</span>
+<div class="viewcode-block" id="safe_distance"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.safe_distance">[docs]</a><span class="k">def</span> <span class="nf">safe_distance</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Validate the inputs and call distance fn &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">fn</span> <span class="ow">in</span> <span class="p">(</span><span class="n">SAM</span><span class="p">,</span> <span class="n">SID</span><span class="p">,</span> <span class="n">chebyshev</span><span class="p">,</span> <span class="n">NormXCorr</span><span class="p">)):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;BadFnName&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">Exception</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">s1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">s2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+            <span class="ow">and</span> <span class="n">s1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">s2</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;WrongArrayDimension&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;BadType&#39;</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">Exception</span></div>
+
+
+<div class="viewcode-block" id="TestSafeDistance"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSafeDistance">[docs]</a><span class="k">class</span> <span class="nc">TestSafeDistance</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TestSafeDistance.setUp"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSafeDistance.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec3</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec5</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">],[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">]])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vec6</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">17</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dist</span> <span class="o">=</span> <span class="mf">0.26554161733900966</span></div>
+
+<div class="viewcode-block" id="TestSafeDistance.runTest"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSafeDistance.runTest">[docs]</a>    <span class="k">def</span> <span class="nf">runTest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;==&gt; runTest: TestSafeDistance&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_BadFnName</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_WrongArrayDimension</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_BadType</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_distance</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TestSafeDistance.test_BadFnName"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSafeDistance.test_BadFnName">[docs]</a>    <span class="k">def</span> <span class="nf">test_BadFnName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,</span> <span class="n">safe_distance</span><span class="p">,</span> <span class="p">(</span><span class="n">TestSAMFunction</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">vec1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">vec2</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TestSafeDistance.test_WrongArrayDimension"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSafeDistance.test_WrongArrayDimension">[docs]</a>    <span class="k">def</span> <span class="nf">test_WrongArrayDimension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,</span> <span class="n">safe_distance</span><span class="p">,</span> <span class="p">(</span><span class="n">SAM</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">vec1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">vec6</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TestSafeDistance.test_BadType"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSafeDistance.test_BadType">[docs]</a>    <span class="k">def</span> <span class="nf">test_BadType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">Exception</span><span class="p">,</span> <span class="n">safe_distance</span><span class="p">,</span> <span class="p">(</span><span class="n">SID</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">vec1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TestSafeDistance.test_distance"><a class="viewcode-back" href="../../../pysptools.distance.html#pysptools.distance.utests.TestSafeDistance.test_distance">[docs]</a>    <span class="k">def</span> <span class="nf">test_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">safe_distance</span><span class="p">(</span><span class="n">SAM</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">vec1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">vec3</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.detection package &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pysptools-detection-package">
+<h1>pysptools.detection package<a class="headerlink" href="#pysptools-detection-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pysptools.detection.detect">
+<span id="pysptools-detection-detect-module"></span><h2>pysptools.detection.detect module<a class="headerlink" href="#module-pysptools.detection.detect" title="Permalink to this headline">¶</a></h2>
+<p>MatchedFilter, ACE, CEM, GLRT, OSP functions</p>
+<dl class="function">
+<dt id="pysptools.detection.detect.ACE">
+<code class="descclassname">pysptools.detection.detect.</code><code class="descname">ACE</code><span class="sig-paren">(</span><em>M</em>, <em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/detection/detect.html#ACE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.detect.ACE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the adaptive cosin/coherent estimator algorithm for target
+detection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data (N x p).</li>
+<li><strong>t</strong> &#8211; <cite>numpy array</cite>
+A target endmember (p).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (N).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>X Jin, S Paswater, H Cline.  &#8220;A Comparative Study of Target Detection
+Algorithms for Hyperspectral Imagery.&#8221;  SPIE Algorithms and Technologies
+for Multispectral, Hyperspectral, and Ultraspectral Imagery XV.  Vol
+7334.  2009.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.detection.detect.CEM">
+<code class="descclassname">pysptools.detection.detect.</code><code class="descname">CEM</code><span class="sig-paren">(</span><em>M</em>, <em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/detection/detect.html#CEM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.detect.CEM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the constrained energy minimization algorithm for target
+detection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data (N x p).</li>
+<li><strong>t</strong> &#8211; <cite>numpy array</cite>
+A target endmember (p).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (N).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Qian Du, Hsuan Ren, and Chein-I Cheng. A Comparative Study of
+Orthogonal Subspace Projection and Constrained Energy Minimization.
+IEEE TGRS. Volume 41. Number 6. June 2003.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.detection.detect.GLRT">
+<code class="descclassname">pysptools.detection.detect.</code><code class="descname">GLRT</code><span class="sig-paren">(</span><em>M</em>, <em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/detection/detect.html#GLRT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.detect.GLRT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the generalized likelihood test ratio algorithm for target
+detection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data (N x p).</li>
+<li><strong>t</strong> &#8211; <cite>numpy array</cite>
+A target endmember (p).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (N).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>T F AyouB, &#8220;Modified GLRT Signal Detection Algorithm,&#8221; IEEE
+Transactions on Aerospace and Electronic Systems, Vol 36, No 3, July
+2000.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.detection.detect.MatchedFilter">
+<code class="descclassname">pysptools.detection.detect.</code><code class="descname">MatchedFilter</code><span class="sig-paren">(</span><em>M</em>, <em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/detection/detect.html#MatchedFilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.detect.MatchedFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the matched filter algorithm for target
+detection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data (N x p).</li>
+<li><strong>t</strong> &#8211; <cite>numpy array</cite>
+A target endmember (p).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (N).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>X Jin, S Paswater, H Cline.  &#8220;A Comparative Study of Target Detection</p>
+<blockquote>
+<div>Algorithms for Hyperspectral Imagery.&#8221;  SPIE Algorithms and Technologies
+for Multispectral, Hyperspectral, and Ultraspectral Imagery XV.  Vol
+7334.  2009.</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.detection.detect.OSP">
+<code class="descclassname">pysptools.detection.detect.</code><code class="descname">OSP</code><span class="sig-paren">(</span><em>M</em>, <em>E</em>, <em>t</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/detection/detect.html#OSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.detect.OSP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the othogonal subspace projection algorithm for target
+detection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data (N x p).</li>
+<li><strong>E</strong> &#8211; <cite>numpy array</cite>
+2d matrix of background endmebers (p x q).</li>
+<li><strong>t</strong> &#8211; <cite>numpy array</cite>
+A target endmember (p).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (N).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Qian Du, Hsuan Ren, and Chein-I Cheng. &#8220;A Comparative Study of
+Orthogonal Subspace Projection and Constrained Energy Minimization.&#8221;
+IEEE TGRS. Volume 41. Number 6. June 2003.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.detection.detect_int">
+<span id="pysptools-detection-detect-int-module"></span><h2>pysptools.detection.detect_int module<a class="headerlink" href="#module-pysptools.detection.detect_int" title="Permalink to this headline">¶</a></h2>
+<p>MatchedFilter, ACE, CEM, GLRT, OSP classes</p>
+<dl class="class">
+<dt id="pysptools.detection.detect_int.ACE">
+<em class="property">class </em><code class="descclassname">pysptools.detection.detect_int.</code><code class="descname">ACE</code><a class="reference internal" href="_modules/pysptools/detection/detect_int.html#ACE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.detect_int.ACE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Performs the adaptive cosin/coherent estimator algorithm for target
+detection.</p>
+<dl class="method">
+<dt id="pysptools.detection.detect_int.ACE.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>M</em>, <em>t</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.ACE.detect" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>t</strong> &#8211; <cite>numpy array</cite>
+A target pixel (p).</li>
+<li><strong>threshold</strong> &#8211; <cite>float or None [default None]</cite>
+Apply a threshold to the detection result.
+Usefull to isolate the result.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (m x n x 1).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>X Jin, S Paswater, H Cline.  &#8220;A Comparative Study of Target Detection
+Algorithms for Hyperspectral Imagery.&#8221;  SPIE Algorithms and Technologies
+for Multispectral, Hyperspectral, and Ultraspectral Imagery XV.  Vol
+7334.  2009.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.detect_int.ACE.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.ACE.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the target map to a IPython Notebook.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>whiteOnBlack</strong> &#8211; <cite>boolean [default True]</cite>
+By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the title.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.detect_int.ACE.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.ACE.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the target map.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>whiteOnBlack</strong> &#8211; <cite>boolean [default True]</cite>
+By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.detection.detect_int.CEM">
+<em class="property">class </em><code class="descclassname">pysptools.detection.detect_int.</code><code class="descname">CEM</code><a class="reference internal" href="_modules/pysptools/detection/detect_int.html#CEM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.detect_int.CEM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Performs the constrained energy minimization algorithm for target
+detection.</p>
+<dl class="method">
+<dt id="pysptools.detection.detect_int.CEM.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>M</em>, <em>t</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.CEM.detect" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>t</strong> &#8211; <cite>numpy array</cite>
+A target pixel (p).</li>
+<li><strong>threshold</strong> &#8211; <cite>float or None [default None]</cite>
+Apply a threshold to the detection result.
+Usefull to isolate the result.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (m x n x 1).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Qian Du, Hsuan Ren, and Chein-I Cheng. A Comparative Study of
+Orthogonal Subspace Projection and Constrained Energy Minimization.
+IEEE TGRS. Volume 41. Number 6. June 2003.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.detect_int.CEM.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.CEM.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the target map to a IPython Notebook.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>whiteOnBlack</strong> &#8211; <cite>boolean [default True]</cite>
+By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the title.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.detect_int.CEM.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.CEM.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the target map.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>whiteOnBlack</strong> &#8211; <cite>boolean [default True]</cite>
+By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.detection.detect_int.GLRT">
+<em class="property">class </em><code class="descclassname">pysptools.detection.detect_int.</code><code class="descname">GLRT</code><a class="reference internal" href="_modules/pysptools/detection/detect_int.html#GLRT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.detect_int.GLRT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Performs the generalized likelihood test ratio algorithm for target
+detection.</p>
+<dl class="method">
+<dt id="pysptools.detection.detect_int.GLRT.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>M</em>, <em>t</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.GLRT.detect" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>t</strong> &#8211; <cite>numpy array</cite>
+A target pixel (p).</li>
+<li><strong>threshold</strong> &#8211; <cite>float or None [default None]</cite>
+Apply a threshold to the detection result.
+Usefull to isolate the result.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (m x n x 1).</dd>
+<dt>References</dt>
+<dd>T. F. AyouB, &#8220;Modified GLRT Signal Detection Algorithm,&#8221; IEEE
+Transactions on Aerospace and Electronic Systems, Vol 36, No 3, July
+2000.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.detect_int.GLRT.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.GLRT.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the target map to a IPython Notebook.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>whiteOnBlack</strong> &#8211; <cite>boolean [default True]</cite>
+By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the title.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.detect_int.GLRT.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.GLRT.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the target map.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>whiteOnBlack</strong> &#8211; <cite>boolean [default True]</cite>
+By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.detection.detect_int.MatchedFilter">
+<em class="property">class </em><code class="descclassname">pysptools.detection.detect_int.</code><code class="descname">MatchedFilter</code><a class="reference internal" href="_modules/pysptools/detection/detect_int.html#MatchedFilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.detect_int.MatchedFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Performs the matched filter algorithm for target detection.</p>
+<dl class="method">
+<dt id="pysptools.detection.detect_int.MatchedFilter.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>M</em>, <em>t</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.MatchedFilter.detect" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>t</strong> &#8211; <cite>numpy array</cite>
+A target pixel (p).</li>
+<li><strong>threshold</strong> &#8211; <cite>float or None [default None]</cite>
+Apply a threshold to the detection result.
+Usefull to isolate the result.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (m x n x 1).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Qian Du, Hsuan Ren, and Chein-I Cheng. A Comparative Study of
+Orthogonal Subspace Projection and Constrained Energy Minimization.
+IEEE TGRS. Volume 41. Number 6. June 2003.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.detect_int.MatchedFilter.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.MatchedFilter.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the target map to a IPython Notebook.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>whiteOnBlack</strong> &#8211; <cite>boolean [default True]</cite>
+By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the title.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.detect_int.MatchedFilter.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.MatchedFilter.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the target map.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>whiteOnBlack</strong> &#8211; <cite>boolean [default True]</cite>
+By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.detection.detect_int.OSP">
+<em class="property">class </em><code class="descclassname">pysptools.detection.detect_int.</code><code class="descname">OSP</code><a class="reference internal" href="_modules/pysptools/detection/detect_int.html#OSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.detect_int.OSP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Performs the othogonal subspace projection algorithm for target
+detection.</p>
+<dl class="method">
+<dt id="pysptools.detection.detect_int.OSP.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>M</em>, <em>E</em>, <em>t</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.OSP.detect" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>E</strong> &#8211; <cite>numpy array</cite>
+Background pixels (n x p).</li>
+<li><strong>t</strong> &#8211; <cite>numpy array</cite>
+A target pixel (p).</li>
+<li><strong>threshold</strong> &#8211; <cite>float or None [default None]</cite>
+Apply a threshold to the detection result.
+Usefull to isolate the result.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (m x n x 1).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Qian Du, Hsuan Ren, and Chein-I Cheng. &#8220;A Comparative Study of
+Orthogonal Subspace Projection and Constrained Energy Minimization.&#8221;
+IEEE TGRS. Volume 41. Number 6. June 2003.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.detect_int.OSP.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.OSP.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the target map to a IPython Notebook.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>whiteOnBlack</strong> &#8211; <cite>boolean [default True]</cite>
+By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the title.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.detect_int.OSP.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.detect_int.OSP.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the target map.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>whiteOnBlack</strong> &#8211; <cite>boolean [default True]</cite>
+By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Suffix to add to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.detection.docstring">
+<span id="pysptools-detection-docstring-module"></span><h2>pysptools.detection.docstring module<a class="headerlink" href="#module-pysptools.detection.docstring" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pysptools.detection.inval">
+<span id="pysptools-detection-inval-module"></span><h2>pysptools.detection.inval module<a class="headerlink" href="#module-pysptools.detection.inval" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.detection.inval.DetectInputValidation1">
+<code class="descclassname">pysptools.detection.inval.</code><code class="descname">DetectInputValidation1</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/detection/inval.html#DetectInputValidation1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.inval.DetectInputValidation1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.detection.inval.DetectInputValidation2">
+<code class="descclassname">pysptools.detection.inval.</code><code class="descname">DetectInputValidation2</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/detection/inval.html#DetectInputValidation2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.inval.DetectInputValidation2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.detection.inval.DisplayInputValidation">
+<code class="descclassname">pysptools.detection.inval.</code><code class="descname">DisplayInputValidation</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/detection/inval.html#DisplayInputValidation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.inval.DisplayInputValidation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.detection.inval.PlotInputValidation">
+<code class="descclassname">pysptools.detection.inval.</code><code class="descname">PlotInputValidation</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/detection/inval.html#PlotInputValidation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.detection.inval.PlotInputValidation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.detection">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pysptools.detection" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pysptools.detection package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pysptools.detection.detect">pysptools.detection.detect module</a></li>
+<li><a class="reference internal" href="#module-pysptools.detection.detect_int">pysptools.detection.detect_int module</a></li>
+<li><a class="reference internal" href="#module-pysptools.detection.docstring">pysptools.detection.docstring module</a></li>
+<li><a class="reference internal" href="#module-pysptools.detection.inval">pysptools.detection.inval module</a></li>
+<li><a class="reference internal" href="#module-pysptools.detection">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pysptools.detection.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/pysptools.detection.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

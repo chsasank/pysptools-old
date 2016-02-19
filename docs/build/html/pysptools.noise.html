@@ -1,0 +1,479 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.noise package &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pysptools-noise-package">
+<h1>pysptools.noise package<a class="headerlink" href="#pysptools-noise-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pysptools.noise.dnoise">
+<span id="pysptools-noise-dnoise-module"></span><h2>pysptools.noise.dnoise module<a class="headerlink" href="#module-pysptools.noise.dnoise" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.noise.dnoise.whiten">
+<code class="descclassname">pysptools.noise.dnoise.</code><code class="descname">whiten</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/dnoise.html#whiten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.dnoise.whiten" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whitens a HSI cube. Use the noise covariance matrix to decorrelate
+and rescale the noise in the data (noise whitening).
+Results in transformed data in which the noise has unit variance
+and no band-to-band correlations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>M</strong> &#8211; <cite>numpy array</cite>
+2d matrix of HSI data (N x p).</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Whitened HSI data (N x p).</dd>
+<dt>Reference:</dt>
+<dd>Krizhevsky, Alex, Learning Multiple Layers of Features from
+Tiny Images, MSc thesis, University of Toronto, 2009.
+See Appendix A.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.noise.dnoise_int">
+<span id="pysptools-noise-dnoise-int-module"></span><h2>pysptools.noise.dnoise_int module<a class="headerlink" href="#module-pysptools.noise.dnoise_int" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.noise.dnoise_int.MNF">
+<em class="property">class </em><code class="descclassname">pysptools.noise.dnoise_int.</code><code class="descname">MNF</code><a class="reference internal" href="_modules/pysptools/noise/dnoise_int.html#MNF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.dnoise_int.MNF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Transform a HSI cube.</p>
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.MNF.apply">
+<code class="descname">apply</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.noise.dnoise_int.MNF.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>A linear transformation that consists of a noise whitening step
+and one PCA rotation.</p>
+<dl class="docutils">
+<dt>This process is designed to</dt>
+<dd><ul class="first last simple">
+<li>determine the inherent dimensionality of image data,</li>
+<li>segregate noise in the data,</li>
+<li>allow efficient elimination and/or reduction of noise, and</li>
+<li>reduce the computational requirements for subsequent processing.</li>
+</ul>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>A MNF transformed cube (m x n x p).</dd>
+</dl>
+<p class="rubric">References</p>
+<p>C-I Change and Q Du, &#8220;Interference and Noise-Adjusted Principal
+Components Analysis,&#8221; IEEE TGRS, Vol 36, No 5, September 1999.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.MNF.display_components">
+<code class="descname">display_components</code><span class="sig-paren">(</span><em>n_first=None</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/dnoise_int.html#MNF.display_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.dnoise_int.MNF.display_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display some bands.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n_first</strong> &#8211; <cite>int [default None]</cite>
+Display the first n components.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.MNF.get_components">
+<code class="descname">get_components</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/dnoise_int.html#MNF.get_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.dnoise_int.MNF.get_components" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Return: <cite>numpy array</cite></dt>
+<dd>Return the first n bands (maximum variance bands).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.MNF.inverse_transform">
+<code class="descname">inverse_transform</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.noise.dnoise_int.MNF.inverse_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse the PCA rotation step. The cube stay
+whitened. Usefull if you want to denoise noisy
+bands before the rotation.</p>
+<dl class="docutils">
+<dt>X: <cite>numpy array</cite></dt>
+<dd>A transformed (MNF) cube (m x n x p).</dd>
+<dt>Return: <cite>numpy array</cite></dt>
+<dd>A inverted cube (m x n x p).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.MNF.plot_components">
+<code class="descname">plot_components</code><span class="sig-paren">(</span><em>path</em>, <em>n_first=None</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/dnoise_int.html#MNF.plot_components"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.dnoise_int.MNF.plot_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot some bands.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>n_first</strong> &#8211; <cite>int [default None]</cite>
+Print the first n components.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.noise.dnoise_int.SavitzkyGolay">
+<em class="property">class </em><code class="descclassname">pysptools.noise.dnoise_int.</code><code class="descname">SavitzkyGolay</code><a class="reference internal" href="_modules/pysptools/noise/dnoise_int.html#SavitzkyGolay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.dnoise_int.SavitzkyGolay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Apply a Savitzky Golay low pass filter.</p>
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.SavitzkyGolay.denoise_bands">
+<code class="descname">denoise_bands</code><span class="sig-paren">(</span><em>M</em>, <em>window_size</em>, <em>order</em>, <em>derivative=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.noise.dnoise_int.SavitzkyGolay.denoise_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the Savitzky Golay filter on each band.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>window_size</strong> &#8211; <cite>int</cite>
+the length of the window. Must be an odd integer number.</li>
+<li><strong>order</strong> &#8211; <cite>int</cite>
+the order of the polynomial used in the filtering.
+Must be less then <cite>window_size</cite> - 1.</li>
+<li><strong>derivative</strong> &#8211; <cite>string [default None]</cite>
+direction of the derivative to compute, can be None,
+&#8216;col&#8217;, &#8216;row&#8217;, &#8216;both&#8217;.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>the smoothed signal (or it&#8217;s n-th derivative) (m x n x p).</dd>
+<dt>Code source:</dt>
+<dd>The scipy Cookbook, SavitzkyGolay section. This class is not under the
+copyright of this file.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.SavitzkyGolay.denoise_spectra">
+<code class="descname">denoise_spectra</code><span class="sig-paren">(</span><em>M</em>, <em>window_size</em>, <em>order</em>, <em>deriv=0</em>, <em>rate=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.noise.dnoise_int.SavitzkyGolay.denoise_spectra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the Savitzky Golay filter on each spectrum.
+Smooth (and optionally differentiate) data with a Savitzky-Golay filter.
+The Savitzky-Golay filter removes high frequency noise from data.
+It has the advantage of preserving the original shape and
+features of the signal better than other types of filtering
+approaches, such as moving averages techniques.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</li>
+<li><strong>window_size</strong> &#8211; <cite>int</cite>
+the length of the window. Must be an odd integer number.</li>
+<li><strong>order</strong> &#8211; <cite>int</cite>
+the order of the polynomial used in the filtering.
+Must be less then <cite>window_size</cite> - 1.</li>
+<li><strong>deriv</strong> &#8211; <cite>int [default 0]</cite>
+the order of the derivative to compute
+(default = 0 means only smoothing).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>the smoothed signal (or it&#8217;s n-th derivative) (m x n x p).</dd>
+<dt>Code source:</dt>
+<dd>The scipy Cookbook, SavitzkyGolay section. This class is not under the
+copyright of this file.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.SavitzkyGolay.display_bands_sample">
+<code class="descname">display_bands_sample</code><span class="sig-paren">(</span><em>band_no</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/dnoise_int.html#SavitzkyGolay.display_bands_sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.dnoise_int.SavitzkyGolay.display_bands_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a filtered band.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>band_no</strong> &#8211; <cite>int or string</cite>
+The band index.
+If band_no == &#8216;all&#8217;, plot all the bands.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Add a suffix to the title.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.SavitzkyGolay.display_spectrum_sample">
+<code class="descname">display_spectrum_sample</code><span class="sig-paren">(</span><em>M</em>, <em>x</em>, <em>y</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/dnoise_int.html#SavitzkyGolay.display_spectrum_sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.dnoise_int.SavitzkyGolay.display_spectrum_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a spectrum sample with the original and the
+filtered signal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; &#8216;numpy array&#8217;
+The original cube (m x n x p).</li>
+<li><strong>x</strong> &#8211; <cite>int</cite>
+The x coordinate.</li>
+<li><strong>y</strong> &#8211; <cite>int</cite>
+The y coordinate.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Add a suffix to the title.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.SavitzkyGolay.plot_bands_sample">
+<code class="descname">plot_bands_sample</code><span class="sig-paren">(</span><em>path</em>, <em>band_no</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/dnoise_int.html#SavitzkyGolay.plot_bands_sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.dnoise_int.SavitzkyGolay.plot_bands_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a filtered band.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>band_no</strong> &#8211; <cite>int or string</cite>
+The band index.
+If band_no == &#8216;all&#8217;, plot all the bands.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Add a suffix to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.SavitzkyGolay.plot_spectrum_sample">
+<code class="descname">plot_spectrum_sample</code><span class="sig-paren">(</span><em>M</em>, <em>path</em>, <em>x</em>, <em>y</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/dnoise_int.html#SavitzkyGolay.plot_spectrum_sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.dnoise_int.SavitzkyGolay.plot_spectrum_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a spectrum sample with the original and the
+filtered signal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>M</strong> &#8211; &#8216;numpy array&#8217;
+The original cube (m x n x p).</li>
+<li><strong>path</strong> &#8211; <cite>string</cite>
+The path where to put the plot.</li>
+<li><strong>x</strong> &#8211; <cite>int</cite>
+The x coordinate.</li>
+<li><strong>y</strong> &#8211; <cite>int</cite>
+The y coordinate.</li>
+<li><strong>suffix</strong> &#8211; <cite>string [default None]</cite>
+Add a suffix to the file name.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.noise.dnoise_int.Whiten">
+<em class="property">class </em><code class="descclassname">pysptools.noise.dnoise_int.</code><code class="descname">Whiten</code><a class="reference internal" href="_modules/pysptools/noise/dnoise_int.html#Whiten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.dnoise_int.Whiten" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Whiten the cube.</p>
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.Whiten.apply">
+<code class="descname">apply</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.noise.dnoise_int.Whiten.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whitens a HSI cube. Use the noise covariance matrix to decorrelate
+and rescale the noise in the data (noise whitening).
+Results in transformed data in which the noise has unit variance
+and no band-to-band correlations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>M</strong> &#8211; <cite>numpy array</cite>
+A HSI cube (m x n x p).</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>A whitened HSI cube (m x n x p).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.noise.dnoise_int.Whiten.get">
+<code class="descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/dnoise_int.html#Whiten.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.dnoise_int.Whiten.get" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>The whitened HSI cube (m x n x p).</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.noise.inval">
+<span id="pysptools-noise-inval-module"></span><h2>pysptools.noise.inval module<a class="headerlink" href="#module-pysptools.noise.inval" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.noise.inval.ApplyInputValidation">
+<code class="descclassname">pysptools.noise.inval.</code><code class="descname">ApplyInputValidation</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/inval.html#ApplyInputValidation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.inval.ApplyInputValidation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.noise.inval.DenoiseBandsInputValidation">
+<code class="descclassname">pysptools.noise.inval.</code><code class="descname">DenoiseBandsInputValidation</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/inval.html#DenoiseBandsInputValidation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.inval.DenoiseBandsInputValidation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.noise.inval.DenoiseSpectraInputValidation">
+<code class="descclassname">pysptools.noise.inval.</code><code class="descname">DenoiseSpectraInputValidation</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/inval.html#DenoiseSpectraInputValidation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.inval.DenoiseSpectraInputValidation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.noise.inval.XInputValidation">
+<code class="descclassname">pysptools.noise.inval.</code><code class="descname">XInputValidation</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/noise/inval.html#XInputValidation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.noise.inval.XInputValidation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.noise">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pysptools.noise" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pysptools.noise package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pysptools.noise.dnoise">pysptools.noise.dnoise module</a></li>
+<li><a class="reference internal" href="#module-pysptools.noise.dnoise_int">pysptools.noise.dnoise_int module</a></li>
+<li><a class="reference internal" href="#module-pysptools.noise.inval">pysptools.noise.inval module</a></li>
+<li><a class="reference internal" href="#module-pysptools.noise">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pysptools.noise.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/pysptools.noise.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

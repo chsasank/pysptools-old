@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.spectro.inval &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pysptools.spectro.inval</h1><div class="highlight"><pre>
+<span class="c1">#</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Copyright (c) 2013-2014, Christian Therien</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1"># inval.py - This file is part of the PySptools package.</span>
+<span class="c1">#</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pysptools.util</span> <span class="kn">as</span> <span class="nn">util</span>
+
+
+<span class="c1"># SpectrumConvexHullQuotient</span>
+<div class="viewcode-block" id="SCHQInitInputValidation"><a class="viewcode-back" href="../../../pysptools.spectro.html#pysptools.spectro.inval.SCHQInitInputValidation">[docs]</a><span class="k">def</span> <span class="nf">SCHQInitInputValidation</span><span class="p">(</span><span class="n">class_name</span><span class="p">):</span>
+    <span class="nd">@util.simple_decorator</span>
+    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">checker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">wvl</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">InputValidation</span><span class="p">(</span><span class="n">class_name</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">list_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">list_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">wvl</span><span class="p">,</span> <span class="s1">&#39;wvl&#39;</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">bool_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">normalize</span><span class="p">,</span> <span class="s1">&#39;normalize&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">wvl</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">checker</span>
+    <span class="k">return</span> <span class="n">wrap</span></div>
+
+
+<span class="c1"># SpectrumConvexHullQuotient</span>
+<div class="viewcode-block" id="PlotInputValidation"><a class="viewcode-back" href="../../../pysptools.spectro.html#pysptools.spectro.inval.PlotInputValidation">[docs]</a><span class="k">def</span> <span class="nf">PlotInputValidation</span><span class="p">(</span><span class="n">class_name</span><span class="p">):</span>
+    <span class="nd">@util.simple_decorator</span>
+    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">checker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">plot_name</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">InputValidation</span><span class="p">(</span><span class="n">class_name</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">string_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">plot_name</span><span class="p">,</span> <span class="s1">&#39;plot_name&#39;</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">suffix_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span>
+            <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">plot_name</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">checker</span>
+    <span class="k">return</span> <span class="n">wrap</span></div>
+
+
+<span class="c1"># SpectrumConvexHullQuotient</span>
+<div class="viewcode-block" id="DisplayInputValidation"><a class="viewcode-back" href="../../../pysptools.spectro.html#pysptools.spectro.inval.DisplayInputValidation">[docs]</a><span class="k">def</span> <span class="nf">DisplayInputValidation</span><span class="p">(</span><span class="n">class_name</span><span class="p">):</span>
+    <span class="nd">@util.simple_decorator</span>
+    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">checker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot_name</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">InputValidation</span><span class="p">(</span><span class="n">class_name</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">string_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">plot_name</span><span class="p">,</span> <span class="s1">&#39;plot_name&#39;</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">suffix_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span>
+            <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot_name</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">checker</span>
+    <span class="k">return</span> <span class="n">wrap</span></div>
+
+
+<span class="c1"># FeaturesConvexHullQuotient</span>
+<div class="viewcode-block" id="FCHQInitInputValidation"><a class="viewcode-back" href="../../../pysptools.spectro.html#pysptools.spectro.inval.FCHQInitInputValidation">[docs]</a><span class="k">def</span> <span class="nf">FCHQInitInputValidation</span><span class="p">(</span><span class="n">class_name</span><span class="p">):</span>
+    <span class="nd">@util.simple_decorator</span>
+    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">checker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">wvl</span><span class="p">,</span> <span class="n">startContinuum</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">stopContinuum</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">InputValidation</span><span class="p">(</span><span class="n">class_name</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">list_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="s1">&#39;spectrum&#39;</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">list_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">wvl</span><span class="p">,</span> <span class="s1">&#39;wvl&#39;</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">float_type2</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">startContinuum</span><span class="p">,</span> <span class="s1">&#39;startContinuum&#39;</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">float_type2</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">stopContinuum</span><span class="p">,</span> <span class="s1">&#39;stopContinuum&#39;</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">float_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">baseline</span><span class="p">,</span> <span class="s1">&#39;baseline&#39;</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">bool_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">normalize</span><span class="p">,</span> <span class="s1">&#39;normalize&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">,</span> <span class="n">wvl</span><span class="p">,</span> <span class="n">startContinuum</span><span class="o">=</span><span class="n">startContinuum</span><span class="p">,</span> <span class="n">stopContinuum</span><span class="o">=</span><span class="n">stopContinuum</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="n">baseline</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">checker</span>
+    <span class="k">return</span> <span class="n">wrap</span></div>
+
+
+<span class="c1"># FeaturesConvexHullQuotient</span>
+<div class="viewcode-block" id="PlotInputValidation2"><a class="viewcode-back" href="../../../pysptools.spectro.html#pysptools.spectro.inval.PlotInputValidation2">[docs]</a><span class="k">def</span> <span class="nf">PlotInputValidation2</span><span class="p">(</span><span class="n">class_name</span><span class="p">):</span>
+    <span class="nd">@util.simple_decorator</span>
+    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">checker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">plot_name</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">):</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">InputValidation</span><span class="p">(</span><span class="n">class_name</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">string_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">plot_name</span><span class="p">,</span> <span class="s1">&#39;plot_name&#39;</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">index_range</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">))</span>
+            <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">plot_name</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">checker</span>
+    <span class="k">return</span> <span class="n">wrap</span></div>
+
+
+<span class="c1"># FeaturesConvexHullQuotient</span>
+<div class="viewcode-block" id="DisplayInputValidation2"><a class="viewcode-back" href="../../../pysptools.spectro.html#pysptools.spectro.inval.DisplayInputValidation2">[docs]</a><span class="k">def</span> <span class="nf">DisplayInputValidation2</span><span class="p">(</span><span class="n">class_name</span><span class="p">):</span>
+    <span class="nd">@util.simple_decorator</span>
+    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">checker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot_name</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">):</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">InputValidation</span><span class="p">(</span><span class="n">class_name</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">string_type</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">plot_name</span><span class="p">,</span> <span class="s1">&#39;plot_name&#39;</span><span class="p">)</span>
+            <span class="n">check</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">index_range</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">))</span>
+            <span class="n">method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot_name</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">checker</span>
+    <span class="k">return</span> <span class="n">wrap</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

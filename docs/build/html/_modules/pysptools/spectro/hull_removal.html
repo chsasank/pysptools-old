@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.spectro.hull_removal &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pysptools.spectro.hull_removal</h1><div class="highlight"><pre>
+<span class="c1">#</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Copyright (c) 2013-2014, Christian Therien</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1"># hull_removal.py - This file is part of the PySptools package.</span>
+<span class="c1">#</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">convex_hull_removal function</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">interpolate</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">_jarvis</span>
+
+
+<div class="viewcode-block" id="convex_hull_removal"><a class="viewcode-back" href="../../../pysptools.spectro.html#pysptools.spectro.hull_removal.convex_hull_removal">[docs]</a><span class="k">def</span> <span class="nf">convex_hull_removal</span><span class="p">(</span><span class="n">pixel</span><span class="p">,</span> <span class="n">wvl</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remove the convex-hull of the signal by hull quotient.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        pixel: `list`</span>
+<span class="sd">            1D HSI data (p), a pixel.</span>
+<span class="sd">        wvl: `list`</span>
+<span class="sd">            Wavelength of each band (p x 1).</span>
+
+<span class="sd">    Results: `list`</span>
+<span class="sd">        Data with convex hull removed (p).</span>
+
+<span class="sd">    Reference:</span>
+<span class="sd">        Clark, R.N. and T.L. Roush (1984) Reflectance Spectroscopy: Quantitative</span>
+<span class="sd">        Analysis Techniques for Remote Sensing Applications, J. Geophys. Res., 89,</span>
+<span class="sd">        6329-6340.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">wvl</span><span class="p">,</span> <span class="n">pixel</span><span class="p">))</span>
+    <span class="c1"># close the polygone</span>
+    <span class="n">poly</span> <span class="o">=</span> <span class="p">[(</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">)]</span><span class="o">+</span><span class="n">points</span><span class="o">+</span><span class="p">[(</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">)]</span>
+    <span class="n">hull</span> <span class="o">=</span> <span class="n">_jarvis</span><span class="o">.</span><span class="n">convex_hull</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+    <span class="c1"># the last two points are on the x axis, remove it</span>
+    <span class="n">hull</span> <span class="o">=</span> <span class="n">hull</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">x_hull</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">hull</span><span class="p">]</span>
+    <span class="n">y_hull</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">hull</span><span class="p">]</span>
+
+    <span class="n">tck</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">splrep</span><span class="p">(</span><span class="n">x_hull</span><span class="p">,</span> <span class="n">y_hull</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">iy_hull</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">splev</span><span class="p">(</span><span class="n">wvl</span><span class="p">,</span> <span class="n">tck</span><span class="p">,</span> <span class="n">der</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">norm</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ysig</span><span class="p">,</span> <span class="n">yhull</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pixel</span><span class="p">,</span> <span class="n">iy_hull</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">yhull</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">norm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ysig</span><span class="o">/</span><span class="n">yhull</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">norm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">norm</span><span class="p">,</span> <span class="n">x_hull</span><span class="p">,</span> <span class="n">y_hull</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

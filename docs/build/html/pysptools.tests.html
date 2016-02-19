@@ -1,0 +1,621 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.tests package &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pysptools-tests-package">
+<h1>pysptools.tests package<a class="headerlink" href="#pysptools-tests-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pysptools.tests.all_tests">
+<span id="pysptools-tests-all-tests-module"></span><h2>pysptools.tests.all_tests module<a class="headerlink" href="#module-pysptools.tests.all_tests" title="Permalink to this headline">¶</a></h2>
+<p>Call all the test_*.py</p>
+<dl class="function">
+<dt id="pysptools.tests.all_tests.all_tests">
+<code class="descclassname">pysptools.tests.all_tests.</code><code class="descname">all_tests</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/all_tests.html#all_tests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.all_tests.all_tests" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.tests.test_SVC">
+<span id="pysptools-tests-test-svc-module"></span><h2>pysptools.tests.test_SVC module<a class="headerlink" href="#module-pysptools.tests.test_SVC" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.tests.test_SVC.remove_bands">
+<code class="descclassname">pysptools.tests.test_SVC.</code><code class="descname">remove_bands</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_SVC.html#remove_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_SVC.remove_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the bands with atmospheric
+scattering.
+Remove:</p>
+<blockquote>
+<div>[0..4]
+[102..110]
+[148..169]
+[211..end]</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_SVC.test_SVC">
+<code class="descclassname">pysptools.tests.test_SVC.</code><code class="descname">test_SVC</code><span class="sig-paren">(</span><em>data</em>, <em>result_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_SVC.html#test_SVC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_SVC.test_SVC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_SVC.tests">
+<code class="descclassname">pysptools.tests.test_SVC.</code><code class="descname">tests</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_SVC.html#tests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_SVC.tests" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.tests.test_cls">
+<span id="pysptools-tests-test-cls-module"></span><h2>pysptools.tests.test_cls module<a class="headerlink" href="#module-pysptools.tests.test_cls" title="Permalink to this headline">¶</a></h2>
+<p>Python Spectral Tools</p>
+<dl class="docutils">
+<dt>The following functions and classes are tested:</dt>
+<dd>SAM
+SID
+NormXCorr
+NFINDR
+FIPPI
+ATGP</dd>
+</dl>
+<dl class="function">
+<dt id="pysptools.tests.test_cls.ATGP">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">ATGP</code><span class="sig-paren">(</span><em>data</em>, <em>wvl</em>, <em>mask</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#ATGP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.ATGP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.NFINDR">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">NFINDR</code><span class="sig-paren">(</span><em>data</em>, <em>wvl</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#NFINDR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.NFINDR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.NNLS">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">NNLS</code><span class="sig-paren">(</span><em>data</em>, <em>U</em>, <em>umix_source</em>, <em>mask</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#NNLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.NNLS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.ROI">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">ROI</code><span class="sig-paren">(</span><em>data</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#ROI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.ROI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.parse_ENVI_header">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">parse_ENVI_header</code><span class="sig-paren">(</span><em>fname</em>, <em>head</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#parse_ENVI_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.parse_ENVI_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.plot">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>image</em>, <em>colormap</em>, <em>desc</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.plot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.profile">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">profile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.profile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.stat">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">stat</code><span class="sig-paren">(</span><em>pr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#stat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.stat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.test_AbundanceClassification">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">test_AbundanceClassification</code><span class="sig-paren">(</span><em>data</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#test_AbundanceClassification"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.test_AbundanceClassification" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.test_NormXCorr">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">test_NormXCorr</code><span class="sig-paren">(</span><em>data</em>, <em>E</em>, <em>roi</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#test_NormXCorr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.test_NormXCorr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.test_NormXCorr_single">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">test_NormXCorr_single</code><span class="sig-paren">(</span><em>data</em>, <em>E</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#test_NormXCorr_single"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.test_NormXCorr_single" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.test_SAM">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">test_SAM</code><span class="sig-paren">(</span><em>data</em>, <em>E</em>, <em>roi</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#test_SAM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.test_SAM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.test_SAM_single">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">test_SAM_single</code><span class="sig-paren">(</span><em>data</em>, <em>E</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#test_SAM_single"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.test_SAM_single" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.test_SID">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">test_SID</code><span class="sig-paren">(</span><em>data</em>, <em>E</em>, <em>roi</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#test_SID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.test_SID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.test_SID_single">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">test_SID_single</code><span class="sig-paren">(</span><em>data</em>, <em>E</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#test_SID_single"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.test_SID_single" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.test_one_spectrum">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">test_one_spectrum</code><span class="sig-paren">(</span><em>data</em>, <em>E</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#test_one_spectrum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.test_one_spectrum" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_cls.tests">
+<code class="descclassname">pysptools.tests.test_cls.</code><code class="descname">tests</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_cls.html#tests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_cls.tests" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.tests.test_detect">
+<span id="pysptools-tests-test-detect-module"></span><h2>pysptools.tests.test_detect module<a class="headerlink" href="#module-pysptools.tests.test_detect" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The following functions are tested:</dt>
+<dd>MatchedFilter
+ACE</dd>
+</dl>
+<dl class="function">
+<dt id="pysptools.tests.test_detect.load_signal_to_detect">
+<code class="descclassname">pysptools.tests.test_detect.</code><code class="descname">load_signal_to_detect</code><span class="sig-paren">(</span><em>detect_path</em>, <em>detect_hdr_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_detect.html#load_signal_to_detect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_detect.load_signal_to_detect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_detect.load_signal_to_detect_P3">
+<code class="descclassname">pysptools.tests.test_detect.</code><code class="descname">load_signal_to_detect_P3</code><span class="sig-paren">(</span><em>detect_path</em>, <em>detect_hdr_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_detect.html#load_signal_to_detect_P3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_detect.load_signal_to_detect_P3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_detect.load_spec_lib">
+<code class="descclassname">pysptools.tests.test_detect.</code><code class="descname">load_spec_lib</code><span class="sig-paren">(</span><em>lib_path</em>, <em>lib_hdr_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_detect.html#load_spec_lib"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_detect.load_spec_lib" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_detect.profile">
+<code class="descclassname">pysptools.tests.test_detect.</code><code class="descname">profile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_detect.html#profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_detect.profile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_detect.stat">
+<code class="descclassname">pysptools.tests.test_detect.</code><code class="descname">stat</code><span class="sig-paren">(</span><em>pr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_detect.html#stat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_detect.stat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_detect.test_ACE">
+<code class="descclassname">pysptools.tests.test_detect.</code><code class="descname">test_ACE</code><span class="sig-paren">(</span><em>data</em>, <em>y</em>, <em>result_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_detect.html#test_ACE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_detect.test_ACE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_detect.test_CEM">
+<code class="descclassname">pysptools.tests.test_detect.</code><code class="descname">test_CEM</code><span class="sig-paren">(</span><em>data</em>, <em>y</em>, <em>result_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_detect.html#test_CEM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_detect.test_CEM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_detect.test_GLRT">
+<code class="descclassname">pysptools.tests.test_detect.</code><code class="descname">test_GLRT</code><span class="sig-paren">(</span><em>data</em>, <em>y</em>, <em>result_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_detect.html#test_GLRT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_detect.test_GLRT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_detect.test_MatchedFilter">
+<code class="descclassname">pysptools.tests.test_detect.</code><code class="descname">test_MatchedFilter</code><span class="sig-paren">(</span><em>data</em>, <em>y</em>, <em>result_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_detect.html#test_MatchedFilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_detect.test_MatchedFilter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_detect.test_OSP">
+<code class="descclassname">pysptools.tests.test_detect.</code><code class="descname">test_OSP</code><span class="sig-paren">(</span><em>data</em>, <em>U</em>, <em>y</em>, <em>result_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_detect.html#test_OSP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_detect.test_OSP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_detect.tests">
+<code class="descclassname">pysptools.tests.test_detect.</code><code class="descname">tests</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_detect.html#tests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_detect.tests" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.tests.test_dnoise">
+<span id="pysptools-tests-test-dnoise-module"></span><h2>pysptools.tests.test_dnoise module<a class="headerlink" href="#module-pysptools.tests.test_dnoise" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The following functions are tested:</dt>
+<dd>SavitzkyGolay
+Whiten
+MNF</dd>
+</dl>
+<dl class="function">
+<dt id="pysptools.tests.test_dnoise.MNF">
+<code class="descclassname">pysptools.tests.test_dnoise.</code><code class="descname">MNF</code><span class="sig-paren">(</span><em>data</em>, <em>n_components</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_dnoise.html#MNF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_dnoise.MNF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_dnoise.MNF_reduce_component_2_noise_and_invert">
+<code class="descclassname">pysptools.tests.test_dnoise.</code><code class="descname">MNF_reduce_component_2_noise_and_invert</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_dnoise.html#MNF_reduce_component_2_noise_and_invert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_dnoise.MNF_reduce_component_2_noise_and_invert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_dnoise.SavitzkyGolay_bands_filter">
+<code class="descclassname">pysptools.tests.test_dnoise.</code><code class="descname">SavitzkyGolay_bands_filter</code><span class="sig-paren">(</span><em>data</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_dnoise.html#SavitzkyGolay_bands_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_dnoise.SavitzkyGolay_bands_filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_dnoise.SavitzkyGolay_spectra_filter">
+<code class="descclassname">pysptools.tests.test_dnoise.</code><code class="descname">SavitzkyGolay_spectra_filter</code><span class="sig-paren">(</span><em>data</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_dnoise.html#SavitzkyGolay_spectra_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_dnoise.SavitzkyGolay_spectra_filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_dnoise.test_MNF">
+<code class="descclassname">pysptools.tests.test_dnoise.</code><code class="descname">test_MNF</code><span class="sig-paren">(</span><em>n_clusters</em>, <em>n_components</em>, <em>data</em>, <em>result_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_dnoise.html#test_MNF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_dnoise.test_MNF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_dnoise.test_SavitzkyGolay">
+<code class="descclassname">pysptools.tests.test_dnoise.</code><code class="descname">test_SavitzkyGolay</code><span class="sig-paren">(</span><em>n_clusters</em>, <em>data</em>, <em>result_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_dnoise.html#test_SavitzkyGolay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_dnoise.test_SavitzkyGolay" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_dnoise.test_whiten">
+<code class="descclassname">pysptools.tests.test_dnoise.</code><code class="descname">test_whiten</code><span class="sig-paren">(</span><em>n_clusters</em>, <em>data</em>, <em>result_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_dnoise.html#test_whiten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_dnoise.test_whiten" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_dnoise.tests">
+<code class="descclassname">pysptools.tests.test_dnoise.</code><code class="descname">tests</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_dnoise.html#tests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_dnoise.tests" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_dnoise.whiten">
+<code class="descclassname">pysptools.tests.test_dnoise.</code><code class="descname">whiten</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_dnoise.html#whiten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_dnoise.whiten" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.tests.test_eea">
+<span id="pysptools-tests-test-eea-module"></span><h2>pysptools.tests.test_eea module<a class="headerlink" href="#module-pysptools.tests.test_eea" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The following functions are tested:</dt>
+<dd>NFINDR
+ATGP
+PPI
+UCLS
+FCLS
+NNLS</dd>
+</dl>
+<dl class="function">
+<dt id="pysptools.tests.test_eea.ROI">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">ROI</code><span class="sig-paren">(</span><em>data</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#ROI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.ROI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_eea.parse_ENVI_header">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">parse_ENVI_header</code><span class="sig-paren">(</span><em>fname</em>, <em>head</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#parse_ENVI_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.parse_ENVI_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_eea.profile">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">profile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.profile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_eea.stat">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">stat</code><span class="sig-paren">(</span><em>pr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#stat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.stat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_eea.test_ATGP">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">test_ATGP</code><span class="sig-paren">(</span><em>data</em>, <em>wvl</em>, <em>mask</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#test_ATGP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.test_ATGP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_eea.test_FCLS">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">test_FCLS</code><span class="sig-paren">(</span><em>data</em>, <em>U</em>, <em>umix_source</em>, <em>mask</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#test_FCLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.test_FCLS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_eea.test_FIPPI">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">test_FIPPI</code><span class="sig-paren">(</span><em>data</em>, <em>wvl</em>, <em>mask</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#test_FIPPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.test_FIPPI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_eea.test_NFINDR">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">test_NFINDR</code><span class="sig-paren">(</span><em>data</em>, <em>wvl</em>, <em>mask</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#test_NFINDR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.test_NFINDR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_eea.test_NNLS">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">test_NNLS</code><span class="sig-paren">(</span><em>data</em>, <em>U</em>, <em>umix_source</em>, <em>mask</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#test_NNLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.test_NNLS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_eea.test_PPI">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">test_PPI</code><span class="sig-paren">(</span><em>data</em>, <em>wvl</em>, <em>mask</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#test_PPI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.test_PPI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_eea.test_UCLS">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">test_UCLS</code><span class="sig-paren">(</span><em>data</em>, <em>U</em>, <em>umix_source</em>, <em>mask</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#test_UCLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.test_UCLS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_eea.test_amap">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">test_amap</code><span class="sig-paren">(</span><em>data</em>, <em>U</em>, <em>umix_source</em>, <em>path</em>, <em>mask</em>, <em>amaps=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#test_amap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.test_amap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_eea.tests">
+<code class="descclassname">pysptools.tests.test_eea.</code><code class="descname">tests</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_eea.html#tests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_eea.tests" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.tests.test_hull">
+<span id="pysptools-tests-test-hull-module"></span><h2>pysptools.tests.test_hull module<a class="headerlink" href="#module-pysptools.tests.test_hull" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The following classes are tested:</dt>
+<dd>SpectrumConvexHullQuotient
+FeaturesConvexHullQuotient</dd>
+</dl>
+<dl class="function">
+<dt id="pysptools.tests.test_hull.batch_usgs_spec_plot">
+<code class="descclassname">pysptools.tests.test_hull.</code><code class="descname">batch_usgs_spec_plot</code><span class="sig-paren">(</span><em>fname</em>, <em>file_type</em>, <em>path_out</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_hull.html#batch_usgs_spec_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_hull.batch_usgs_spec_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process the s06av95a_envi file and plot for each spectrum the spectrum,
+the convex hull and the convex hull quotient.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_hull.extract_features">
+<code class="descclassname">pysptools.tests.test_hull.</code><code class="descname">extract_features</code><span class="sig-paren">(</span><em>fname</em>, <em>file_type</em>, <em>path_out</em>, <em>baseline</em>, <em>substance</em>, <em>sample=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_hull.html#extract_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_hull.extract_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process the s06av95a_envi file and extract the &lt;substance&gt; and/or &lt;sample&gt;
+features according to the &lt;baseline&gt; value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_hull.tests">
+<code class="descclassname">pysptools.tests.test_hull.</code><code class="descname">tests</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_hull.html#tests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_hull.tests" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.tests.test_kmeans">
+<span id="pysptools-tests-test-kmeans-module"></span><h2>pysptools.tests.test_kmeans module<a class="headerlink" href="#module-pysptools.tests.test_kmeans" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The following class is tested:</dt>
+<dd>KMeans</dd>
+</dl>
+<dl class="function">
+<dt id="pysptools.tests.test_kmeans.tests">
+<code class="descclassname">pysptools.tests.test_kmeans.</code><code class="descname">tests</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_kmeans.html#tests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_kmeans.tests" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.tests.test_pwc">
+<span id="pysptools-tests-test-pwc-module"></span><h2>pysptools.tests.test_pwc module<a class="headerlink" href="#module-pysptools.tests.test_pwc" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The following function is tested:</dt>
+<dd>bilateral</dd>
+</dl>
+<dl class="function">
+<dt id="pysptools.tests.test_pwc.tests">
+<code class="descclassname">pysptools.tests.test_pwc.</code><code class="descname">tests</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_pwc.html#tests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_pwc.tests" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.tests.test_spectro">
+<span id="pysptools-tests-test-spectro-module"></span><h2>pysptools.tests.test_spectro module<a class="headerlink" href="#module-pysptools.tests.test_spectro" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The following functions are tested:</dt>
+<dd>distance.SAM
+distance.SID
+distance.chebyshev
+distance.NormXCorr</dd>
+<dt>This class is tested:</dt>
+<dd><dl class="first last docutils">
+<dt>USGS06SpecLib</dt>
+<dd>get_substance method
+distance_match method</dd>
+</dl>
+</dd>
+</dl>
+<dl class="function">
+<dt id="pysptools.tests.test_spectro.get_biotite_WS660">
+<code class="descclassname">pysptools.tests.test_spectro.</code><code class="descname">get_biotite_WS660</code><span class="sig-paren">(</span><em>lib_name</em>, <em>file_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_spectro.html#get_biotite_WS660"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_spectro.get_biotite_WS660" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_spectro.search_biotite">
+<code class="descclassname">pysptools.tests.test_spectro.</code><code class="descname">search_biotite</code><span class="sig-paren">(</span><em>lib_name</em>, <em>file_type</em>, <em>biotite</em>, <em>dist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_spectro.html#search_biotite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_spectro.search_biotite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_spectro.tests">
+<code class="descclassname">pysptools.tests.test_spectro.</code><code class="descname">tests</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_spectro.html#tests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_spectro.tests" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.tests.test_vd">
+<span id="pysptools-tests-test-vd-module"></span><h2>pysptools.tests.test_vd module<a class="headerlink" href="#module-pysptools.tests.test_vd" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>The following functions are tested:</dt>
+<dd>HfcVd
+HySime</dd>
+</dl>
+<dl class="function">
+<dt id="pysptools.tests.test_vd.dirichlet_rnd">
+<code class="descclassname">pysptools.tests.test_vd.</code><code class="descname">dirichlet_rnd</code><span class="sig-paren">(</span><em>A</em>, <em>dim</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_vd.html#dirichlet_rnd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_vd.dirichlet_rnd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a matrix of random numbers chosen
+from the dirichlet distribution with parameters vector A.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>A</strong> &#8211; <cite>numpy array</cite>
+A vector of shape parameters.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>A matrix of random numbers.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_vd.generate_hyperspectral_data">
+<code class="descclassname">pysptools.tests.test_vd.</code><code class="descname">generate_hyperspectral_data</code><span class="sig-paren">(</span><em>U</em>, <em>p</em>, <em>N</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_vd.html#generate_hyperspectral_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_vd.generate_hyperspectral_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a simulated hyperspectral data set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>U</strong> &#8211; <cite>numpy array</cite>
+USGS library subset.</li>
+<li><strong>p</strong> &#8211; <cite>int</cite>
+Number of endmembers.</li>
+<li><strong>N</strong> &#8211; <cite>int</cite>
+Number of pixels.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Returns: (<cite>numpy array</cite>, <cite>numpy array</cite>)</dt>
+<dd><ul class="first last simple">
+<li>x is the signal (endmembers linear mixture)</li>
+<li>s abundance fractions (Nxp)</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_vd.get_random_n_endmembers">
+<code class="descclassname">pysptools.tests.test_vd.</code><code class="descname">get_random_n_endmembers</code><span class="sig-paren">(</span><em>fname</em>, <em>file_type</em>, <em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_vd.html#get_random_n_endmembers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_vd.get_random_n_endmembers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_vd.test_HfcVd">
+<code class="descclassname">pysptools.tests.test_vd.</code><code class="descname">test_HfcVd</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_vd.html#test_HfcVd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_vd.test_HfcVd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_vd.test_hysime">
+<code class="descclassname">pysptools.tests.test_vd.</code><code class="descname">test_hysime</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_vd.html#test_hysime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_vd.test_hysime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_vd.test_synthetic_hypercube">
+<code class="descclassname">pysptools.tests.test_vd.</code><code class="descname">test_synthetic_hypercube</code><span class="sig-paren">(</span><em>lib_file_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_vd.html#test_synthetic_hypercube"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_vd.test_synthetic_hypercube" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test a synthetic hypercube made with p endmembers taken to the USGS library.
+Maybe the USGS library is not a good source of endmembers. Same mineral
+species can have a very similar signature. Picking a random subset can
+return some nearly identical signatures.</p>
+<p>There is no noise added.</p>
+<p>In general, the results are good for both HySime and HfcVd for small values of p.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pysptools.tests.test_vd.tests">
+<code class="descclassname">pysptools.tests.test_vd.</code><code class="descname">tests</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pysptools/tests/test_vd.html#tests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pysptools.tests.test_vd.tests" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pysptools.tests">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pysptools.tests" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pysptools.tests package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pysptools.tests.all_tests">pysptools.tests.all_tests module</a></li>
+<li><a class="reference internal" href="#module-pysptools.tests.test_SVC">pysptools.tests.test_SVC module</a></li>
+<li><a class="reference internal" href="#module-pysptools.tests.test_cls">pysptools.tests.test_cls module</a></li>
+<li><a class="reference internal" href="#module-pysptools.tests.test_detect">pysptools.tests.test_detect module</a></li>
+<li><a class="reference internal" href="#module-pysptools.tests.test_dnoise">pysptools.tests.test_dnoise module</a></li>
+<li><a class="reference internal" href="#module-pysptools.tests.test_eea">pysptools.tests.test_eea module</a></li>
+<li><a class="reference internal" href="#module-pysptools.tests.test_hull">pysptools.tests.test_hull module</a></li>
+<li><a class="reference internal" href="#module-pysptools.tests.test_kmeans">pysptools.tests.test_kmeans module</a></li>
+<li><a class="reference internal" href="#module-pysptools.tests.test_pwc">pysptools.tests.test_pwc module</a></li>
+<li><a class="reference internal" href="#module-pysptools.tests.test_spectro">pysptools.tests.test_spectro module</a></li>
+<li><a class="reference internal" href="#module-pysptools.tests.test_vd">pysptools.tests.test_vd module</a></li>
+<li><a class="reference internal" href="#module-pysptools.tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pysptools.tests.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/pysptools.tests.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

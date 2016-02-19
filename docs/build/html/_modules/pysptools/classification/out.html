@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.classification.out &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pysptools.classification.out</h1><div class="highlight"><pre>
+<span class="c1">#</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Copyright (c) 2013-2014, Christian Therien</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1"># out.py - This file is part of the PySptools package.</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">osp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="Output"><a class="viewcode-back" href="../../../pysptools.classification.html#pysptools.classification.out.Output">[docs]</a><span class="k">class</span> <span class="nc">Output</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Add plot and display capacity to the classifiers classes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+
+    <span class="k">def</span> <span class="nf">_custom_listed_color_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">firstBlack</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; add the black color in front of &#39;name&#39; color &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="kn">as</span> <span class="nn">cm</span>
+        <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span>
+        <span class="n">mp</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">datad</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">new_mp1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;blue&#39;</span><span class="p">:</span> <span class="n">colors</span><span class="o">.</span><span class="n">makeMappingArray</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">mp</span><span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">]),</span>
+                  <span class="s1">&#39;green&#39;</span><span class="p">:</span> <span class="n">colors</span><span class="o">.</span><span class="n">makeMappingArray</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">mp</span><span class="p">[</span><span class="s1">&#39;green&#39;</span><span class="p">]),</span>
+                  <span class="s1">&#39;red&#39;</span><span class="p">:</span> <span class="n">colors</span><span class="o">.</span><span class="n">makeMappingArray</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">mp</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">])}</span>
+        <span class="n">new_mp2</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">new_mp2</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">new_mp1</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">],</span> <span class="n">new_mp1</span><span class="p">[</span><span class="s1">&#39;green&#39;</span><span class="p">],</span> <span class="n">new_mp1</span><span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="n">firstBlack</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">new_mp2</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)]</span><span class="o">+</span><span class="n">new_mp2</span> <span class="c1"># the black color</span>
+        <span class="k">return</span> <span class="n">colors</span><span class="o">.</span><span class="n">ListedColormap</span><span class="p">(</span><span class="n">new_mp2</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">new_mp2</span>
+
+<div class="viewcode-block" id="Output.plot"><a class="viewcode-back" href="../../../pysptools.classification.html#pysptools.classification.out.Output.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span> <span class="n">firstBlack</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot a classification map using matplotlib.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            img: `numpy array`</span>
+<span class="sd">                A classified map, (m x n x 1),</span>
+<span class="sd">                the classes start at 0.</span>
+
+<span class="sd">            n_classes: `int`</span>
+<span class="sd">                The number of classes found in img.</span>
+
+<span class="sd">            path: `string`</span>
+<span class="sd">                The path where to put the plot.</span>
+
+<span class="sd">            labels: `list of string [default None]`</span>
+<span class="sd">                The legend labels.</span>
+
+<span class="sd">            mask: `numpy array [default None]`</span>
+<span class="sd">                A binary mask, when *True* the corresponding pixel is displayed.</span>
+
+<span class="sd">            interpolation: `string [default none]`</span>
+<span class="sd">              A matplotlib interpolation method.</span>
+
+<span class="sd">            colorMap: `string [default &#39;Accent&#39;]`</span>
+<span class="sd">              A color map element of</span>
+<span class="sd">              [&#39;Accent&#39;, &#39;Dark2&#39;, &#39;Paired&#39;, &#39;Pastel1&#39;, &#39;Pastel2&#39;, &#39;Set1&#39;, &#39;Set2&#39;, &#39;Set3&#39;],</span>
+<span class="sd">              &quot;Accent&quot; is the default and it fall back on &quot;Jet&quot;.</span>
+
+<span class="sd">            firstBlack: `bool [default False]`</span>
+<span class="sd">                Display the first legend element in black if *True*. If it is the case,</span>
+<span class="sd">                the corresponding classification class value is zero and it can be use when the</span>
+<span class="sd">                meaning is nothing to classify (example: a background).</span>
+
+<span class="sd">            suffix: `string [default None]`</span>
+<span class="sd">              Add a suffix to the file name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="kn">as</span> <span class="nn">cm</span>
+        <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ioff</span><span class="p">()</span>
+        <span class="c1"># fallback on jet colormap</span>
+        <span class="k">if</span> <span class="n">colorMap</span> <span class="o">==</span> <span class="s1">&#39;Accent&#39;</span><span class="p">:</span> <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">Accent</span>
+        <span class="k">elif</span> <span class="n">colorMap</span> <span class="o">==</span> <span class="s1">&#39;Dark2&#39;</span><span class="p">:</span> <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">Dark2</span>
+        <span class="k">elif</span> <span class="n">colorMap</span> <span class="o">==</span> <span class="s1">&#39;Paired&#39;</span><span class="p">:</span> <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">Paired</span>
+        <span class="k">elif</span> <span class="n">colorMap</span> <span class="o">==</span> <span class="s1">&#39;Pastel1&#39;</span><span class="p">:</span> <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">Pastel1</span>
+        <span class="k">elif</span> <span class="n">colorMap</span> <span class="o">==</span> <span class="s1">&#39;Pastel2&#39;</span><span class="p">:</span> <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">Pastel2</span>
+        <span class="k">elif</span> <span class="n">colorMap</span> <span class="o">==</span> <span class="s1">&#39;Set1&#39;</span><span class="p">:</span> <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">Set1</span>
+        <span class="k">elif</span> <span class="n">colorMap</span> <span class="o">==</span> <span class="s1">&#39;Set2&#39;</span><span class="p">:</span> <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">Set2</span>
+        <span class="k">elif</span> <span class="n">colorMap</span> <span class="o">==</span> <span class="s1">&#39;Set3&#39;</span><span class="p">:</span> <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">Set3</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">jet</span>
+            <span class="n">colorMap</span> <span class="o">=</span> <span class="s1">&#39;jet&#39;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="p">[:,:]</span> <span class="o">*</span> <span class="n">mask</span>
+
+        <span class="k">if</span> <span class="n">firstBlack</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span> <span class="n">n_classes</span> <span class="o">=</span> <span class="n">n_classes</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_classes</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">color</span><span class="p">,</span> <span class="n">dummy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_custom_listed_color_map</span><span class="p">(</span><span class="n">colorMap</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">firstBlack</span><span class="o">=</span><span class="n">firstBlack</span><span class="p">)</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">color</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+        <span class="n">fig0</span><span class="p">,</span> <span class="n">ax0</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="n">ax0</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">)</span>
+        <span class="n">cbar</span> <span class="o">=</span> <span class="n">fig0</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span> <span class="n">boundaries</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+                           <span class="n">ticks</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="mf">0.5</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_classes</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+
+        <span class="k">if</span> <span class="n">labels</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">firstBlack</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">sigSet</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_classes</span><span class="p">)]</span>
+                <span class="n">lbls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;None&#39;</span><span class="p">]</span>
+                <span class="n">lbls</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sigSet</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sigSet</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_classes</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+                <span class="n">lbls</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">lbls</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sigSet</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">firstBlack</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">lbls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;None&#39;</span><span class="p">]</span>
+                <span class="n">lbls</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lbls</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">lbls</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+        <span class="n">cbar</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">(</span><span class="n">lbls</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">labels</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">ax0</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;class #&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">270</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">70</span><span class="p">)</span>
+            <span class="n">ax0</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">path</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">fout</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;{0}.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fout</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;{0}_{1}.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">suffix</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fout</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;in classification.SVC, no such file or directory: {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;{0} - {1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">suffix</span><span class="p">))</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+        <span class="c1">#plt.clf()</span>
+
+<div class="viewcode-block" id="Output.display"><a class="viewcode-back" href="../../../pysptools.classification.html#pysptools.classification.out.Output.display">[docs]</a>    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span> <span class="n">firstBlack</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display a classification map using matplotlib.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            img: `numpy array`</span>
+<span class="sd">                A classified map, (m x n x 1),</span>
+<span class="sd">                the classes start at 0.</span>
+
+<span class="sd">            n_classes: `int`</span>
+<span class="sd">                The number of classes found in img.</span>
+
+<span class="sd">            labels: `list of string [default None]`</span>
+<span class="sd">                The legend labels.</span>
+
+<span class="sd">            mask: `numpy array [default None]`</span>
+<span class="sd">                A binary mask, when *True* the corresponding pixel is displayed.</span>
+
+<span class="sd">            interpolation: `string [default none]`</span>
+<span class="sd">              A matplotlib interpolation method.</span>
+
+<span class="sd">            colorMap: `string [default &#39;Accent&#39;]`</span>
+<span class="sd">              A color map element of</span>
+<span class="sd">              [&#39;Accent&#39;, &#39;Dark2&#39;, &#39;Paired&#39;, &#39;Pastel1&#39;, &#39;Pastel2&#39;, &#39;Set1&#39;, &#39;Set2&#39;, &#39;Set3&#39;],</span>
+<span class="sd">              &quot;Accent&quot; is the default and it fall back on &quot;Jet&quot;.</span>
+
+<span class="sd">            firstBlack: `bool [default False]`</span>
+<span class="sd">                Display the first legend element in black if *True*. If it is the case,</span>
+<span class="sd">                the corresponding classification class value is zero and it can be use when the</span>
+<span class="sd">                meaning is nothing to classify (example: a background).</span>
+
+<span class="sd">            suffix: `string [default None]`</span>
+<span class="sd">              Add a suffix to the file name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="n">colorMap</span><span class="p">,</span> <span class="n">firstBlack</span><span class="o">=</span><span class="n">firstBlack</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Output.plot1"><a class="viewcode-back" href="../../../pysptools.classification.html#pysptools.classification.out.Output.plot1">[docs]</a>    <span class="k">def</span> <span class="nf">plot1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ioff</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="p">[:,:]</span> <span class="o">*</span> <span class="n">mask</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">set_cmap</span><span class="p">(</span><span class="n">colorMap</span><span class="p">)</span>
+        <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+        <span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">([])</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">fout</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;{0}.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fout</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;{0}_{1}.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">suffix</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fout</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;in classifiers.output, no such file or directory: {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;{0} - {1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">suffix</span><span class="p">))</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+        <span class="c1">#plt.clf()</span>
+
+<div class="viewcode-block" id="Output.plot_single_map"><a class="viewcode-back" href="../../../pysptools.classification.html#pysptools.classification.out.Output.plot_single_map">[docs]</a>    <span class="k">def</span> <span class="nf">plot_single_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">,</span> <span class="n">lib_idx</span><span class="p">,</span> <span class="n">em_nbr</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">constrained</span><span class="p">,</span> <span class="n">stretch</span><span class="p">,</span> <span class="n">colorMap</span><span class="p">,</span> <span class="n">suffix</span><span class="p">):</span>
+<span class="c1">##        &quot;&quot;&quot;</span>
+<span class="c1">##        Plot individual classified map. One for each spectrum.</span>
+<span class="c1">##</span>
+<span class="c1">##        Parameters</span>
+<span class="c1">##            path : string</span>
+<span class="c1">##              The path where to put the plot.</span>
+<span class="c1">##</span>
+<span class="c1">##            lib_idx : int</span>
+<span class="c1">##                * A number between 1 and the number of spectra in the library.</span>
+<span class="c1">##                * &#39;all&#39;, plot all the individual maps.</span>
+<span class="c1">##</span>
+<span class="c1">##            suffix : string</span>
+<span class="c1">##              Add a suffix to the file name.</span>
+<span class="c1">##</span>
+<span class="c1">##        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">lib_idx</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">signo</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">em_nbr</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_plot_single_map1</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">signo</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">constrained</span><span class="p">,</span> <span class="n">stretch</span><span class="p">,</span> <span class="n">colorMap</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_plot_single_map1</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">lib_idx</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">constrained</span><span class="p">,</span> <span class="n">stretch</span><span class="p">,</span> <span class="n">colorMap</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_plot_single_map1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">signo</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">constrained</span><span class="p">,</span> <span class="n">stretch</span><span class="p">,</span> <span class="n">colorMap</span><span class="p">,</span> <span class="n">suffix</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ioff</span><span class="p">()</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_single_map</span><span class="p">(</span><span class="n">signo</span><span class="p">,</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">constrained</span><span class="p">,</span> <span class="n">stretch</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">set_cmap</span><span class="p">(</span><span class="n">colorMap</span><span class="p">)</span>
+        <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+        <span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">([])</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">fout</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;{0}_{1}.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">signo</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fout</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;{0}_{1}_{2}.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">signo</span><span class="p">,</span> <span class="n">suffix</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fout</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;in classifiers.output, no such file or directory: {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;{0} - EM{1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">signo</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;{0} - EM{1} - {2}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">signo</span><span class="p">,</span> <span class="n">suffix</span><span class="p">))</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="c1">#plt.clf()</span>
+
+<div class="viewcode-block" id="Output.get_single_map"><a class="viewcode-back" href="../../../pysptools.classification.html#pysptools.classification.out.Output.get_single_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_single_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signo</span><span class="p">,</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">dist_map</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">constrained</span><span class="p">,</span> <span class="n">stretch</span><span class="p">,</span> <span class="n">inverse_scale</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">constrained</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">amin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dist_map</span><span class="p">[:,:,</span><span class="n">signo</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">amax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dist_map</span><span class="p">[:,:,</span><span class="n">signo</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+                <span class="n">limit</span> <span class="o">=</span> <span class="n">amin</span> <span class="o">+</span> <span class="p">(</span><span class="n">amax</span> <span class="o">-</span> <span class="n">amin</span><span class="p">)</span> <span class="o">*</span> <span class="n">threshold</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+                <span class="n">limit</span> <span class="o">=</span> <span class="n">amin</span> <span class="o">+</span> <span class="p">(</span><span class="n">amax</span> <span class="o">-</span> <span class="n">amin</span><span class="p">)</span> <span class="o">*</span> <span class="n">threshold</span><span class="p">[</span><span class="n">signo</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="s1">&#39;NormXCorr&#39;</span><span class="p">:</span>
+                <span class="n">grad</span> <span class="o">=</span> <span class="p">(</span><span class="n">dist_map</span><span class="p">[:,:,</span><span class="n">signo</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">limit</span><span class="p">)</span> <span class="o">*</span> <span class="n">dist_map</span><span class="p">[:,:,</span><span class="n">signo</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">grad</span> <span class="o">=</span> <span class="p">(</span><span class="n">dist_map</span><span class="p">[:,:,</span><span class="n">signo</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">)</span> <span class="o">*</span> <span class="n">dist_map</span><span class="p">[:,:,</span><span class="n">signo</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">constrained</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">thresholded</span> <span class="o">=</span> <span class="n">cmap</span> <span class="o">==</span> <span class="n">signo</span>
+            <span class="n">grad</span> <span class="o">=</span> <span class="p">(</span><span class="n">dist_map</span><span class="p">[:,:,</span><span class="n">signo</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">thresholded</span><span class="p">)</span>
+        <span class="c1"># Inverse the scale for SAM and SID,</span>
+        <span class="c1"># not needed for NormXCorr</span>
+        <span class="c1"># Some brain damaging logic here:</span>
+        <span class="c1"># inverse_scale == True only for the plot_single_map() call</span>
+        <span class="c1"># inverse_scale == False only for the get_single_map() call</span>
+        <span class="k">if</span> <span class="n">inverse_scale</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="s1">&#39;NormXCorr&#39;</span> <span class="ow">and</span> <span class="n">stretch</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="c1"># strech between 0 and 1</span>
+                <span class="nb">min</span> <span class="o">=</span> <span class="mi">2</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grad</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grad</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                        <span class="k">if</span> <span class="n">grad</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nb">min</span> <span class="ow">and</span> <span class="n">grad</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="nb">min</span> <span class="o">=</span> <span class="n">grad</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grad</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grad</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                        <span class="k">if</span> <span class="n">grad</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">grad</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">grad</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="nb">min</span>
+                <span class="n">grad</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">grad</span><span class="p">))</span> <span class="o">*</span> <span class="n">grad</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="s1">&#39;SAM&#39;</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="s1">&#39;SID&#39;</span><span class="p">:</span>
+                <span class="c1"># strech between 0 and 1</span>
+                <span class="k">if</span> <span class="n">stretch</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                    <span class="n">grad</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">grad</span><span class="p">))</span> <span class="o">*</span> <span class="n">grad</span>
+                <span class="c1"># and inverse</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grad</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grad</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                        <span class="k">if</span> <span class="n">grad</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span> <span class="n">grad</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">grad</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">grad</span></div>
+
+<div class="viewcode-block" id="Output.plot_histo"><a class="viewcode-back" href="../../../pysptools.classification.html#pysptools.classification.out.Output.plot_histo">[docs]</a>    <span class="k">def</span> <span class="nf">plot_histo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">cmap</span><span class="p">,</span> <span class="n">em_nbr</span><span class="p">,</span> <span class="n">suffix</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ioff</span><span class="p">()</span>
+        <span class="n">farray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">cmap</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">farray</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">em_nbr</span><span class="o">+</span><span class="mi">2</span><span class="p">),</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">suffix</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">fout</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;histo_{0}.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fout</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;histo_{0}_{1}.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">suffix</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fout</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;in classifiers.output, no such file or directory: {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+        <span class="c1">#plt.clf()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

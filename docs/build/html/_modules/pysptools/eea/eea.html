@@ -1,0 +1,509 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.eea.eea &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pysptools.eea.eea</h1><div class="highlight"><pre>
+<span class="c1">#</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Copyright (c) 2013-2014, Christian Therien</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1"># eea.py - This file is part of the PySptools package.</span>
+<span class="c1">#</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">ATGP, FIPPI, PPI functions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="kn">as</span> <span class="nn">sp</span>
+
+
+<span class="k">def</span> <span class="nf">_PCA_transform</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">n_components</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+    <span class="c1"># M as shape (N x p)</span>
+    <span class="c1"># scikit.learn expect (N x p)</span>
+    <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n_components</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+
+
+<span class="c1"># not a efficient way of doing this</span>
+<span class="k">def</span> <span class="nf">_rows_union</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">a_hashable</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+    <span class="n">b_hashable</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">a_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">a_hashable</span><span class="p">)</span>
+    <span class="n">b_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">b_hashable</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">a_set</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">b_set</span><span class="p">):</span>
+        <span class="c1"># return True if a is subset of b, False otherwise</span>
+        <span class="k">return</span> <span class="n">b</span><span class="p">,</span> <span class="bp">True</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">a_set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">b_set</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">u</span><span class="p">)),</span> <span class="bp">False</span>
+
+
+<div class="viewcode-block" id="mATGP"><a class="viewcode-back" href="../../../pysptools.eea.html#pysptools.eea.eea.mATGP">[docs]</a><span class="k">def</span> <span class="nf">mATGP</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Automatic Target Generation Process endmembers induction algorithm.</span>
+<span class="sd">    The endmembers search is masked.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        data: `numpy array`</span>
+<span class="sd">            2d matrix of HSI data ((m x n) x p)</span>
+
+<span class="sd">        q: `int`</span>
+<span class="sd">            Number of endmembers to be induced (positive integer &gt; 0)</span>
+
+<span class="sd">        mask: `numpy array`</span>
+<span class="sd">            A binary mask, if True the corresponding spectrum is part of the</span>
+<span class="sd">            endmembers search.</span>
+
+<span class="sd">    Returns: `tuple: numpy array, numpy array`</span>
+<span class="sd">        * Set of induced endmembers (N x p).</span>
+<span class="sd">        * Induced endmembers indexes vector.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">      A. Plaza y C.-I. Chang, &quot;Impact of Initialization on Design of Endmember</span>
+<span class="sd">      Extraction Algorithms&quot;, Geoscience and Remote Sensing, IEEE Transactions on,</span>
+<span class="sd">      vol. 44, no. 11, pgs. 3397-3407, 2006.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nsamples</span><span class="p">,</span> <span class="n">nvariables</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1"># Algorithm initialization</span>
+    <span class="c1"># the sample with max energy is selected as the initial endmember</span>
+    <span class="n">max_energy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamples</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mask</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="n">max_energy</span><span class="p">:</span>
+              <span class="n">max_energy</span> <span class="o">=</span> <span class="n">val</span>
+              <span class="n">idx</span> <span class="o">=</span> <span class="n">i</span>
+
+    <span class="c1"># Initialization of the set of endmembers and the endmembers index vector</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">q</span><span class="p">,</span> <span class="n">nvariables</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">E</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="c1"># the first endmember selected</span>
+    <span class="c1"># Generate the identity matrix.</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">nvariables</span><span class="p">)</span>
+    <span class="n">IDX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+    <span class="n">IDX</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">UC</span> <span class="o">=</span> <span class="n">E</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># Calculate the orthogonal projection with respect to the pixels at present chosen.</span>
+        <span class="c1"># This part can be replaced with any other distance</span>
+        <span class="n">PU</span> <span class="o">=</span> <span class="n">I</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">UC</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">UC</span><span class="p">,</span><span class="n">UC</span><span class="o">.</span><span class="n">T</span><span class="p">)),</span><span class="n">UC</span><span class="p">))</span>
+        <span class="n">max_energy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Calculate the most different pixel from the already selected ones according to</span>
+        <span class="c1"># the orthogonal projection (or any other distance selected)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamples</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">mask</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">PU</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="n">max_energy</span><span class="p">:</span>
+                    <span class="n">max_energy</span> <span class="o">=</span> <span class="n">val</span>
+                    <span class="n">idx</span> <span class="o">=</span> <span class="n">j</span>
+    <span class="c1"># The next chosen pixel is the most different from the already chosen ones</span>
+        <span class="n">E</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">IDX</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+
+    <span class="k">return</span> <span class="n">E</span><span class="p">,</span> <span class="n">IDX</span></div>
+
+
+<div class="viewcode-block" id="ATGP"><a class="viewcode-back" href="../../../pysptools.eea.html#pysptools.eea.eea.ATGP">[docs]</a><span class="k">def</span> <span class="nf">ATGP</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Automatic Target Generation Process endmembers induction algorithm</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        data: `numpy array`</span>
+<span class="sd">            2d matrix of HSI data ((m x n) x p)</span>
+
+<span class="sd">        q: `int`</span>
+<span class="sd">            Number of endmembers to be induced (positive integer &gt; 0)</span>
+
+<span class="sd">    Returns: `tuple: numpy array, numpy array`</span>
+<span class="sd">        * Set of induced endmembers (N x p).</span>
+<span class="sd">        * Induced endmembers indexes vector.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">      A. Plaza, C.-I. Chang, &quot;Impact of Initialization on Design of Endmember</span>
+<span class="sd">      Extraction Algorithms&quot;, Geoscience and Remote Sensing, IEEE Transactions on,</span>
+<span class="sd">      vol. 44, no. 11, pgs. 3397-3407, 2006.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nsamples</span><span class="p">,</span> <span class="n">nvariables</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1"># Algorithm initialization</span>
+    <span class="c1"># the sample with max energy is selected as the initial endmember</span>
+    <span class="n">max_energy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamples</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="n">max_energy</span><span class="p">:</span>
+          <span class="n">max_energy</span> <span class="o">=</span> <span class="n">val</span>
+          <span class="n">idx</span> <span class="o">=</span> <span class="n">i</span>
+
+    <span class="c1"># Initialization of the set of endmembers and the endmembers index vector</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">q</span><span class="p">,</span> <span class="n">nvariables</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">E</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="c1"># the first endmember selected</span>
+    <span class="c1"># Generate the identity matrix.</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">nvariables</span><span class="p">)</span>
+    <span class="n">IDX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+    <span class="n">IDX</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">UC</span> <span class="o">=</span> <span class="n">E</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># Calculate the orthogonal projection with respect to the pixels at present chosen.</span>
+        <span class="c1"># This part can be replaced with any other distance</span>
+        <span class="n">PU</span> <span class="o">=</span> <span class="n">I</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">UC</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">UC</span><span class="p">,</span><span class="n">UC</span><span class="o">.</span><span class="n">T</span><span class="p">)),</span><span class="n">UC</span><span class="p">))</span>
+        <span class="n">max_energy</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Calculate the most different pixel from the already selected ones according to</span>
+        <span class="c1"># the orthogonal projection (or any other distance selected)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamples</span><span class="p">):</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">PU</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="n">max_energy</span><span class="p">:</span>
+                <span class="n">max_energy</span> <span class="o">=</span> <span class="n">val</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">j</span>
+    <span class="c1"># The next chosen pixel is the most different from the already chosen ones</span>
+        <span class="n">E</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">IDX</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+
+    <span class="k">return</span> <span class="n">E</span><span class="p">,</span> <span class="n">IDX</span></div>
+
+
+<div class="viewcode-block" id="FIPPI"><a class="viewcode-back" href="../../../pysptools.eea.html#pysptools.eea.eea.FIPPI">[docs]</a><span class="k">def</span> <span class="nf">FIPPI</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">far</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fast Iterative Pixel Purity Index (FIPPI) endmqbers</span>
+<span class="sd">    induction algorithm.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        M: `numpy array`</span>
+<span class="sd">            2d matrix of HSI data ((m x n) x p)</span>
+
+<span class="sd">        q: `int [default None]`</span>
+<span class="sd">            Number of endmembers to be induced, if None use</span>
+<span class="sd">            HfcVd to determine the number of endmembers to induce.</span>
+
+<span class="sd">        far: `float [default None]`</span>
+<span class="sd">            False alarm rate(s), a parameter to HfcVd equal to 10**-5</span>
+<span class="sd">            by default.</span>
+
+<span class="sd">        maxit: `int [default None]</span>
+<span class="sd">            Maximum number of iterations. Default = 3*p.</span>
+
+<span class="sd">    Returns: `tuple: numpy array, numpy array`</span>
+<span class="sd">        * Set of induced endmembers (N x p).</span>
+<span class="sd">        * Array of indices into the array data corresponding to the</span>
+<span class="sd">          induced endmembers.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        Chang, C.-I., &quot;A fast iterative algorithm for implementation of pixel purity index&quot;,</span>
+<span class="sd">        Geoscience and Remote Sensing Letters, IEEE, vol. 3, no. 1, pags. 63-67, 2006.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">pysptools.material_count.vd</span> <span class="kn">as</span> <span class="nn">vd</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="k">if</span> <span class="n">q</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">far</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">far</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">5</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">vd</span><span class="o">.</span><span class="n">HfcVd</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">far</span><span class="o">=</span><span class="n">far</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;In FIPPI, virtual dimensionality is:&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">maxit</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">maxit</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">data_pca</span> <span class="o">=</span> <span class="n">_PCA_transform</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">data_pca</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1"># Initial skewers</span>
+    <span class="n">skewers</span> <span class="o">=</span> <span class="n">ATGP</span><span class="p">(</span><span class="n">data_pca</span><span class="p">,</span> <span class="n">q</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">stop</span> <span class="o">=</span> <span class="bp">False</span> <span class="c1"># stop condition</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># iterations</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># indexes of the induced endmembers</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">stop</span><span class="p">:</span>
+        <span class="c1"># Calculate Nppi</span>
+        <span class="n">Nppi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="n">proj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">data_pca</span><span class="p">,</span> <span class="n">skewers</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">I1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">I2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">proj</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">Nppi</span><span class="p">[</span><span class="n">I1</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Nppi</span><span class="p">[</span><span class="n">I1</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">Nppi</span><span class="p">[</span><span class="n">I2</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Nppi</span><span class="p">[</span><span class="n">I2</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="c1"># Check new skewers</span>
+        <span class="c1"># A tuple is returned, first part is the array r</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">Nppi</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">skewers_r</span><span class="p">,</span> <span class="n">isSubset</span> <span class="o">=</span> <span class="n">_rows_union</span><span class="p">(</span><span class="n">data_pca</span><span class="p">[</span><span class="n">r</span><span class="p">],</span> <span class="n">skewers</span><span class="p">)</span>
+        <span class="c1"># if data_pca[r] isSubset of skewers</span>
+        <span class="k">if</span> <span class="n">isSubset</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">r</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># new skewers</span>
+            <span class="n">skewers</span> <span class="o">=</span> <span class="n">skewers_r</span>
+            <span class="c1"># Check iterations</span>
+            <span class="k">if</span> <span class="n">maxit</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">it</span> <span class="o">==</span> <span class="n">maxit</span><span class="p">:</span>
+                <span class="n">stop</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">r</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">it</span> <span class="o">=</span> <span class="n">it</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="c1"># Endmembers</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">idx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">E</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="n">idx</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span>
+
+    <span class="k">return</span> <span class="n">E</span><span class="p">,</span> <span class="n">idx</span></div>
+
+
+<div class="viewcode-block" id="PPI"><a class="viewcode-back" href="../../../pysptools.eea.html#pysptools.eea.eea.PPI">[docs]</a><span class="k">def</span> <span class="nf">PPI</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">numSkewers</span><span class="p">,</span> <span class="n">ini_skewers</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs the pixel purity index algorithm for endmember finding.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        M: `numpy array`</span>
+<span class="sd">            2d matrix of HSI data ((m x n) x p).</span>
+
+<span class="sd">        q: `int`</span>
+<span class="sd">            Number of endmembers to find.</span>
+
+<span class="sd">        numSkewers: `int`</span>
+<span class="sd">            Number of &quot;skewer&quot; vectors to project data onto.</span>
+
+<span class="sd">        ini_skewers: `numpy array [default None]`</span>
+<span class="sd">            You can generate skewers from another source.</span>
+
+<span class="sd">    Returns: `numpy array`</span>
+<span class="sd">        Recovered endmembers (N x p).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">T</span> <span class="c1"># temporary solution</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="c1"># rows are bands</span>
+    <span class="c1"># columns are signals</span>
+    <span class="n">p</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1"># Remove mean from data</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">Mm</span> <span class="o">=</span> <span class="n">M</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="n">N</span><span class="p">)),</span> <span class="n">u</span><span class="p">)</span>
+
+    <span class="c1">#Generate skewers</span>
+    <span class="k">if</span> <span class="n">ini_skewers</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">skewers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">numSkewers</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">skewers</span> <span class="o">=</span> <span class="n">ini_skewers</span>
+
+    <span class="n">votes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numSkewers</span><span class="p">):</span>
+        <span class="c1"># skewers[:,kk] is already a row</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">skewers</span><span class="p">[:,</span><span class="n">kk</span><span class="p">]</span><span class="o">*</span><span class="n">Mm</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="n">votes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">votes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="n">max_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">votes</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+    <span class="c1"># the last right idx..s at the max_idx list are</span>
+    <span class="c1"># those with the max votes</span>
+    <span class="n">end_member_idx</span> <span class="o">=</span> <span class="n">max_idx</span><span class="p">[</span><span class="o">-</span><span class="n">q</span><span class="p">:][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">M</span><span class="p">[:,</span> <span class="n">end_member_idx</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">U</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">end_member_idx</span></div>
+
+
+<div class="viewcode-block" id="mNFINDR"><a class="viewcode-back" href="../../../pysptools.eea.html#pysptools.eea.eea.mNFINDR">[docs]</a><span class="k">def</span> <span class="nf">mNFINDR</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ATGP_init</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    N-FINDR endmembers induction algorithm.</span>
+<span class="sd">    The endmembers search is masked.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        data: `numpy array`</span>
+<span class="sd">            2d matrix of HSI data ((m x n) x p)</span>
+
+<span class="sd">        mask: `numpy array [default None]`</span>
+<span class="sd">            A binary mask, if True the corresponding signal is part of the</span>
+<span class="sd">            endmembers search.</span>
+
+<span class="sd">        transform: `numpy array [default None]`</span>
+<span class="sd">            The transformed &#39;data&#39; matrix by MNF (N x components). In this</span>
+<span class="sd">            case the number of components must == q-1. If None, the built-in</span>
+<span class="sd">            call to PCA is used to transform the data.</span>
+
+<span class="sd">        q: `int`</span>
+<span class="sd">            Number of endmembers to be induced.</span>
+
+<span class="sd">        maxit: `int [default None]`</span>
+<span class="sd">            Maximum number of iterations. Default = 3*q.</span>
+
+<span class="sd">        ATGP_init: `boolean [default False]`</span>
+<span class="sd">            Use ATGP to generate the first endmembers set instead</span>
+<span class="sd">            of a random selection.</span>
+
+<span class="sd">    Returns: `tuple: numpy array, numpy array, numpy array, int`</span>
+<span class="sd">        * Set of induced endmembers (N x p)</span>
+<span class="sd">        * Set of transformed induced endmembers (N x p)</span>
+<span class="sd">        * Array of indices into the array data corresponding to the</span>
+<span class="sd">          induced endmembers</span>
+<span class="sd">        * The number of iterations.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">      Winter, M. E., &quot;N-FINDR: an algorithm for fast autonomous spectral</span>
+<span class="sd">      end-member determination in hyperspectral data&quot;, presented at the Imaging</span>
+<span class="sd">      Spectrometry V, Denver, CO, USA, 1999, vol. 3753, pgs. 266-275.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># data size</span>
+    <span class="n">nsamples</span><span class="p">,</span> <span class="n">nvariables</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="k">if</span> <span class="n">maxit</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">maxit</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">q</span>
+
+    <span class="k">if</span> <span class="n">transform</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># transform as shape (N x p)</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">_PCA_transform</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
+
+    <span class="c1"># Initialization</span>
+    <span class="c1"># TestMatrix is a square matrix, the first row is set to 1</span>
+    <span class="n">TestMatrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">q</span><span class="p">,</span> <span class="n">q</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+    <span class="n">TestMatrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">IDX</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="n">ATGP_init</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">induced_em</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">mATGP</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+        <span class="n">IDX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+            <span class="n">TestMatrix</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">q</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">induced_em</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">IDX</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">q</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">*</span><span class="n">nsamples</span><span class="p">))</span>
+            <span class="n">TestMatrix</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">q</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">transform</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="n">IDX</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span>
+
+    <span class="n">actualVolume</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">it</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">v1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="n">v2</span> <span class="o">=</span> <span class="n">actualVolume</span>
+
+    <span class="k">while</span> <span class="n">it</span> <span class="o">&lt;=</span> <span class="n">maxit</span> <span class="ow">and</span> <span class="n">v2</span> <span class="o">&gt;</span> <span class="n">v1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamples</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">mask</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                    <span class="n">TestMatrix</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">transform</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">volume</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">fabs</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">_flinalg</span><span class="o">.</span><span class="n">sdet_c</span><span class="p">(</span><span class="n">TestMatrix</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">volume</span> <span class="o">&gt;</span> <span class="n">actualVolume</span><span class="p">:</span>
+                        <span class="n">actualVolume</span> <span class="o">=</span> <span class="n">volume</span>
+                        <span class="n">IDX</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">TestMatrix</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">transform</span><span class="p">[</span><span class="n">IDX</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+        <span class="n">it</span> <span class="o">=</span> <span class="n">it</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">v1</span> <span class="o">=</span> <span class="n">v2</span>
+        <span class="n">v2</span> <span class="o">=</span> <span class="n">actualVolume</span>
+
+    <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">IDX</span><span class="p">),</span> <span class="n">nvariables</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">Et</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">IDX</span><span class="p">),</span> <span class="n">q</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">IDX</span><span class="p">)):</span>
+        <span class="n">E</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">IDX</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span>
+        <span class="n">Et</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">transform</span><span class="p">[</span><span class="n">IDX</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span>
+
+    <span class="k">return</span> <span class="n">E</span><span class="p">,</span> <span class="n">Et</span><span class="p">,</span> <span class="n">IDX</span><span class="p">,</span> <span class="n">it</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

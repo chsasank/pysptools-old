@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysptools.classification.svc &mdash; pysptools 0.13.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.13.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pysptools 0.13.4 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pysptools.classification.svc</h1><div class="highlight"><pre>
+<span class="c1">#</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1"># Copyright (c) 2013-2015, Christian Therien</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#    http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="c1">#</span>
+<span class="c1"># svc.py - This file is part of the PySptools package.</span>
+<span class="c1">#</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">svm</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">out</span>
+<span class="kn">from</span> <span class="nn">.inval</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="SVC"><a class="viewcode-back" href="../../../pysptools.classification.html#pysptools.classification.svc.SVC">[docs]</a><span class="k">class</span> <span class="nc">SVC</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Suppot Vector Supervised Classification (SVC) of a HSI cube with the</span>
+<span class="sd">    use of regions of interest (ROIs).</span>
+
+<span class="sd">    This class is largely a wrapper to the scikit-learn SVC class. The goal is</span>
+<span class="sd">    to ease the use of the scikit-learn SVM implementation when applied</span>
+<span class="sd">    to hyperspectral cubes.</span>
+
+<span class="sd">    The ROIs classifiers can be rectangles or polygons. They must be VALID, no check is made</span>
+<span class="sd">    upon the validity of these geometric figures.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clf</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmap</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">Output</span><span class="p">(</span><span class="s1">&#39;SVC&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SVC.fit"><a class="viewcode-back" href="../../../pysptools.classification.html#pysptools.classification.svc.SVC.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">ROIs</span><span class="p">,</span> <span class="n">class_weight</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cache_size</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">coef0</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+            <span class="n">shrinking</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit the HS cube M with the use of ROIs. The parameters following &#39;M&#39; and &#39;ROIs&#39; are the</span>
+<span class="sd">        one defined by the scikit-learn sklearn.svm.SVC class.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            M: `numpy array`</span>
+<span class="sd">              A HSI cube (m x n x p).</span>
+
+<span class="sd">            ROIs: `ROIs type`</span>
+<span class="sd">                Regions of interest instance.</span>
+
+<span class="sd">            Others parameters: `see the sklearn.svm.SVC class parameters`</span>
+<span class="sd">                Note: the C parameter is set to 1, the result of this setting is that</span>
+<span class="sd">                the class_weight is relative to C and that the first value of</span>
+<span class="sd">                class_weight is the background.</span>
+<span class="sd">                An example: you wish to fit two classes &quot;1&quot; and &quot;2&quot; with the help</span>
+<span class="sd">                of one ROI for each, you declare class_weight like this:</span>
+<span class="sd">                class_weight={0:1,1:10,2:10}</span>
+<span class="sd">                0: is always the background and is set to 1, 1: is the first class,</span>
+<span class="sd">                2: is the second. A value of 10 for both classes give good results.</span>
+
+<span class="sd">        Returns: `class`</span>
+<span class="sd">            The sklearn.svm.SVC class is returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span> <span class="o">=</span> <span class="n">ROIs</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">ROIs</span><span class="o">.</span><span class="n">get_mask</span><span class="p">()</span>
+        <span class="n">X_cube</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_X</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+
+        <span class="c1"># a value of 0 for &#39;y&#39; represents the background cluster</span>
+        <span class="n">y_cube</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X_cube</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X_cube</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_cube</span><span class="p">)</span>
+
+        <span class="c1"># i = 1 for the first cluster, i = 2 for the second cluster ...</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">id_</span><span class="p">,</span> <span class="n">rois</span> <span class="ow">in</span> <span class="n">ROIs</span><span class="o">.</span><span class="n">get_next</span><span class="p">():</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rois</span><span class="p">:</span>
+                <span class="n">X_roi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crop</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+                <span class="n">y_roi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X_roi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span>
+                <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">X_roi</span><span class="p">))</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">y</span><span class="p">,</span> <span class="n">y_roi</span><span class="p">))</span>
+
+        <span class="n">X_scaled</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">class_weight</span><span class="o">=</span><span class="n">class_weight</span><span class="p">,</span> <span class="n">cache_size</span><span class="o">=</span><span class="n">cache_size</span><span class="p">,</span>
+                    <span class="n">coef0</span><span class="o">=</span><span class="n">coef0</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="n">degree</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="n">max_iter</span><span class="p">,</span>
+                    <span class="n">probability</span><span class="o">=</span><span class="n">probability</span><span class="p">,</span> <span class="n">shrinking</span><span class="o">=</span><span class="n">shrinking</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span></div>
+
+    <span class="nd">@ClassifyInputValidation3</span><span class="p">(</span><span class="s1">&#39;SVC&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">classify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Classify a hyperspectral cube using the ROIs defined clusters by the fit method.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            M: `numpy array`</span>
+<span class="sd">              A HSI cube (m x n x p).</span>
+
+<span class="sd">        Returns: `numpy array`</span>
+<span class="sd">              A class map (m x n x 1).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert2D</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+        <span class="n">image_scaled</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+        <span class="n">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">image_scaled</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert3d</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmap</span>
+
+<div class="viewcode-block" id="SVC.get_class_map"><a class="viewcode-back" href="../../../pysptools.classification.html#pysptools.classification.svc.SVC.get_class_map">[docs]</a>    <span class="k">def</span> <span class="nf">get_class_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmap</span></div>
+
+    <span class="k">def</span> <span class="nf">_crop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">roi_id</span><span class="p">,</span>  <span class="n">r</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;rec&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+            <span class="n">bbox</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;rec&#39;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert2D</span><span class="p">(</span><span class="n">M</span><span class="p">[</span><span class="n">bbox</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">bbox</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">bbox</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span><span class="n">bbox</span><span class="p">[</span><span class="mi">3</span><span class="p">],:])</span>
+        <span class="k">if</span> <span class="s1">&#39;poly&#39;</span> <span class="ow">in</span> <span class="n">r</span><span class="p">:</span>
+            <span class="n">masked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">==</span> <span class="n">roi_id</span><span class="p">)</span>
+            <span class="n">linear_cube</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">masked</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="n">roi_id</span><span class="p">:</span>
+                        <span class="n">linear_cube</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,:]</span>
+                        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">linear_cube</span>
+
+    <span class="k">def</span> <span class="nf">_convert2D</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">):</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">numBands</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="n">h</span><span class="p">,</span> <span class="n">numBands</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_convert3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_get_X</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">M</span><span class="p">):</span>
+        <span class="n">masked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">not_masked</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">masked</span>
+        <span class="n">linear_cube</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">((</span><span class="n">not_masked</span><span class="p">,</span> <span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">linear_cube</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,:]</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">linear_cube</span>
+
+    <span class="nd">@PlotInputValidation2</span><span class="p">(</span><span class="s1">&#39;SVC&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="s1">&#39;Accent&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the class map.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            path: `string`</span>
+<span class="sd">              The path where to put the plot.</span>
+
+<span class="sd">            labels: `string list`</span>
+<span class="sd">              A labels list.</span>
+
+<span class="sd">            interpolation: `string [default none]`</span>
+<span class="sd">              A matplotlib interpolation method.</span>
+
+<span class="sd">            colorMap: `string [default &#39;Accent&#39;]`</span>
+<span class="sd">              A color map element of</span>
+<span class="sd">              [&#39;Accent&#39;, &#39;Dark2&#39;, &#39;Paired&#39;, &#39;Pastel1&#39;, &#39;Pastel2&#39;, &#39;Set1&#39;, &#39;Set2&#39;, &#39;Set3&#39;],</span>
+<span class="sd">              &quot;Accent&quot; is the default and it fall back on &quot;Jet&quot;.</span>
+
+<span class="sd">            suffix: `string [default None]`</span>
+<span class="sd">              Add a suffix to the file name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmap</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="n">colorMap</span><span class="p">,</span> <span class="n">firstBlack</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span>
+
+    <span class="nd">@DisplayInputValidation2</span><span class="p">(</span><span class="s1">&#39;SVC&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="s1">&#39;Accent&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display the class map.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            labels: `string list`</span>
+<span class="sd">              A labels list.</span>
+
+<span class="sd">            interpolation: `string [default none]`</span>
+<span class="sd">              A matplotlib interpolation method.</span>
+
+<span class="sd">            colorMap: `string [default &#39;Accent&#39;]`</span>
+<span class="sd">              A color map element of</span>
+<span class="sd">              [&#39;Accent&#39;, &#39;Dark2&#39;, &#39;Paired&#39;, &#39;Pastel1&#39;, &#39;Pastel2&#39;, &#39;Set1&#39;, &#39;Set2&#39;, &#39;Set3&#39;],</span>
+<span class="sd">              &quot;Accent&quot; is the default and it fall back on &quot;Jet&quot;.</span>
+
+<span class="sd">            suffix: `string [default None]`</span>
+<span class="sd">              Add a suffix to the file name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmap</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="n">colorMap</span><span class="p">,</span> <span class="n">firstBlack</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Christian Therien.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
