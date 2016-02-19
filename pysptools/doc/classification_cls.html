@@ -1,0 +1,1032 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Supervised classification classes &mdash; PySptools 0.13.4 beta documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4 beta',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PySptools 0.13.4 beta documentation" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Supervised classification classes</a><ul>
+<li><a class="reference internal" href="#abundanceclassification">AbundanceClassification</a></li>
+<li><a class="reference internal" href="#normxcorr">NormXCorr</a></li>
+<li><a class="reference internal" href="#sam">SAM</a></li>
+<li><a class="reference internal" href="#sid">SID</a></li>
+<li><a class="reference internal" href="#svc">SVC</a></li>
+<li><a class="reference internal" href="#output">Output</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="supervised-classification-classes">
+<h1>Supervised classification classes<a class="headerlink" href="#supervised-classification-classes" title="Permalink to this headline">¶</a></h1>
+<p>This module supports HSI cube supervised classifiers. They are NormXCorr, SAM, SID and SVC.
+For each classifier three differents plotting are availables.</p>
+<p>For NormXCorr, SAM and SID, the fusions of classification maps use a best score win approach.</p>
+<p>See the file <a class="reference download internal" href="_downloads/test_cls.py"><code class="xref download docutils literal"><span class="pre">test_cls.py</span></code></a> for an example and for SVC see
+<a class="reference download internal" href="_downloads/test_SVC.py"><code class="xref download docutils literal"><span class="pre">test_SVC.py</span></code></a>.</p>
+<hr class="docutils" />
+<div class="section" id="abundanceclassification">
+<h2>AbundanceClassification<a class="headerlink" href="#abundanceclassification" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.classification.AbundanceClassification">
+<em class="property">class </em><code class="descclassname">pysptools.classification.</code><code class="descname">AbundanceClassification</code><a class="headerlink" href="#pysptools.classification.AbundanceClassification" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify abundance maps.</p>
+<dl class="method">
+<dt id="pysptools.classification.AbundanceClassification.classify">
+<code class="descname">classify</code><span class="sig-paren">(</span><em>M</em>, <em>threshold=0.1</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.AbundanceClassification.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use a group of abundance maps generated by UCLS, NNLS or FCLS,
+to construct a classification map.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>amaps: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+<dt>threshold: <cite>float [default 0.1] or list</cite></dt>
+<dd><ul class="first last simple">
+<li>If float, threshold is applied on all the spectra.</li>
+<li>If a list, individual threshold is applied on each
+spectrum, in this case the list must have the same
+number of threshold values than the number of spectra.</li>
+<li>Threshold have values between 0.0 and 1.0.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>A class map (m x n x 1).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.AbundanceClassification.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>labels=None</em>, <em>mask=None</em>, <em>interpolation='none'</em>, <em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.AbundanceClassification.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the class map to a IPython Notebook.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>labels: <cite>list of string [default None]</cite></dt>
+<dd>The legend labels. Can be used only if the input spectral library
+E have more than 1 pixel.</dd>
+<dt>mask: <cite>numpy array [default None]</cite></dt>
+<dd>A binary mask, when <em>True</em> the corresponding pixel is displayed.</dd>
+<dt>interpolation: <cite>string [default none]</cite></dt>
+<dd>A matplotlib interpolation method.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.AbundanceClassification.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>labels=None</em>, <em>mask=None</em>, <em>interpolation='none'</em>, <em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.AbundanceClassification.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the class map.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>labels: <cite>list of string [default None]</cite></dt>
+<dd>The legend labels. Can be used only if the input spectral library
+E have more than 1 pixel.</dd>
+<dt>mask: <cite>numpy array [default None]</cite></dt>
+<dd>A binary mask, when <em>True</em> the corresponding pixel is displayed.</dd>
+<dt>interpolation: <cite>string [default none]</cite></dt>
+<dd>A matplotlib interpolation method.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="normxcorr">
+<h2>NormXCorr<a class="headerlink" href="#normxcorr" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.classification.NormXCorr">
+<em class="property">class </em><code class="descclassname">pysptools.classification.</code><code class="descname">NormXCorr</code><a class="headerlink" href="#pysptools.classification.NormXCorr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify a HSI cube using the normalized cross correlation
+algorithm and a spectral library.</p>
+<dl class="method">
+<dt id="pysptools.classification.NormXCorr.classify">
+<code class="descname">classify</code><span class="sig-paren">(</span><em>M</em>, <em>E</em>, <em>threshold=0.1</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.NormXCorr.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify the HSI cube M with the spectral library E.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+<dt>E: <cite>numpy array</cite></dt>
+<dd>A spectral library (N x p).</dd>
+<dt>threshold: <cite>float [default 0.1] or list</cite></dt>
+<dd><ul class="first last simple">
+<li>If float, threshold is applied on all the spectra.</li>
+<li>If a list, individual threshold is applied on each
+spectrum, in this case the list must have the same
+number of threshold values than the number of spectra.</li>
+<li>Threshold have values between 0.0 and 1.0.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>A class map (m x n x 1).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.NormXCorr.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>labels=None</em>, <em>mask=None</em>, <em>interpolation='none'</em>, <em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.NormXCorr.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the class map to a IPython Notebook.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>labels: <cite>list of string [default None]</cite></dt>
+<dd>The legend labels. Can be used only if the input spectral library
+E have more than 1 pixel.</dd>
+<dt>mask: <cite>numpy array [default None]</cite></dt>
+<dd>A binary mask, when <em>True</em> the corresponding pixel is displayed.</dd>
+<dt>interpolation: <cite>string [default none]</cite></dt>
+<dd>A matplotlib interpolation method.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.NormXCorr.display_single_map">
+<code class="descname">display_single_map</code><span class="sig-paren">(</span><em>lib_idx</em>, <em>constrained=True</em>, <em>stretch=False</em>, <em>colorMap='spectral'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.NormXCorr.display_single_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display individual classified map to a IPython Notebook. One for each spectrum.
+Note that each individual map is constrained by the others.
+This function is usefull to see the individual map that compose
+the final class map returned by the classify method. It help
+to define the spectra library. See the constrained parameter below.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>lib_idx: <cite>int or string</cite></dt>
+<dd><ul class="first last simple">
+<li>A number between 1 and the number of spectra in the library.</li>
+<li>&#8216;all&#8217;, plot all the individual maps.</li>
+</ul>
+</dd>
+<dt>constrained: <cite>boolean [default True]</cite></dt>
+<dd><ul class="first last simple">
+<li>If constrained is True, print the individual maps as they compose the
+final class map. Any potential intersection is removed in favor of
+the lower value level for SAM and SID, or the nearest to 1 for NormXCorr. Use
+this one to understand the final class map.</li>
+<li>If constrained is False, print the individual maps without intersection
+removed, as they are generated. Use this one to have the real match.</li>
+</ul>
+</dd>
+<dt>stretch: <cite>boolean [default False]</cite></dt>
+<dd>Stretch the map between 0 and 1 giving a good distribution of the
+color map.</dd>
+<dt>colorMap: <cite>string [default &#8216;spectral&#8217;]</cite></dt>
+<dd>A matplotlib color map.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.NormXCorr.get_NormXCorr_map">
+<code class="descname">get_NormXCorr_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.NormXCorr.get_NormXCorr_map" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>The NormXCorr array (m x n x spectra number).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.NormXCorr.get_single_map">
+<code class="descname">get_single_map</code><span class="sig-paren">(</span><em>lib_idx</em>, <em>constrained=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.NormXCorr.get_single_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get individual classified map. See plot_single_map for
+a description.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>lib_idx: <cite>int or string</cite></dt>
+<dd>A number between 1 and the number of spectra in the library.</dd>
+<dt>constrained: <cite>boolean [default True]</cite></dt>
+<dd>See plot_single_map for a description.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>The individual map (m x n x 1) associated to the lib_idx endmember.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.NormXCorr.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>labels=None</em>, <em>mask=None</em>, <em>interpolation='none'</em>, <em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.NormXCorr.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the class map.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>labels: <cite>list of string [default None]</cite></dt>
+<dd>The legend labels. Can be used only if the input spectral library
+E have more than 1 pixel.</dd>
+<dt>mask: <cite>numpy array [default None]</cite></dt>
+<dd>A binary mask, when <em>True</em> the corresponding pixel is displayed.</dd>
+<dt>interpolation: <cite>string [default none]</cite></dt>
+<dd>A matplotlib interpolation method.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.NormXCorr.plot_histo">
+<code class="descname">plot_histo</code><span class="sig-paren">(</span><em>path</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.NormXCorr.plot_histo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the histogram.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.NormXCorr.plot_single_map">
+<code class="descname">plot_single_map</code><span class="sig-paren">(</span><em>path</em>, <em>lib_idx</em>, <em>constrained=True</em>, <em>stretch=False</em>, <em>colorMap='spectral'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.NormXCorr.plot_single_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot individual classified map. One for each spectrum.
+Note that each individual map is constrained by the others.
+This function is usefull to see the individual map that compose
+the final class map returned by the classify method. It help
+to define the spectra library. See the constrained parameter below.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>lib_idx: <cite>int or string</cite></dt>
+<dd><ul class="first last simple">
+<li>A number between 1 and the number of spectra in the library.</li>
+<li>&#8216;all&#8217;, plot all the individual maps.</li>
+</ul>
+</dd>
+<dt>constrained: <cite>boolean [default True]</cite></dt>
+<dd><ul class="first last simple">
+<li>If constrained is True, print the individual maps as they compose the
+final class map. Any potential intersection is removed in favor of
+the lower value level for SAM and SID, or the nearest to 1 for NormXCorr. Use
+this one to understand the final class map.</li>
+<li>If constrained is False, print the individual maps without intersection
+removed, as they are generated. Use this one to have the real match.</li>
+</ul>
+</dd>
+<dt>stretch: <cite>boolean [default False]</cite></dt>
+<dd>Stretch the map between 0 and 1 giving a good distribution of the
+color map.</dd>
+<dt>colorMap: <cite>string [default &#8216;spectral&#8217;]</cite></dt>
+<dd>A matplotlib color map.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="sam">
+<h2>SAM<a class="headerlink" href="#sam" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.classification.SAM">
+<em class="property">class </em><code class="descclassname">pysptools.classification.</code><code class="descname">SAM</code><a class="headerlink" href="#pysptools.classification.SAM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify a HSI cube using the spectral angle mapper algorithm
+and a spectral library.</p>
+<dl class="method">
+<dt id="pysptools.classification.SAM.classify">
+<code class="descname">classify</code><span class="sig-paren">(</span><em>M</em>, <em>E</em>, <em>threshold=0.1</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SAM.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify the HSI cube M with the spectral library E.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+<dt>E: <cite>numpy array</cite></dt>
+<dd>A spectral library (N x p).</dd>
+<dt>threshold: <cite>float [default 0.1] or list</cite></dt>
+<dd><ul class="first last simple">
+<li>If float, threshold is applied on all the spectra.</li>
+<li>If a list, individual threshold is applied on each
+spectrum, in this case the list must have the same
+number of threshold values than the number of spectra.</li>
+<li>Threshold have values between 0.0 and 1.0.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>A class map (m x n x 1).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SAM.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>labels=None</em>, <em>mask=None</em>, <em>interpolation='none'</em>, <em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SAM.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the class map to a IPython Notebook.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>labels: <cite>list of string [default None]</cite></dt>
+<dd>The legend labels. Can be used only if the input spectral library
+E have more than 1 pixel.</dd>
+<dt>mask: <cite>numpy array [default None]</cite></dt>
+<dd>A binary mask, when <em>True</em> the corresponding pixel is displayed.</dd>
+<dt>interpolation: <cite>string [default none]</cite></dt>
+<dd>A matplotlib interpolation method.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SAM.display_single_map">
+<code class="descname">display_single_map</code><span class="sig-paren">(</span><em>lib_idx</em>, <em>constrained=True</em>, <em>stretch=False</em>, <em>colorMap='spectral'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SAM.display_single_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display individual classified map to a IPython Notebook. One for each spectrum.
+Note that each individual map is constrained by the others.
+This function is usefull to see the individual map that compose
+the final class map returned by the classify method. It help
+to define the spectra library. See the constrained parameter below.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>lib_idx: <cite>int or string</cite></dt>
+<dd><ul class="first last simple">
+<li>A number between 1 and the number of spectra in the library.</li>
+<li>&#8216;all&#8217;, plot all the individual maps.</li>
+</ul>
+</dd>
+<dt>constrained: <cite>boolean [default True]</cite></dt>
+<dd><ul class="first last simple">
+<li>If constrained is True, print the individual maps as they compose the
+final class map. Any potential intersection is removed in favor of
+the lower value level for SAM and SID, or the nearest to 1 for NormXCorr. Use
+this one to understand the final class map.</li>
+<li>If constrained is False, print the individual maps without intersection
+removed, as they are generated. Use this one to have the real match.</li>
+</ul>
+</dd>
+<dt>stretch: <cite>boolean [default False]</cite></dt>
+<dd>Stretch the map between 0 and 1 giving a good distribution of the
+color map.</dd>
+<dt>colorMap: <cite>string [default &#8216;spectral&#8217;]</cite></dt>
+<dd>A matplotlib color map.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SAM.get_angles_map">
+<code class="descname">get_angles_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SAM.get_angles_map" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>The angles array (m x n x spectra number).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SAM.get_angles_stats">
+<code class="descname">get_angles_stats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SAM.get_angles_stats" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>dic</cite></dt>
+<dd>Angles stats.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SAM.get_single_map">
+<code class="descname">get_single_map</code><span class="sig-paren">(</span><em>lib_idx</em>, <em>constrained=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SAM.get_single_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get individual classified map. See plot_single_map for
+a description.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>lib_idx: <cite>int or string</cite></dt>
+<dd>A number between 1 and the number of spectra in the library.</dd>
+<dt>constrained: <cite>boolean [default True]</cite></dt>
+<dd>See plot_single_map for a description.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>The individual map (m x n x 1) associated to the lib_idx endmember.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SAM.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>labels=None</em>, <em>mask=None</em>, <em>interpolation='none'</em>, <em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SAM.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the class map.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>labels: <cite>list of string [default None]</cite></dt>
+<dd>The legend labels. Can be used only if the input spectral library
+E have more than 1 pixel.</dd>
+<dt>mask: <cite>numpy array [default None]</cite></dt>
+<dd>A binary mask, when <em>True</em> the corresponding pixel is displayed.</dd>
+<dt>interpolation: <cite>string [default none]</cite></dt>
+<dd>A matplotlib interpolation method.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SAM.plot_histo">
+<code class="descname">plot_histo</code><span class="sig-paren">(</span><em>path</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SAM.plot_histo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the histogram.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SAM.plot_single_map">
+<code class="descname">plot_single_map</code><span class="sig-paren">(</span><em>path</em>, <em>lib_idx</em>, <em>constrained=True</em>, <em>stretch=False</em>, <em>colorMap='spectral'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SAM.plot_single_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot individual classified map. One for each spectrum.
+Note that each individual map is constrained by the others.
+This function is usefull to see the individual map that compose
+the final class map returned by the classify method. It help
+to define the spectra library. See the constrained parameter below.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>lib_idx: <cite>int or string</cite></dt>
+<dd><ul class="first last simple">
+<li>A number between 1 and the number of spectra in the library.</li>
+<li>&#8216;all&#8217;, plot all the individual maps.</li>
+</ul>
+</dd>
+<dt>constrained: <cite>boolean [default True]</cite></dt>
+<dd><ul class="first last simple">
+<li>If constrained is True, print the individual maps as they compose the
+final class map. Any potential intersection is removed in favor of
+the lower value level for SAM and SID, or the nearest to 1 for NormXCorr. Use
+this one to understand the final class map.</li>
+<li>If constrained is False, print the individual maps without intersection
+removed, as they are generated. Use this one to have the real match.</li>
+</ul>
+</dd>
+<dt>stretch: <cite>boolean [default False]</cite></dt>
+<dd>Stretch the map between 0 and 1 giving a good distribution of the
+color map.</dd>
+<dt>colorMap: <cite>string [default &#8216;spectral&#8217;]</cite></dt>
+<dd>A matplotlib color map.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="sid">
+<h2>SID<a class="headerlink" href="#sid" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.classification.SID">
+<em class="property">class </em><code class="descclassname">pysptools.classification.</code><code class="descname">SID</code><a class="headerlink" href="#pysptools.classification.SID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify a HSI cube using the spectral information divergence
+algorithm and a spectral library.</p>
+<dl class="method">
+<dt id="pysptools.classification.SID.classify">
+<code class="descname">classify</code><span class="sig-paren">(</span><em>M</em>, <em>E</em>, <em>threshold=0.1</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SID.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify the HSI cube M with the spectral library E.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+<dt>E: <cite>numpy array</cite></dt>
+<dd>A spectral library (N x p).</dd>
+<dt>threshold: <cite>float [default 0.1] or list</cite></dt>
+<dd><ul class="first last simple">
+<li>If float, threshold is applied on all the spectra.</li>
+<li>If a list, individual threshold is applied on each
+spectrum, in this case the list must have the same
+number of threshold values than the number of spectra.</li>
+<li>Threshold have values between 0.0 and 1.0.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>A class map (m x n x 1).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SID.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>labels=None</em>, <em>mask=None</em>, <em>interpolation='none'</em>, <em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SID.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the class map to a IPython Notebook.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>labels: <cite>list of string [default None]</cite></dt>
+<dd>The legend labels. Can be used only if the input spectral library
+E have more than 1 pixel.</dd>
+<dt>mask: <cite>numpy array [default None]</cite></dt>
+<dd>A binary mask, when <em>True</em> the corresponding pixel is displayed.</dd>
+<dt>interpolation: <cite>string [default none]</cite></dt>
+<dd>A matplotlib interpolation method.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SID.display_single_map">
+<code class="descname">display_single_map</code><span class="sig-paren">(</span><em>lib_idx</em>, <em>constrained=True</em>, <em>stretch=False</em>, <em>colorMap='spectral'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SID.display_single_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display individual classified map to a IPython Notebook. One for each spectrum.
+Note that each individual map is constrained by the others.
+This function is usefull to see the individual map that compose
+the final class map returned by the classify method. It help
+to define the spectra library. See the constrained parameter below.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>lib_idx: <cite>int or string</cite></dt>
+<dd><ul class="first last simple">
+<li>A number between 1 and the number of spectra in the library.</li>
+<li>&#8216;all&#8217;, plot all the individual maps.</li>
+</ul>
+</dd>
+<dt>constrained: <cite>boolean [default True]</cite></dt>
+<dd><ul class="first last simple">
+<li>If constrained is True, print the individual maps as they compose the
+final class map. Any potential intersection is removed in favor of
+the lower value level for SAM and SID, or the nearest to 1 for NormXCorr. Use
+this one to understand the final class map.</li>
+<li>If constrained is False, print the individual maps without intersection
+removed, as they are generated. Use this one to have the real match.</li>
+</ul>
+</dd>
+<dt>stretch: <cite>boolean [default False]</cite></dt>
+<dd>Stretch the map between 0 and 1 giving a good distribution of the
+color map.</dd>
+<dt>colorMap: <cite>string [default &#8216;spectral&#8217;]</cite></dt>
+<dd>A matplotlib color map.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SID.get_SID_map">
+<code class="descname">get_SID_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SID.get_SID_map" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>The SID array (m x n x spectra number).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SID.get_single_map">
+<code class="descname">get_single_map</code><span class="sig-paren">(</span><em>lib_idx</em>, <em>constrained=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SID.get_single_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get individual classified map. See plot_single_map for
+a description.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>lib_idx: <cite>int or string</cite></dt>
+<dd>A number between 1 and the number of spectra in the library.</dd>
+<dt>constrained: <cite>boolean [default True]</cite></dt>
+<dd>See plot_single_map for a description.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>The individual map (m x n x 1) associated to the lib_idx endmember.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SID.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>labels=None</em>, <em>mask=None</em>, <em>interpolation='none'</em>, <em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SID.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the class map.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>labels: <cite>list of string [default None]</cite></dt>
+<dd>The legend labels. Can be used only if the input spectral library
+E have more than 1 pixel.</dd>
+<dt>mask: <cite>numpy array [default None]</cite></dt>
+<dd>A binary mask, when <em>True</em> the corresponding pixel is displayed.</dd>
+<dt>interpolation: <cite>string [default none]</cite></dt>
+<dd>A matplotlib interpolation method.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SID.plot_histo">
+<code class="descname">plot_histo</code><span class="sig-paren">(</span><em>path</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SID.plot_histo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the histogram.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SID.plot_single_map">
+<code class="descname">plot_single_map</code><span class="sig-paren">(</span><em>path</em>, <em>lib_idx</em>, <em>constrained=True</em>, <em>stretch=False</em>, <em>colorMap='spectral'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SID.plot_single_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot individual classified map. One for each spectrum.
+Note that each individual map is constrained by the others.
+This function is usefull to see the individual map that compose
+the final class map returned by the classify method. It help
+to define the spectra library. See the constrained parameter below.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>lib_idx: <cite>int or string</cite></dt>
+<dd><ul class="first last simple">
+<li>A number between 1 and the number of spectra in the library.</li>
+<li>&#8216;all&#8217;, plot all the individual maps.</li>
+</ul>
+</dd>
+<dt>constrained: <cite>boolean [default True]</cite></dt>
+<dd><ul class="first last simple">
+<li>If constrained is True, print the individual maps as they compose the
+final class map. Any potential intersection is removed in favor of
+the lower value level for SAM and SID, or the nearest to 1 for NormXCorr. Use
+this one to understand the final class map.</li>
+<li>If constrained is False, print the individual maps without intersection
+removed, as they are generated. Use this one to have the real match.</li>
+</ul>
+</dd>
+<dt>stretch: <cite>boolean [default False]</cite></dt>
+<dd>Stretch the map between 0 and 1 giving a good distribution of the
+color map.</dd>
+<dt>colorMap: <cite>string [default &#8216;spectral&#8217;]</cite></dt>
+<dd>A matplotlib color map.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="svc">
+<h2>SVC<a class="headerlink" href="#svc" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.classification.SVC">
+<em class="property">class </em><code class="descclassname">pysptools.classification.</code><code class="descname">SVC</code><a class="headerlink" href="#pysptools.classification.SVC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Suppot Vector Supervised Classification (SVC) of a HSI cube with the
+use of regions of interest (ROIs).</p>
+<p>This class is largely a wrapper to the scikit-learn SVC class. The goal is
+to ease the use of the scikit-learn SVM implementation when applied
+to hyperspectral cubes.</p>
+<p>The ROIs classifiers can be rectangles or polygons. They must be VALID, no check is made
+upon the validity of these geometric figures.</p>
+<dl class="method">
+<dt id="pysptools.classification.SVC.classify">
+<code class="descname">classify</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SVC.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify a hyperspectral cube using the ROIs defined clusters by the fit method.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>A class map (m x n x 1).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SVC.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>labels=None</em>, <em>interpolation='none'</em>, <em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SVC.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the class map.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>labels: <cite>string list</cite></dt>
+<dd>A labels list.</dd>
+<dt>interpolation: <cite>string [default none]</cite></dt>
+<dd>A matplotlib interpolation method.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SVC.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>M</em>, <em>ROIs</em>, <em>class_weight=None</em>, <em>cache_size=200</em>, <em>coef0=0.0</em>, <em>degree=3</em>, <em>gamma='auto'</em>, <em>kernel='rbf'</em>, <em>max_iter=-1</em>, <em>probability=False</em>, <em>random_state=None</em>, <em>shrinking=True</em>, <em>tol=0.001</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SVC.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the HS cube M with the use of ROIs. The parameters following &#8216;M&#8217; and &#8216;ROIs&#8217; are the
+one defined by the scikit-learn sklearn.svm.SVC class.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+<dt>ROIs: <cite>ROIs type</cite></dt>
+<dd>Regions of interest instance.</dd>
+<dt>Others parameters: <cite>see the sklearn.svm.SVC class parameters</cite></dt>
+<dd>Note: the C parameter is set to 1, the result of this setting is that
+the class_weight is relative to C and that the first value of
+class_weight is the background.
+An example: you wish to fit two classes &#8220;1&#8221; and &#8220;2&#8221; with the help
+of one ROI for each, you declare class_weight like this:
+class_weight={0:1,1:10,2:10}
+0: is always the background and is set to 1, 1: is the first class,
+2: is the second. A value of 10 for both classes give good results.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>class</cite></dt>
+<dd>The sklearn.svm.SVC class is returned.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.SVC.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>labels=None</em>, <em>interpolation='none'</em>, <em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.SVC.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the class map.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>labels: <cite>string list</cite></dt>
+<dd>A labels list.</dd>
+<dt>interpolation: <cite>string [default none]</cite></dt>
+<dd>A matplotlib interpolation method.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="output">
+<h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.classification.Output">
+<em class="property">class </em><code class="descclassname">pysptools.classification.</code><code class="descname">Output</code><span class="sig-paren">(</span><em>label</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.Output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add plot and display capacity to the classifiers classes.</p>
+<dl class="method">
+<dt id="pysptools.classification.Output.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>img</em>, <em>n_classes</em>, <em>labels=None</em>, <em>mask=None</em>, <em>interpolation='none'</em>, <em>colorMap='jet'</em>, <em>firstBlack=False</em>, <em>suffix=''</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.Output.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a classification map using matplotlib.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>img: <cite>numpy array</cite></dt>
+<dd>A classified map, (m x n x 1),
+the classes start at 0.</dd>
+<dt>n_classes: <cite>int</cite></dt>
+<dd>The number of classes found in img.</dd>
+<dt>labels: <cite>list of string [default None]</cite></dt>
+<dd>The legend labels.</dd>
+<dt>mask: <cite>numpy array [default None]</cite></dt>
+<dd>A binary mask, when <em>True</em> the corresponding pixel is displayed.</dd>
+<dt>interpolation: <cite>string [default none]</cite></dt>
+<dd>A matplotlib interpolation method.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>firstBlack: <cite>bool [default False]</cite></dt>
+<dd>Display the first legend element in black if <em>True</em>. If it is the case,
+the corresponding classification class value is zero and it can be use when the
+meaning is nothing to classify (example: a background).</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.classification.Output.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>img</em>, <em>n_classes</em>, <em>path=None</em>, <em>labels=None</em>, <em>mask=None</em>, <em>interpolation='none'</em>, <em>colorMap='jet'</em>, <em>firstBlack=False</em>, <em>suffix=''</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.classification.Output.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a classification map using matplotlib.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>img: <cite>numpy array</cite></dt>
+<dd>A classified map, (m x n x 1),
+the classes start at 0.</dd>
+<dt>n_classes: <cite>int</cite></dt>
+<dd>The number of classes found in img.</dd>
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>labels: <cite>list of string [default None]</cite></dt>
+<dd>The legend labels.</dd>
+<dt>mask: <cite>numpy array [default None]</cite></dt>
+<dd>A binary mask, when <em>True</em> the corresponding pixel is displayed.</dd>
+<dt>interpolation: <cite>string [default none]</cite></dt>
+<dd>A matplotlib interpolation method.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>firstBlack: <cite>bool [default False]</cite></dt>
+<dd>Display the first legend element in black if <em>True</em>. If it is the case,
+the corresponding classification class value is zero and it can be use when the
+meaning is nothing to classify (example: a background).</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013-2016, Christian Therien.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

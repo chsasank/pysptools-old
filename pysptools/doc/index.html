@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="Python tools for hyperspectral imaging" name="description" />
+<meta content="python, telops, hyperspectral imaging, signal processing, library, endmembers, unmixing, pysptools, sam, sid, atgp, N-FINDR, NFINDR, spectroscopy, target detection, georessources, geoimaging, chemical imaging, pharmaceutical, pharma, minerals, spectral, remote sensing, hyperspectral drill core imaging" name="keywords" />
+
+    <title>Welcome to the PySptools documentation &mdash; PySptools 0.13.4 beta documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4 beta',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PySptools 0.13.4 beta documentation" href="#" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to the PySptools documentation</a><ul>
+<li><a class="reference internal" href="#new-for-version-0-13-3-beta-and-version-0-13-4-beta">New for version 0.13.3 (beta) and version 0.13.4 (beta)</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-the-pysptools-documentation">
+<h1>Welcome to the PySptools documentation<a class="headerlink" href="#welcome-to-the-pysptools-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Tools for hyperspectral imaging</p>
+<div class="highlight-python"><div class="highlight"><pre>Documentation at 2016-01-16.
+</pre></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/pic_burner1.png"><img alt="stacked abundance maps" src="_images/pic_burner1.png" style="width: 497.0px; height: 226.0px;" /></a>
+</div>
+<p>Hyperspectral imaging is used to <strong>visualize chemistry</strong>, the spatial relation between chemicals and the proportion of them. PySptools is a python module that implements spectral and hyperspectral algorithms. Specializations of the library are the endmembers extraction, unmixing process, supervised classification, target detection, noise reduction, convex hull removal and features extraction at spectrum level. The library is designed to be easy to use and almost all functionality has a plot function to save you time with the data analysis process. The actual sources of the algorithms are the Matlab Hyperspectral Toolbox of Isaac Gerg, the pwctools of M. A. Little, the Endmember Induction Algorithms toolbox (EIA), the HySime Matlab module of José Bioucas-Dias and José Nascimento and science articles. You can download PySptools from the PySptools
+Project Page hosted by Sourceforge.net or from the pypi packages repository.</p>
+<p><a class="reference external" href="http://ctherien.weebly.com/">Project web site</a></p>
+<div class="section" id="new-for-version-0-13-3-beta-and-version-0-13-4-beta">
+<h2>New for version 0.13.3 (beta) and version 0.13.4 (beta)<a class="headerlink" href="#new-for-version-0-13-3-beta-and-version-0-13-4-beta" title="Permalink to this headline">¶</a></h2>
+<p>Versions 0.13.3 and 0.13.4 are the same: no google analytic inside the doc and the version string
+is fixed for the most recent.</p>
+<p>The library is now compatible with Python 2.7 and 3.x. Otherwise, a few fixes to mute some warnings. In details:</p>
+<ul class="simple">
+<li>Compatibility for Python 2.7 and 3.x was improved. The same archive run on both.</li>
+<li>A new parameter &#8216;columns&#8217; was added to the plot and display methods for the abundances_map module
+classes. When you use this parameter, all the abundance maps are rendered in one file for the plot
+method and in one image for the display method. &#8216;columns&#8217; control the number of columns.</li>
+<li>A new parameter &#8216;mask&#8217; was added to the map method for the abundances_map module classes.
+The mask is a binary one. Only the selected pixels by the mask are unmixed. The motivation is to
+improve performance when we work in a region of the hyperspectral cube.</li>
+</ul>
+<p>See the <a class="reference internal" href="release_notes.html"><em>release notes</em></a> section.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>A simple comparaison between ATGP and NFINDR.</p>
+<div class="figure align-center" id="id6">
+<a class="reference internal image-reference" href="_images/pic_picture4.png"><img alt="detection map" src="_images/pic_picture4.png" style="width: 80.0px; height: 60.0px;" /></a>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="example1.html"><em>NFINDR and ATGP</em></a></span></p>
+</div>
+<p>Methanol gas synthetic images made by unmixing. The data used for the demonstration is acquired with a <a class="reference external" href="http://www.telops.com/">Telops Hyper-Cam</a> instrument.</p>
+<div class="figure align-center" id="id7">
+<a class="reference internal image-reference" href="_images/pic_burner2.png"><img alt="Telops image of methanol gas escaped form a burner" src="_images/pic_burner2.png" style="width: 80.0px; height: 60.0px;" /></a>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="example2.html"><em>Methanol gas</em></a></span></p>
+</div>
+<p>Quartz classification of a drill core datacube. The data used for the demonstration is acquired with a <a class="reference external" href="http://www.telops.com/">Telops Hyper-Cam</a> instrument.</p>
+<div class="figure align-center" id="id8">
+<a class="reference internal image-reference" href="_images/hem_hematite.png"><img alt="Telops image of a drill core" src="_images/hem_hematite.png" style="width: 80.0px; height: 60.0px;" /></a>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="example3.html"><em>Hematite drill core</em></a></span></p>
+</div>
+<p>Smokestack effluents analysis. The data used for the demonstration is acquired with a <a class="reference external" href="http://www.telops.com/">Telops Hyper-Cam</a> instrument.</p>
+<div class="figure align-center" id="id9">
+<a class="reference internal image-reference" href="_images/smk_sm1.png"><img alt="Telops image of a smokestack" src="_images/smk_sm1.png" style="width: 80.0px; height: 80.0px;" /></a>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="example4.html"><em>Smokestack</em></a></span></p>
+</div>
+<p>Some examples of convex hull removal and features extraction.</p>
+<div class="figure align-center" id="id10">
+<a class="reference internal image-reference" href="_images/pic_picture5.png"><img alt="Convex hull plot" src="_images/pic_picture5.png" style="width: 80.0px; height: 60.0px;" /></a>
+<p class="caption"><span class="caption-text"><a class="reference internal" href="example5.html"><em>Convex hull</em></a></span></p>
+</div>
+<p>Following examples use the IPython Notebook.</p>
+<ul class="simple">
+<li>Methanol gas <a class="reference external" href="nbex_methanol_burner.html">example</a></li>
+<li>Hematite drill core <a class="reference external" href="nbex_hematite.html">example</a></li>
+<li>Convex hull <a class="reference external" href="nbex_convexhull.html">example</a></li>
+<li>Pine Creek <a class="reference external" href="nbex_pine_creek1.html">example 1</a></li>
+<li>Pine Creek <a class="reference external" href="nbex_pine_creek2.html">example 2</a></li>
+<li>Pine Creek <a class="reference external" href="nbex_pine_creek3.html">example 3</a></li>
+<li>Support Vector Classification <a class="reference external" href="nbex_pine_creek4.html">example</a></li>
+</ul>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="installation.html"><em>Download and installation</em></a></p>
+<p><a class="reference internal" href="introduction.html"><em>Introduction</em></a></p>
+<p><em>Summary of functions and classes by modules</em></p>
+<ol class="arabic simple">
+<li><a class="reference internal" href="abundance_maps_front.html"><em>abundance_maps (linear unmixing)</em></a></li>
+</ol>
+<ul class="simple">
+<li>FCLS (function and class)</li>
+<li>NNLS (function and class)</li>
+<li>UCLS (function and class)</li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><a class="reference internal" href="classification_front.html"><em>classification</em></a></li>
+</ol>
+<ul class="simple">
+<li>AbundanceClassification (class) (new)</li>
+<li>KMeans (class)</li>
+<li>NormXCorr (class)</li>
+<li>SAM (class)</li>
+<li>SID (class)</li>
+<li>SVC (class)</li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><a class="reference internal" href="detection_front.html"><em>detection</em></a></li>
+</ol>
+<ul class="simple">
+<li>ACE (function and class)</li>
+<li>CEM (function and class)</li>
+<li>GLRT (function and class)</li>
+<li>MatchedFilter (function and class)</li>
+<li>OSP (function and class)</li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><a class="reference internal" href="distance.html"><em>distance</em></a></li>
+</ol>
+<ul class="simple">
+<li>chebyshev (function)</li>
+<li>NormXCorr (function)</li>
+<li>SAM (function)</li>
+<li>SID (function)</li>
+</ul>
+<ol class="arabic simple" start="5">
+<li><a class="reference internal" href="eea_front.html"><em>eea (endmembers extraction algorithms)</em></a></li>
+</ol>
+<ul class="simple">
+<li>ATGP (function and class)</li>
+<li>FIPPI (function and class)</li>
+<li>NFINDR (function and class)</li>
+<li>PPI (function and class)</li>
+</ul>
+<ol class="arabic simple" start="6">
+<li><a class="reference internal" href="material_count_front.html"><em>material_count</em></a></li>
+</ol>
+<ul class="simple">
+<li>HfcVd (function and class)</li>
+<li>HySime (function and class)</li>
+</ul>
+<ol class="arabic simple" start="7">
+<li><a class="reference internal" href="noise_front.html"><em>noise</em></a></li>
+</ol>
+<ul class="simple">
+<li>Savitzky Golay filter (class)</li>
+<li>MNF (class)</li>
+<li>Whiten (function and class)</li>
+</ul>
+<ol class="arabic simple" start="8">
+<li><a class="reference internal" href="sigproc.html"><em>sigproc</em></a></li>
+</ol>
+<ul class="simple">
+<li>bilateral (function)</li>
+</ul>
+<ol class="arabic simple" start="9">
+<li><a class="reference internal" href="spectro.html"><em>spectro</em></a></li>
+</ol>
+<ul class="simple">
+<li>convex_hull_removal (function)</li>
+<li>FeaturesConvexHullQuotient (class)</li>
+<li>SpectrumConvexHullQuotient (function with a class interface)</li>
+<li>USGS06SpecLib (class)</li>
+</ul>
+<ol class="arabic simple" start="10">
+<li><a class="reference internal" href="util.html"><em>util</em></a></li>
+</ol>
+<ul class="simple">
+<li>load_ENVI_file (function) (Python 2.7 only)</li>
+<li>load_ENVI_spec_lib (function) (Python 2.7 only)</li>
+<li>corr (function)</li>
+<li>cov (function)</li>
+<li>display_linear_stretch (function)</li>
+<li>plot_linear_stretch (function)</li>
+<li>convert2d (function)</li>
+<li>convert3d (function)</li>
+<li>normalize (function)</li>
+<li>ROIs (class)</li>
+<li>InputValidation</li>
+</ul>
+<p><a class="reference internal" href="glossary.html"><em>Glossary</em></a></p>
+<p><a class="reference internal" href="release_notes.html"><em>Release notes</em></a></p>
+<p><a class="reference internal" href="links.html"><em>Links</em></a></p>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013-2016, Christian Therien.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

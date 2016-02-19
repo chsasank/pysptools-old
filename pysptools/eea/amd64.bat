@@ -1,0 +1,1 @@
+setenv /x64 /release

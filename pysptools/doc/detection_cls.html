@@ -1,0 +1,470 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Detection classes &mdash; PySptools 0.13.4 beta documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4 beta',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PySptools 0.13.4 beta documentation" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Detection classes</a><ul>
+<li><a class="reference internal" href="#ace">ACE</a></li>
+<li><a class="reference internal" href="#cem">CEM</a></li>
+<li><a class="reference internal" href="#glrt">GLRT</a></li>
+<li><a class="reference internal" href="#matchedfilter">MatchedFilter</a></li>
+<li><a class="reference internal" href="#osp">OSP</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="detection-classes">
+<h1>Detection classes<a class="headerlink" href="#detection-classes" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<div class="section" id="ace">
+<h2>ACE<a class="headerlink" href="#ace" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.detection.ACE">
+<em class="property">class </em><code class="descclassname">pysptools.detection.</code><code class="descname">ACE</code><a class="headerlink" href="#pysptools.detection.ACE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the adaptive cosin/coherent estimator algorithm for target
+detection.</p>
+<dl class="method">
+<dt id="pysptools.detection.ACE.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>M</em>, <em>t</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.ACE.detect" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+<dt>t: <cite>numpy array</cite></dt>
+<dd>A target pixel (p).</dd>
+<dt>threshold: <cite>float or None [default None]</cite></dt>
+<dd>Apply a threshold to the detection result.
+Usefull to isolate the result.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (m x n x 1).</dd>
+<dt>References:</dt>
+<dd>X Jin, S Paswater, H Cline.  &#8220;A Comparative Study of Target Detection
+Algorithms for Hyperspectral Imagery.&#8221;  SPIE Algorithms and Technologies
+for Multispectral, Hyperspectral, and Ultraspectral Imagery XV.  Vol
+7334.  2009.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.ACE.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.ACE.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the target map to a IPython Notebook.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>whiteOnBlack: <cite>boolean [default True]</cite></dt>
+<dd>By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Suffix to add to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.ACE.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.ACE.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the target map.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>whiteOnBlack: <cite>boolean [default True]</cite></dt>
+<dd>By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Suffix to add to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="cem">
+<h2>CEM<a class="headerlink" href="#cem" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.detection.CEM">
+<em class="property">class </em><code class="descclassname">pysptools.detection.</code><code class="descname">CEM</code><a class="headerlink" href="#pysptools.detection.CEM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the constrained energy minimization algorithm for target
+detection.</p>
+<dl class="method">
+<dt id="pysptools.detection.CEM.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>M</em>, <em>t</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.CEM.detect" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+<dt>t: <cite>numpy array</cite></dt>
+<dd>A target pixel (p).</dd>
+<dt>threshold: <cite>float or None [default None]</cite></dt>
+<dd>Apply a threshold to the detection result.
+Usefull to isolate the result.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (m x n x 1).</dd>
+<dt>References:</dt>
+<dd>Qian Du, Hsuan Ren, and Chein-I Cheng. A Comparative Study of
+Orthogonal Subspace Projection and Constrained Energy Minimization.
+IEEE TGRS. Volume 41. Number 6. June 2003.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.CEM.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.CEM.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the target map to a IPython Notebook.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>whiteOnBlack: <cite>boolean [default True]</cite></dt>
+<dd>By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Suffix to add to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.CEM.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.CEM.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the target map.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>whiteOnBlack: <cite>boolean [default True]</cite></dt>
+<dd>By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Suffix to add to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="glrt">
+<h2>GLRT<a class="headerlink" href="#glrt" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.detection.GLRT">
+<em class="property">class </em><code class="descclassname">pysptools.detection.</code><code class="descname">GLRT</code><a class="headerlink" href="#pysptools.detection.GLRT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the generalized likelihood test ratio algorithm for target
+detection.</p>
+<dl class="method">
+<dt id="pysptools.detection.GLRT.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>M</em>, <em>t</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.GLRT.detect" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+<dt>t: <cite>numpy array</cite></dt>
+<dd>A target pixel (p).</dd>
+<dt>threshold: <cite>float or None [default None]</cite></dt>
+<dd>Apply a threshold to the detection result.
+Usefull to isolate the result.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (m x n x 1).</dd>
+<dt>References</dt>
+<dd>T. F. AyouB, &#8220;Modified GLRT Signal Detection Algorithm,&#8221; IEEE
+Transactions on Aerospace and Electronic Systems, Vol 36, No 3, July
+2000.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.GLRT.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.GLRT.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the target map to a IPython Notebook.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>whiteOnBlack: <cite>boolean [default True]</cite></dt>
+<dd>By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Suffix to add to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.GLRT.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.GLRT.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the target map.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>whiteOnBlack: <cite>boolean [default True]</cite></dt>
+<dd>By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Suffix to add to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="matchedfilter">
+<h2>MatchedFilter<a class="headerlink" href="#matchedfilter" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.detection.MatchedFilter">
+<em class="property">class </em><code class="descclassname">pysptools.detection.</code><code class="descname">MatchedFilter</code><a class="headerlink" href="#pysptools.detection.MatchedFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the matched filter algorithm for target detection.</p>
+<dl class="method">
+<dt id="pysptools.detection.MatchedFilter.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>M</em>, <em>t</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.MatchedFilter.detect" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+<dt>t: <cite>numpy array</cite></dt>
+<dd>A target pixel (p).</dd>
+<dt>threshold: <cite>float or None [default None]</cite></dt>
+<dd>Apply a threshold to the detection result.
+Usefull to isolate the result.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (m x n x 1).</dd>
+<dt>References:</dt>
+<dd>Qian Du, Hsuan Ren, and Chein-I Cheng. A Comparative Study of
+Orthogonal Subspace Projection and Constrained Energy Minimization.
+IEEE TGRS. Volume 41. Number 6. June 2003.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.MatchedFilter.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.MatchedFilter.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the target map to a IPython Notebook.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>whiteOnBlack: <cite>boolean [default True]</cite></dt>
+<dd>By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Suffix to add to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.MatchedFilter.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.MatchedFilter.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the target map.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>whiteOnBlack: <cite>boolean [default True]</cite></dt>
+<dd>By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Suffix to add to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="osp">
+<h2>OSP<a class="headerlink" href="#osp" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.detection.OSP">
+<em class="property">class </em><code class="descclassname">pysptools.detection.</code><code class="descname">OSP</code><a class="headerlink" href="#pysptools.detection.OSP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the othogonal subspace projection algorithm for target
+detection.</p>
+<dl class="method">
+<dt id="pysptools.detection.OSP.detect">
+<code class="descname">detect</code><span class="sig-paren">(</span><em>M</em>, <em>E</em>, <em>t</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.OSP.detect" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+<dt>E: <cite>numpy array</cite></dt>
+<dd>Background pixels (n x p).</dd>
+<dt>t: <cite>numpy array</cite></dt>
+<dd>A target pixel (p).</dd>
+<dt>threshold: <cite>float or None [default None]</cite></dt>
+<dd>Apply a threshold to the detection result.
+Usefull to isolate the result.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Vector of detector output (m x n x 1).</dd>
+<dt>References:</dt>
+<dd>Qian Du, Hsuan Ren, and Chein-I Cheng. &#8220;A Comparative Study of
+Orthogonal Subspace Projection and Constrained Energy Minimization.&#8221;
+IEEE TGRS. Volume 41. Number 6. June 2003.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.OSP.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.OSP.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the target map to a IPython Notebook.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>whiteOnBlack: <cite>boolean [default True]</cite></dt>
+<dd>By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Suffix to add to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.detection.OSP.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>whiteOnBlack=True</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.detection.OSP.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the target map.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>whiteOnBlack: <cite>boolean [default True]</cite></dt>
+<dd>By default, whiteOnBlack=True, the detected signal
+is white on a black background. You can invert this with
+whiteOnBlack=False.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Suffix to add to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013-2016, Christian Therien.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Util functions and classes &mdash; PySptools 0.13.4 beta documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4 beta',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PySptools 0.13.4 beta documentation" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Util functions and classes</a><ul>
+<li><a class="reference internal" href="#load-envi-file">load_ENVI_file</a></li>
+<li><a class="reference internal" href="#load-envi-spec-lib">load_ENVI_spec_lib</a></li>
+<li><a class="reference internal" href="#corr">corr</a></li>
+<li><a class="reference internal" href="#cov">cov</a></li>
+<li><a class="reference internal" href="#display-linear-stretch">display_linear_stretch</a></li>
+<li><a class="reference internal" href="#plot-linear-stretch">plot_linear_stretch</a></li>
+<li><a class="reference internal" href="#convert2d">convert2d</a></li>
+<li><a class="reference internal" href="#convert3d">convert3d</a></li>
+<li><a class="reference internal" href="#normalize">normalize</a></li>
+<li><a class="reference internal" href="#rois">ROIs</a></li>
+<li><a class="reference internal" href="#inputvalidation">InputValidation</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-pysptools.util"></span><div class="section" id="util-functions-and-classes">
+<h1>Util functions and classes<a class="headerlink" href="#util-functions-and-classes" title="Permalink to this headline">¶</a></h1>
+<p>The load_ENVI_file and load_ENVI_spec_lib functions are used by the examples to load the HS cubes
+that are saved in the ENVI file format. The functions corr and cov are the one
+defined in the Matlab Hyperspectral Toolbox.</p>
+<hr class="docutils" />
+<div class="section" id="load-envi-file">
+<h2>load_ENVI_file<a class="headerlink" href="#load-envi-file" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.util.load_ENVI_file">
+<code class="descclassname">pysptools.util.</code><code class="descname">load_ENVI_file</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.load_ENVI_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the data and the header from an ENVI file.
+It use the SPy (spectral) library. At &#8216;file_name&#8217; give the envi header file name.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>file_name: <cite>path string</cite></dt>
+<dd>The complete path to the file to load. Use the header file name.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>tuple</cite></dt>
+<dd><dl class="first last docutils">
+<dt>data: <cite>numpy array</cite></dt>
+<dd>A (m x n x p) HSI cube.</dd>
+<dt>head: <cite>dictionary</cite></dt>
+<dd>Starting at version 0.13.1, the ENVI file header</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="load-envi-spec-lib">
+<h2>load_ENVI_spec_lib<a class="headerlink" href="#load-envi-spec-lib" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.util.load_ENVI_spec_lib">
+<code class="descclassname">pysptools.util.</code><code class="descname">load_ENVI_spec_lib</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.load_ENVI_spec_lib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a ENVI .sli file.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>file_name: <cite>path string</cite></dt>
+<dd>The complete path to the library file to load.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd><p class="first">A (n x p) HSI cube.</p>
+<dl class="last docutils">
+<dt>head: <cite>dictionary</cite></dt>
+<dd>Starting at version 0.13.1, the ENVI file header</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="corr">
+<h2>corr<a class="headerlink" href="#corr" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.util.corr">
+<code class="descclassname">pysptools.util.</code><code class="descname">corr</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.corr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the sample autocorrelation matrix of a 2D matrix.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>2d matrix of HSI data (N x p)</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Sample autocorrelation matrix.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="cov">
+<h2>cov<a class="headerlink" href="#cov" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.util.cov">
+<code class="descclassname">pysptools.util.</code><code class="descname">cov</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.cov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the sample covariance matrix of a 2D matrix.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>2d matrix of HSI data (N x p)</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>sample covariance matrix</dd>
+</dl>
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="display-linear-stretch">
+<h2>display_linear_stretch<a class="headerlink" href="#display-linear-stretch" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.util.display_linear_stretch">
+<code class="descclassname">pysptools.util.</code><code class="descname">display_linear_stretch</code><span class="sig-paren">(</span><em>M</em>, <em>R</em>, <em>G</em>, <em>B</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.display_linear_stretch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a linear stretched RGB image.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+<dt>R: <cite>int</cite></dt>
+<dd>A band number that will render the red color.</dd>
+<dt>G: <cite>int</cite></dt>
+<dd>A band number that will render the green color.</dd>
+<dt>B: <cite>int</cite></dt>
+<dd>A band number that will render the blue color.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="plot-linear-stretch">
+<h2>plot_linear_stretch<a class="headerlink" href="#plot-linear-stretch" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.util.plot_linear_stretch">
+<code class="descclassname">pysptools.util.</code><code class="descname">plot_linear_stretch</code><span class="sig-paren">(</span><em>M</em>, <em>path</em>, <em>R</em>, <em>G</em>, <em>B</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.plot_linear_stretch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a linear stretched RGB image.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>R: <cite>int</cite></dt>
+<dd>A band number that will render the red color.</dd>
+<dt>G: <cite>int</cite></dt>
+<dd>A band number that will render the green color.</dd>
+<dt>B: <cite>int</cite></dt>
+<dd>A band number that will render the blue color.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="convert2d">
+<h2>convert2d<a class="headerlink" href="#convert2d" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.util.convert2d">
+<code class="descclassname">pysptools.util.</code><code class="descname">convert2d</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.convert2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a 3D data cube (m x n x p) to a 2D matrix of points
+where N = m*n.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>A HSI cube (m x n x p).</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>2D data matrix (N x p)</dd>
+</dl>
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="convert3d">
+<h2>convert3d<a class="headerlink" href="#convert3d" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.util.convert3d">
+<code class="descclassname">pysptools.util.</code><code class="descname">convert3d</code><span class="sig-paren">(</span><em>N</em>, <em>h</em>, <em>w</em>, <em>sigLast=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.convert3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a 1D (N) or 2D matrix (p x N) or (N x p) to a 3D
+data cube (m x n x p) where N = m * n</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>N: <cite>numpy array</cite></dt>
+<dd>1D (N) or 2D data matrix (p x N) or (N x p)</dd>
+<dt>h: <cite>integer</cite></dt>
+<dd>Height axis length (or y axis) of the cube.</dd>
+<dt>w: <cite>integer</cite></dt>
+<dd>Width axis length (or x axis) of the cube.</dd>
+<dt>siglast: <cite>True [default False]</cite></dt>
+<dd>Determine if input N is (p x N) or (N x p).</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>A 3D data cube (m x n x p)</dd>
+</dl>
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="normalize">
+<h2>normalize<a class="headerlink" href="#normalize" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.util.normalize">
+<code class="descclassname">pysptools.util.</code><code class="descname">normalize</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalizes M to be in range [0, 1].</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>1D, 2D or 3D data.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>numpy array</cite></dt>
+<dd>Normalized data.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="rois">
+<h2>ROIs<a class="headerlink" href="#rois" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.util.ROIs">
+<em class="property">class </em><code class="descclassname">pysptools.util.</code><code class="descname">ROIs</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.ROIs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage regions of interest (ROIs).</p>
+<dl class="method">
+<dt id="pysptools.util.ROIs.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>id</em>, <em>*rois</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.ROIs.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a named ROI.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>id: <cite>string</cite></dt>
+<dd>The class (or cluster) name.</dd>
+<dt>rois: <cite>dictionary list</cite></dt>
+<dd>Each parameter, a dictionary, represent a rectangle or a polygon. They use matrix coordinates.
+For a rectangle: {&#8216;rec&#8217;: (upper_left_line, upper_left_column, lower_right_line, lower_right_column)}
+For a polygone: {&#8216;poly&#8217;: ((l1,c1),(l2,c2), ...)}, <strong>l</strong> stand for line and <strong>c</strong> for column. The polygon don&#8217;t need to be close.
+You can define one or more rectangle and/or polygon for a same cluster.
+The polygon and the rectangle must be well formed.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.ROIs.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.ROIs.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the ROIs.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.ROIs.get_labels">
+<code class="descname">get_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.ROIs.get_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a labels list.</p>
+<dl class="docutils">
+<dt>Return: <cite>list</cite></dt>
+<dd>A labels list.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.ROIs.get_next">
+<code class="descname">get_next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.ROIs.get_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator, return at each step: the cluster name and a ROI list.</p>
+<dl class="docutils">
+<dt>Return: <cite>tuple</cite></dt>
+<dd>Cluster name, ROI list.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.util.ROIs.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>colorMap='Accent'</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.ROIs.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the ROIs.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>colorMap: <cite>string [default &#8216;Accent&#8217;]</cite></dt>
+<dd>A color map element of
+[&#8216;Accent&#8217;, &#8216;Dark2&#8217;, &#8216;Paired&#8217;, &#8216;Pastel1&#8217;, &#8216;Pastel2&#8217;, &#8216;Set1&#8217;, &#8216;Set2&#8217;, &#8216;Set3&#8217;],
+&#8220;Accent&#8221; is the default and it fall back on &#8220;Jet&#8221;.</dd>
+<dt>suffix: <cite>string [default None]</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="inputvalidation">
+<h2>InputValidation<a class="headerlink" href="#inputvalidation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.util.InputValidation">
+<em class="property">class </em><code class="descclassname">pysptools.util.</code><code class="descname">InputValidation</code><span class="sig-paren">(</span><em>class_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.util.InputValidation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate some classes inputs.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013-2016, Christian Therien.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

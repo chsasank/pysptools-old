@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Material count classes &mdash; PySptools 0.13.4 beta documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4 beta',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PySptools 0.13.4 beta documentation" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Material count classes</a><ul>
+<li><a class="reference internal" href="#hfcvd">HfcVd</a></li>
+<li><a class="reference internal" href="#hysime">HySime</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="material-count-classes">
+<h1>Material count classes<a class="headerlink" href="#material-count-classes" title="Permalink to this headline">¶</a></h1>
+<hr class="docutils" />
+<div class="section" id="hfcvd">
+<h2>HfcVd<a class="headerlink" href="#hfcvd" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.material_count.HfcVd">
+<em class="property">class </em><code class="descclassname">pysptools.material_count.</code><code class="descname">HfcVd</code><a class="headerlink" href="#pysptools.material_count.HfcVd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the vitual dimensionality (VD) measure for an HSI
+image for specified false alarm rates.</p>
+<dl class="method">
+<dt id="pysptools.material_count.HfcVd.count">
+<code class="descname">count</code><span class="sig-paren">(</span><em>M</em>, <em>far='default'</em>, <em>noise_whitening=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.material_count.HfcVd.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the vitual dimensionality (VD) measure for an HSI
+image for specified false alarm rates.  When no false alarm rate(s) is
+specificied, the following vector is used: 1e-3, 1e-4, 1e-5.
+This metric is used to estimate the number of materials in an HSI scene.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>HSI data as a 2D matrix (N x p).</dd>
+<dt>far: <cite>list [default default]</cite></dt>
+<dd>False alarm rate(s).</dd>
+<dt>noise_whitening: <cite>boolean [default False]</cite></dt>
+<dd>If True noise whitening is applied before calling HfcVd,
+doing a NWHFC.</dd>
+</dl>
+</dd>
+<dt>Returns: python list</dt>
+<dd>VD measure, number of materials estimate.</dd>
+<dt>References:</dt>
+<dd><p class="first">C.-I. Chang and Q. Du, &#8220;Estimation of number of spectrally distinct
+signal sources in hyperspectral imagery,&#8221; IEEE Transactions on
+Geoscience and Remote Sensing, vol. 43, no. 3, mar 2004.</p>
+<p class="last">J. Wang and C.-I. Chang, &#8220;Applications of independent component
+analysis in endmember extraction and abundance quantification for
+hyperspectral imagery,&#8221; IEEE Transactions on Geoscience and Remote
+Sensing, vol. 44, no. 9, pp. 2601-1616, sep 2006.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="hysime">
+<h2>HySime<a class="headerlink" href="#hysime" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.material_count.HySime">
+<em class="property">class </em><code class="descclassname">pysptools.material_count.</code><code class="descname">HySime</code><a class="headerlink" href="#pysptools.material_count.HySime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hyperspectral signal subspace identification by minimum error.</p>
+<dl class="method">
+<dt id="pysptools.material_count.HySime.count">
+<code class="descname">count</code><span class="sig-paren">(</span><em>M</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.material_count.HySime.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hyperspectral signal subspace estimation.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>M: <cite>numpy array</cite></dt>
+<dd>Hyperspectral data set (each row is a pixel)
+with ((m*n) x p), where p is the number of bands
+and (m*n) the number of pixels.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>tuple integer, numpy array</cite></dt>
+<dd><ul class="first last simple">
+<li>kf signal subspace dimension</li>
+<li>Ek matrix which columns are the eigenvectors that span
+the signal subspace.</li>
+</ul>
+</dd>
+<dt>Reference:</dt>
+<dd>Bioucas-Dias, Jose M., Nascimento, Jose M. P., &#8216;Hyperspectral Subspace Identification&#8217;,
+IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING, VOL. 46, NO. 8, AUGUST 2008.</dd>
+<dt>Copyright:</dt>
+<dd>Jose Nascimento (<a class="reference external" href="mailto:zen&#37;&#52;&#48;isel&#46;pt">zen<span>&#64;</span>isel<span>&#46;</span>pt</a>) &amp; Jose Bioucas-Dias (<a class="reference external" href="mailto:bioucas&#37;&#52;&#48;lx&#46;it&#46;pt">bioucas<span>&#64;</span>lx<span>&#46;</span>it<span>&#46;</span>pt</a>)
+For any comments contact the authors.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013-2016, Christian Therien.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

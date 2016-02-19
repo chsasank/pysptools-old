@@ -1,0 +1,565 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Spectro function and classes &mdash; PySptools 0.13.4 beta documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4 beta',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PySptools 0.13.4 beta documentation" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Spectro function and classes</a><ul>
+<li><a class="reference internal" href="#deprecated">Deprecated</a></li>
+<li><a class="reference internal" href="#end-deprecated">End deprecated</a></li>
+<li><a class="reference internal" href="#featuresconvexhullquotient">FeaturesConvexHullQuotient</a></li>
+<li><a class="reference internal" href="#spectrumconvexhullquotient">SpectrumConvexHullQuotient</a></li>
+<li><a class="reference internal" href="#convex-hull-removal">convex_hull_removal</a></li>
+<li><a class="reference internal" href="#usgs06speclib">USGS06SpecLib</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-pysptools.spectro"></span><div class="section" id="spectro-function-and-classes">
+<h1>Spectro function and classes<a class="headerlink" href="#spectro-function-and-classes" title="Permalink to this headline">¶</a></h1>
+<p>This module supports the functions convex_hull_removal and the
+classes SpectrumConvexHullQuotient, FeaturesConvexHullQuotient and USGS06SpecLib.</p>
+<p>See the file <a class="reference download internal" href="_downloads/test_hull.py"><code class="xref download docutils literal"><span class="pre">test_hull.py</span></code></a>
+for a SpectrumConvexHullQuotient and FeaturesConvexHullQuotient example. The file <a class="reference download internal" href="_downloads/test_spectro.py"><code class="xref download docutils literal"><span class="pre">test_spectro.py</span></code></a> is the example for the USGS06SpecLib class.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">As version 0.13.3, the package PySptools run on both Python version 2.7 and 3.x. It don&#8217;t need again the JSON patch to use the USGS library. This fonctionality is deprecated and partly removed. The JSON version of the USGS library will remain for future PySptools versions.</p>
+</div>
+<div class="section" id="deprecated">
+<h2>Deprecated<a class="headerlink" href="#deprecated" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The ENVI file reader is not available for Python 3.3 and make the USGS library reader useless. To turn around the problem you can use a JSON version of the USGS library. Following is the explaination on how to do this.</p>
+</div>
+<p>To run the USGS06SpecLib class on Python 3.3 you need a JSON version of the library:</p>
+<ul class="simple">
+<li>Step on a Python 2.7 installation.</li>
+<li>Download the ENVI version of the library.</li>
+<li>Run the program USGS_ENVI_to_JSON.py on it. You can find the program in the util folder.</li>
+<li>And use the class spectro.JSONReader to load the JSON file, see test_hull.py for an example.</li>
+</ul>
+</div>
+<div class="section" id="end-deprecated">
+<h2>End deprecated<a class="headerlink" href="#end-deprecated" title="Permalink to this headline">¶</a></h2>
+</div>
+<hr class="docutils" />
+<div class="section" id="featuresconvexhullquotient">
+<h2>FeaturesConvexHullQuotient<a class="headerlink" href="#featuresconvexhullquotient" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient">
+<em class="property">class </em><code class="descclassname">pysptools.spectro.</code><code class="descname">FeaturesConvexHullQuotient</code><span class="sig-paren">(</span><em>spectrum</em>, <em>wvl</em>, <em>startContinuum=None</em>, <em>stopContinuum=None</em>, <em>baseline=0</em>, <em>normalize=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the convex-hull of the signal by hull quotient.
+Auto-extract the features and calculate their associated
+statistics. A baseline can be applied to avoid non-significant features.
+If you want to restrict the analysis to one continuum, just set the intervale
+with the startContinuum and stopContinuum parameters. It is up to you
+to ascertain that the continuum interval defined by startContinuum and
+stopContinuum do not cross the spectrum. The bilateral function can be use
+to remove small spectrum noises before extracting the features.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>spectrum: <cite>list</cite></dt>
+<dd>1D HSI data (p), a spectrum.</dd>
+<dt>wvl: <cite>list</cite></dt>
+<dd>Wavelength of each band (p x 1).</dd>
+<dt>startContinuum: <cite>float</cite></dt>
+<dd>The wavelength value of the starting left continuum.</dd>
+<dt>stopContinuum: <cite>float</cite></dt>
+<dd>The wavelength value of the ending right continuum.</dd>
+<dt>baseline: <cite>float</cite></dt>
+<dd>Features extracted above the baseline are rejected,
+features extracted below the baseline are kept.</dd>
+</dl>
+</dd>
+<dt>Reference:</dt>
+<dd>Kokaly F. Raymond, PRISM: Processing Routines in IDL for Spectroscopic
+Measurements (Installation Manual and User&#8217;s Guide, Version 1.0),
+U.S. Geological Survey,Reston, Virginia: 2011.</dd>
+</dl>
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>plot_name</em>, <em>feature='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the hull quotient graph of the feature
+to the IPython Notebook using matplotlib.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>plot_name: <cite>string</cite></dt>
+<dd>Title name.</dd>
+<dt>suffix: <cite>string</cite></dt>
+<dd>Add a suffix to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.display_convex_hull_quotient">
+<code class="descname">display_convex_hull_quotient</code><span class="sig-paren">(</span><em>plot_name</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.display_convex_hull_quotient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the hull quotient graph to the IPython
+Notebook using matplotlib.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>plot_name: <cite>string</cite></dt>
+<dd>Title name.</dd>
+<dt>suffix: <cite>string</cite></dt>
+<dd>Add a suffix to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.get_absorbtion_depth">
+<code class="descname">get_absorbtion_depth</code><span class="sig-paren">(</span><em>feat_no</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.get_absorbtion_depth" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>float</cite></dt>
+<dd>The absorbtion value at the feature minimum.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.get_absorbtion_wavelength">
+<code class="descname">get_absorbtion_wavelength</code><span class="sig-paren">(</span><em>feat_no</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.get_absorbtion_wavelength" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>float</cite></dt>
+<dd>The wavelength at the feature minimum.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.get_area">
+<code class="descname">get_area</code><span class="sig-paren">(</span><em>feat_no</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.get_area" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>float</cite></dt>
+<dd>The feature area.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.get_continuum_removed_spectrum">
+<code class="descname">get_continuum_removed_spectrum</code><span class="sig-paren">(</span><em>feat_no</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.get_continuum_removed_spectrum" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>list</cite></dt>
+<dd>Feature spectrum with convex hull removed (p).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.get_continuum_slope">
+<code class="descname">get_continuum_slope</code><span class="sig-paren">(</span><em>feat_no</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.get_continuum_slope" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>float</cite></dt>
+<dd>The feature continuum slope.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.get_continuum_start_wavelength">
+<code class="descname">get_continuum_start_wavelength</code><span class="sig-paren">(</span><em>feat_no</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.get_continuum_start_wavelength" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>float</cite></dt>
+<dd>The continuum left start wavelength value.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.get_continuum_stop_wavelength">
+<code class="descname">get_continuum_stop_wavelength</code><span class="sig-paren">(</span><em>feat_no</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.get_continuum_stop_wavelength" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>float</cite></dt>
+<dd>The continuum right end wavelength value.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.get_full_width_at_half_maximum">
+<code class="descname">get_full_width_at_half_maximum</code><span class="sig-paren">(</span><em>feat_no</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.get_full_width_at_half_maximum" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>float</cite></dt>
+<dd>Width at half maximum.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.get_number_of_kept_features">
+<code class="descname">get_number_of_kept_features</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.get_number_of_kept_features" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>int</cite></dt>
+<dd>The number of features that are kept (below the baseline).
+Only theses features have a statistic report.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>plot_name</em>, <em>feature='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the hull quotient graph of the feature using matplotlib.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>plot_name: <cite>string</cite></dt>
+<dd>File name.</dd>
+<dt>suffix: <cite>string</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.plot_convex_hull_quotient">
+<code class="descname">plot_convex_hull_quotient</code><span class="sig-paren">(</span><em>path</em>, <em>plot_name</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.plot_convex_hull_quotient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the hull quotient graph using matplotlib.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>plot_name: <cite>string</cite></dt>
+<dd>File name.</dd>
+<dt>suffix: <cite>string</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.FeaturesConvexHullQuotient.print_stats">
+<code class="descname">print_stats</code><span class="sig-paren">(</span><em>feat_no</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.FeaturesConvexHullQuotient.print_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a statistic summary for a kept feature.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>feat_no: <cite>int or &#8216;all&#8217;</cite></dt>
+<dd>The feature number, if feat_no=&#8217;all&#8217;, print
+stats for all the kept features.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="spectrumconvexhullquotient">
+<h2>SpectrumConvexHullQuotient<a class="headerlink" href="#spectrumconvexhullquotient" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.spectro.SpectrumConvexHullQuotient">
+<em class="property">class </em><code class="descclassname">pysptools.spectro.</code><code class="descname">SpectrumConvexHullQuotient</code><span class="sig-paren">(</span><em>spectrum</em>, <em>wvl</em>, <em>normalize=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.SpectrumConvexHullQuotient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the convex-hull of the signal by hull quotient.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>spectrum: <cite>list</cite></dt>
+<dd>1D HSI data (p), a spectrum.</dd>
+<dt>wvl: <cite>list</cite></dt>
+<dd>Wavelength of each band (p x 1).</dd>
+</dl>
+</dd>
+<dt>Reference:</dt>
+<dd>Clark, R.N. and T.L. Roush (1984) Reflectance Spectroscopy: Quantitative
+Analysis Techniques for Remote Sensing Applications, J. Geophys. Res., 89,
+6329-6340.</dd>
+</dl>
+<dl class="method">
+<dt id="pysptools.spectro.SpectrumConvexHullQuotient.display">
+<code class="descname">display</code><span class="sig-paren">(</span><em>plot_name</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.SpectrumConvexHullQuotient.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the hull quotient graph to the IPython
+Notebook using matplotlib.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>plot_name: <cite>string</cite></dt>
+<dd>File name.</dd>
+<dt>suffix: <cite>string</cite></dt>
+<dd>Add a suffix to the title.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.SpectrumConvexHullQuotient.get_continuum_removed_spectrum">
+<code class="descname">get_continuum_removed_spectrum</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.SpectrumConvexHullQuotient.get_continuum_removed_spectrum" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>list</cite></dt>
+<dd>Spectrum with convex hull removed (p).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.SpectrumConvexHullQuotient.get_hull_x">
+<code class="descname">get_hull_x</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.SpectrumConvexHullQuotient.get_hull_x" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>list</cite></dt>
+<dd>Convex hull x values (p).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.SpectrumConvexHullQuotient.get_hull_y">
+<code class="descname">get_hull_y</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.SpectrumConvexHullQuotient.get_hull_y" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns: <cite>list</cite></dt>
+<dd>Convex hull y values (p).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.SpectrumConvexHullQuotient.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>path</em>, <em>plot_name</em>, <em>suffix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.SpectrumConvexHullQuotient.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the hull quotient graph using matplotlib.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>path: <cite>string</cite></dt>
+<dd>The path where to put the plot.</dd>
+<dt>plot_name: <cite>string</cite></dt>
+<dd>File name.</dd>
+<dt>suffix: <cite>string</cite></dt>
+<dd>Add a suffix to the file name.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="convex-hull-removal">
+<h2>convex_hull_removal<a class="headerlink" href="#convex-hull-removal" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pysptools.spectro.convex_hull_removal">
+<code class="descclassname">pysptools.spectro.</code><code class="descname">convex_hull_removal</code><span class="sig-paren">(</span><em>pixel</em>, <em>wvl</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.convex_hull_removal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the convex-hull of the signal by hull quotient.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>pixel: <cite>list</cite></dt>
+<dd>1D HSI data (p), a pixel.</dd>
+<dt>wvl: <cite>list</cite></dt>
+<dd>Wavelength of each band (p x 1).</dd>
+</dl>
+</dd>
+<dt>Results: <cite>list</cite></dt>
+<dd>Data with convex hull removed (p).</dd>
+<dt>Reference:</dt>
+<dd>Clark, R.N. and T.L. Roush (1984) Reflectance Spectroscopy: Quantitative
+Analysis Techniques for Remote Sensing Applications, J. Geophys. Res., 89,
+6329-6340.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="usgs06speclib">
+<h2>USGS06SpecLib<a class="headerlink" href="#usgs06speclib" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pysptools.spectro.EnviReader">
+<em class="property">class </em><code class="descclassname">pysptools.spectro.</code><code class="descname">EnviReader</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.EnviReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a ENVI version of the USGS library and
+return the data and the header.</p>
+<dl class="docutils">
+<dt>The ENVI version is made of two files:</dt>
+<dd><ul class="first last simple">
+<li>s06av95a_envi.hdr</li>
+<li>s06av95a_envi.sli</li>
+</ul>
+</dd>
+<dt>You create the reader this way (on Windows):</dt>
+<dd>rd = EnviReader(r&#8217;c:\somepath\s06av95a_envi.hdr&#8217;)</dd>
+<dt>And pass it to the SpecLib class this way:</dt>
+<dd>lib = SpecLib(rd)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.spectro.JSONReader">
+<em class="property">class </em><code class="descclassname">pysptools.spectro.</code><code class="descname">JSONReader</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.JSONReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a JSON version of the USGS library and
+return the data and the header.</p>
+<dl class="docutils">
+<dt>The JSON version is made of two files:</dt>
+<dd><ul class="first last simple">
+<li>s06av95a_envi.jdata</li>
+<li>s06av95a_envi.jhead</li>
+</ul>
+</dd>
+<dt>You create the reader this way (on Windows):</dt>
+<dd>rd = JSONReader(r&#8217;c:\somepath\s06av95a_envi&#8217;)</dd>
+<dt>And pass it to the SpecLib class this way:</dt>
+<dd>lib = SpecLib(rd)</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="pysptools.spectro.USGS06SpecLib">
+<em class="property">class </em><code class="descclassname">pysptools.spectro.</code><code class="descname">USGS06SpecLib</code><span class="sig-paren">(</span><em>reader</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.USGS06SpecLib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the library and add get and search functionnality.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd>reader: EnviReader or JSONReader instance</dd>
+</dl>
+<dl class="method">
+<dt id="pysptools.spectro.USGS06SpecLib.distance_match">
+<code class="descname">distance_match</code><span class="sig-paren">(</span><em>s</em>, <em>distfn='SAM'</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.USGS06SpecLib.distance_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scan the library and return the index of the spectrum that
+have the smallest distance to &#8216;s&#8217;.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>s: <cite>list</cite></dt>
+<dd>A spectrum.</dd>
+<dt>distfn: <cite>function [default &#8216;SAM&#8217;]</cite></dt>
+<dd>One of the function: SAM, SID, chebyshev, NormXCorr.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>tuple</cite></dt>
+<dd>Spectrum, index.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.USGS06SpecLib.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>idx</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.USGS06SpecLib.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the spectrum at index idx.
+Indexing start at zero.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>idx: <cite>int</cite></dt>
+<dd>The index of the spectrum to fetch.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>list</cite></dt>
+<dd>Spectrum (p).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.USGS06SpecLib.get_next">
+<code class="descname">get_next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.USGS06SpecLib.get_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator, scan the library and return at each step:
+spectrum, mineral, sample_id, description and index.</p>
+<dl class="docutils">
+<dt>Return: <cite>tuple</cite></dt>
+<dd>Spectrum, mineral, sample_id, description and index.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysptools.spectro.USGS06SpecLib.get_substance">
+<code class="descname">get_substance</code><span class="sig-paren">(</span><em>substance</em>, <em>sample=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pysptools.spectro.USGS06SpecLib.get_substance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator, scan the library, verify the conditions &#8216;substance&#8217;
+and/or &#8216;sample&#8217; and if true return:
+spectrum, sample_id, description and index.</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><dl class="first last docutils">
+<dt>substance: <cite>string</cite></dt>
+<dd>A substance name.</dd>
+<dt>sample: <cite>string [default None]</cite></dt>
+<dd>A sample.</dd>
+</dl>
+</dd>
+<dt>Returns: <cite>tuple</cite></dt>
+<dd>Spectrum, mineral, sample_id, description and index.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013-2016, Christian Therien.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Smokestack &mdash; PySptools 0.13.4 beta documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.13.4 beta',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PySptools 0.13.4 beta documentation" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="smokestack">
+<h1>Smokestack<a class="headerlink" href="#smokestack" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Coming with the version 0.13.1, this example use NormXCorr instead of SAM. For the cube in study, NormXCorr is less sensitive to the parametrization than SAM is. The classification results are more stable.</p>
+</div>
+<p>This example follows the same pattern than the examples 2 and 3 but for one interesting add-on. As from the version 0.10, the two endmembers extraction algorithms, ATGP and FNINDR, can extract from a region of interest (ROI) and not all the cube, as it is actually the case. To control the ROI you have to define a binary mask. The binary mask is a 2D matrix, a True value at a position in the matrix means that you want to include the corresponding pixel in the endmembers search. The effluents exiting a smokestack are concentrated at the exit. We will define a small ROI just at this exit to catch the different signals that determine the gas.</p>
+<p>Look at the Reveal Viewer screen at figure 1. The selected pixel, at the red crossbar, is located just above the smokestack where the gas emission is at the maximum. The two broad emission bands between 1075 and 1200 cm-1 correspond to the symmetric S=O stretching vibration of sulfur dioxide (SO2). The cube is acquired in the VLW range of infrared; between 867 to 1288 wavenumber (cm-1) (7.76 to 11.54 micrometer) and it have 165 bands. The instrument used to acquire the data comes from the Telops Company.</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/smk_reveal.png"><img alt="None" src="_images/smk_reveal.png" style="width: 521.0px; height: 271.0px;" /></a>
+<p class="caption"><span class="caption-text">Figure 1: Reveal Viewer screen of the smokestack.</span></p>
+</div>
+<p>First, we extract the endmembers of the whole cube (figure 2). It will be use to compare to the ROI extracted endmembers. The spectrum tagged EM2 in green is a SO2 gas signature.</p>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="_images/smk_emembers_full_cube.png"><img alt="None" src="_images/smk_emembers_full_cube.png" style="width: 640.0px; height: 240.0px;" /></a>
+<p class="caption"><span class="caption-text">Figure 2: whole cube endmembers extracted with NFINDR, in green a SO2 signature.</span></p>
+</div>
+<p>Next, we make a small ROI using NormXCorr and the EM2 signature. After some tests, the threshold retained is 0.15. Figure 3 presents the binary mask.</p>
+<div class="figure align-center" id="id3">
+<a class="reference internal image-reference" href="_images/smk_binary_mask.png"><img alt="None" src="_images/smk_binary_mask.png" style="width: 200.0px; height: 150.0px;" /></a>
+<p class="caption"><span class="caption-text">Figure 3: binary mask used to find the second endmembers set.</span></p>
+</div>
+<p>With the binary mask, we extract a second endmembers set. This one is composed mainly with SO2 gas signatures presents in the effluents. Look at the figure 4, the endmembers EM1 to EM7 are the SO2 the signatures.</p>
+<div class="figure align-center" id="id4">
+<a class="reference internal image-reference" href="_images/smk_emembers_masked.png"><img alt="None" src="_images/smk_emembers_masked.png" style="width: 640.0px; height: 240.0px;" /></a>
+<p class="caption"><span class="caption-text">Figure 3: masked endmembers set, EM1 to EM7 are the SO2 signatures.</span></p>
+</div>
+<p>With this information at hand, we generate two mean images, one with NormXCorr and the other with FCLS. This is a two steps process. First, we apply a NormXCorr classification to the masked endmembers set. The upper row at figure 4 and 5 presents the results. Next, we construct the mean image by adding the EM1 to EM8 classification images and dividing the result by 8. The same process is applied using FCLS but with an important difference. To be effective, the linear unmixing model needs a good pure pixels set. A way to give it is to replace EM2 of the full cube endmembers set with each SO2 signatures given by the masked endmembers set. For each signature replacement inside the full endmembers set, we call FCLS and keep the related abundance map. In this case, this is always the second abundance map. We present these results maps in the second row of figure 4 and 5. Like with NormXCorr, we generate a mean image by adding each related abundance maps and dividing them by 8. You can see at figure 6 the two mean images.</p>
+<div class="figure align-center" id="id5">
+<a class="reference internal image-reference" href="_images/smk_composite1.png"><img alt="None" src="_images/smk_composite1.png" style="width: 480.0px; height: 180.0px;" /></a>
+<p class="caption"><span class="caption-text">Figure 4: in red, the masked endmembers set classified with NormXCorr, in colors the same unmixed with FCLS; from left to right: spectra EM1 to EM4.</span></p>
+</div>
+<div class="figure align-center" id="id6">
+<a class="reference internal image-reference" href="_images/smk_composite2.png"><img alt="None" src="_images/smk_composite2.png" style="width: 480.0px; height: 180.0px;" /></a>
+<p class="caption"><span class="caption-text">Figure 5: same as figure 4; from left to right: spectra EM5 to EM8.</span></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Transmittance is a non-linear process. The NormXCorr and FCLS mean maps are an approximation.</p>
+</div>
+<p>The mean images are an interesting achievement. The FCLS based mean image have a better resolution than the NormXCorr based image. However, the NormXCorr version takes less CPU cycle.</p>
+<div class="figure align-center" id="id7">
+<a class="reference internal image-reference" href="_images/smk_mean.png"><img alt="None" src="_images/smk_mean.png" style="width: 480.0px; height: 180.0px;" /></a>
+<p class="caption"><span class="caption-text">Figure 6: at left, the NormXCorr mean image, at right, the unmixed mean image.</span></p>
+</div>
+<p>Which one between all these SO2 signatures is a pure pixel? It is difficult to say. EM2 from the full cube endmembers set along with EM2 and EM5 from the masked endmembers set are almost identical. In addition, theirs NormXCorr classification footprints are similar to the mean NormXCorr footprint. Using the same reasoning with FCLS do not give so much evidence of which spectrum is a pure pixel.</p>
+<p>Code follow:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Plot smokestack effluents.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="kn">as</span> <span class="nn">osp</span>
+<span class="kn">import</span> <span class="nn">pysptools.classification</span> <span class="kn">as</span> <span class="nn">cls</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pysptools.util</span> <span class="kn">as</span> <span class="nn">util</span>
+<span class="kn">import</span> <span class="nn">pysptools.eea</span> <span class="kn">as</span> <span class="nn">eea</span>
+<span class="kn">import</span> <span class="nn">pysptools.abundance_maps</span> <span class="kn">as</span> <span class="nn">amp</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">n_emembers</span> <span class="o">=</span> <span class="mi">8</span>
+
+
+<span class="k">def</span> <span class="nf">parse_ENVI_header</span><span class="p">(</span><span class="n">head</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">ax</span><span class="p">[</span><span class="s">&#39;wavelength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">head</span><span class="p">[</span><span class="s">&#39;wavelength&#39;</span><span class="p">]</span>
+    <span class="n">ax</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;Wavelength - &#39;</span><span class="o">+</span><span class="n">head</span><span class="p">[</span><span class="s">&#39;z plot titles&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">ax</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">head</span><span class="p">[</span><span class="s">&#39;z plot titles&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">ax</span>
+
+
+<span class="k">class</span> <span class="nc">Classify</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    For this problem NormXCorr works as well as SAM</span>
+<span class="sd">    SID was not tested.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">suffix</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Classify using SAM&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sam</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">SAM</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sam</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span> <span class="o">=</span> <span class="n">suffix</span>
+
+    <span class="k">def</span> <span class="nf">get_single_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sam</span><span class="o">.</span><span class="n">get_single_map</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">constrained</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">plot_single_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sam</span><span class="o">.</span><span class="n">plot_single_map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">constrained</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sam</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_endmembers</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Endmembers extraction with NFINDR&#39;</span><span class="p">)</span>
+    <span class="n">ee</span> <span class="o">=</span> <span class="n">eea</span><span class="o">.</span><span class="n">NFINDR</span><span class="p">()</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ATGP_init</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">output</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">ee</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="n">header</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">U</span>
+
+
+<span class="k">def</span> <span class="nf">get_abundance_maps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">umix_source</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Abundance maps with FCLS&#39;</span><span class="p">)</span>
+    <span class="n">fcls</span> <span class="o">=</span> <span class="n">amp</span><span class="o">.</span><span class="n">FCLS</span><span class="p">()</span>
+    <span class="n">amap</span> <span class="o">=</span> <span class="n">fcls</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">output</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">fcls</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">colorMap</span><span class="o">=</span><span class="s">&#39;jet&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">umix_source</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">amap</span>
+
+
+<span class="k">def</span> <span class="nf">get_full_cube_em_set</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return a endmembers set for the full cube and a region of interest (ROI).</span>
+<span class="sd">        The ROI is created using a small region of the</span>
+<span class="sd">        effluents leaving near the smokestack.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># Take the endmembers set for all the cube</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">get_endmembers</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">n_emembers</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="s">&#39;full_cube&#39;</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="c"># A threshold of 0.15 give a good ROI</span>
+    <span class="n">cls</span> <span class="o">=</span> <span class="n">Classify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s">&#39;full_cube&#39;</span><span class="p">)</span>
+    <span class="c"># The endmember EM2 is use to define the region of interest</span>
+    <span class="c"># i.e. the effluents region of interest</span>
+    <span class="n">effluents</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">get_single_map</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c"># Create the binary mask with the effluents</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">effluents</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="c"># Plot the mask</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="s">&#39;binary_mask&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">U</span><span class="p">,</span> <span class="n">mask</span>
+
+
+<span class="k">def</span> <span class="nf">get_masked_em_set</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return a endmembers set that belong to the ROI (mask).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># Use the mask to extract endmembers near the smokestack exit</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">get_endmembers</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="n">n_emembers</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="s">&#39;masked&#39;</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">U</span>
+
+
+<span class="k">def</span> <span class="nf">classification_analysis</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">E_masked</span><span class="p">):</span>
+    <span class="c"># Note: the classification is done with NormXCorr instead of SAM</span>
+    <span class="c"># Classify with the masked endmembers set</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">NormXCorr</span><span class="p">()</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">classify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">E_masked</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">plot_single_map</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&#39;all&#39;</span><span class="p">,</span> <span class="n">constrained</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s">&#39;masked&#39;</span><span class="p">)</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s">&#39;masked&#39;</span><span class="p">)</span>
+    <span class="c"># Calculate the average image</span>
+    <span class="n">gas</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_single_map</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">constrained</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_emembers</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">gas</span> <span class="o">=</span> <span class="n">gas</span> <span class="o">+</span> <span class="n">c</span><span class="o">.</span><span class="n">get_single_map</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">constrained</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">gas</span> <span class="o">=</span> <span class="n">gas</span> <span class="o">/</span> <span class="n">n_emembers</span>
+    <span class="c"># and plot it</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">gas</span><span class="p">,</span> <span class="s">&#39;spectral&#39;</span><span class="p">,</span> <span class="s">&#39;mean_NormXCorr&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">unmixing_analysis</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">E_full_cube</span><span class="p">,</span> <span class="n">E_masked</span><span class="p">):</span>
+    <span class="c"># Calculate an unmixed average image at the ROI position.</span>
+    <span class="c"># Each endmember belonging to E_masked takes place inside E_full_cube at</span>
+    <span class="c"># the ROI position. Netx, we sum the abundance maps</span>
+    <span class="c"># generated at this position. And finally a mean is calculated.</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_emembers</span><span class="p">):</span>
+        <span class="n">E_full_cube</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">E_masked</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span>
+        <span class="n">amaps</span> <span class="o">=</span> <span class="n">get_abundance_maps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">E_full_cube</span><span class="p">,</span> <span class="s">&#39;masqued_{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">path</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">amaps</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">+</span> <span class="n">amaps</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">plot</span><span class="p">(</span><span class="n">amaps</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#39;spectral&#39;</span><span class="p">,</span> <span class="s">&#39;FCLS_masqued_{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">path</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">/</span> <span class="n">n_emembers</span>
+    <span class="n">thresholded</span> <span class="o">=</span> <span class="p">(</span><span class="n">mask</span> <span class="o">&gt;</span> <span class="mf">0.15</span><span class="p">)</span> <span class="o">*</span> <span class="n">mask</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">thresholded</span><span class="p">,</span> <span class="s">&#39;spectral&#39;</span><span class="p">,</span> <span class="s">&#39;mean_FCLS&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">colormap</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ioff</span><span class="p">()</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
+    <span class="n">img</span><span class="o">.</span><span class="n">set_cmap</span><span class="p">(</span><span class="n">colormap</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+    <span class="n">fout</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">&#39;{0}.png&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">desc</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fout</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ioff</span><span class="p">()</span>
+
+    <span class="c"># Load the cube</span>
+    <span class="n">data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;PYSPTOOLS_DATA&#39;</span><span class="p">]</span>
+    <span class="n">home</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;HOME&#39;</span><span class="p">]</span>
+
+    <span class="n">sample</span> <span class="o">=</span> <span class="s">&#39;Smokestack1.hdr&#39;</span>
+    <span class="n">data_file</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">sample</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">load_ENVI_file</span><span class="p">(</span><span class="n">data_file</span><span class="p">)</span>
+
+    <span class="n">result_path</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">home</span><span class="p">,</span> <span class="s">&#39;results&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">osp</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">result_path</span><span class="p">)</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">result_path</span><span class="p">)</span>
+
+    <span class="n">axes</span> <span class="o">=</span> <span class="n">parse_ENVI_header</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+
+    <span class="c"># Telops cubes are flipped left-right</span>
+    <span class="c"># Flipping them again restore the orientation</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">U_full_cube</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">get_full_cube_em_set</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="n">result_path</span><span class="p">)</span>
+    <span class="n">U_masked</span> <span class="o">=</span> <span class="n">get_masked_em_set</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axes</span><span class="p">,</span> <span class="n">result_path</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+    <span class="n">classification_analysis</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">result_path</span><span class="p">,</span> <span class="n">U_masked</span><span class="p">)</span>
+    <span class="n">unmixing_analysis</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">result_path</span><span class="p">,</span> <span class="n">U_full_cube</span><span class="p">,</span> <span class="n">U_masked</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PySptools 0.13.4 beta documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013-2016, Christian Therien.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
