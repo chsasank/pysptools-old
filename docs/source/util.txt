@@ -1,6 +1,6 @@
 .. automodule:: pysptools.util
 
-Util functions and classes
+Utility Functions and Classes
 **************************
 
 The load_ENVI_file and load_ENVI_spec_lib functions are used by the examples to load the HS cubes
@@ -23,57 +23,57 @@ load_ENVI_spec_lib
 
 ------------------------------
 
-corr
-====
+Autocorrelation
+================
 
 .. autofunction:: pysptools.util.corr
 
 ------------------------------
 
-cov
-===
+Covariance
+=========
 
 .. autofunction:: pysptools.util.cov
 
 ------------------------------
 
-display_linear_stretch
-======================
+Display a linear stretched RGB image
+====================================
 
 .. autofunction:: pysptools.util.display_linear_stretch
 
 ------------------------------
 
-plot_linear_stretch
+Plot a linear stretched RGB image.
 ===================
 
 .. autofunction:: pysptools.util.plot_linear_stretch
 
 ------------------------------
 
-convert2d
-=========
+Converts a 3D data cube to a 2D matrix
+=======================================
 
 .. autofunction:: pysptools.util.convert2d
 
 ------------------------------
 
-convert3d
-=========
+Converts a 1D or 2D matrix to a 3D data cube
+=================================
 
 .. autofunction:: pysptools.util.convert3d
 
 ------------------------------
 
-normalize
+Normalize
 =========
 
 .. autofunction:: pysptools.util.normalize
 
 ------------------------------
 
-ROIs
-====
+Manage Regions of Interests
+============================
 
 .. autoclass:: pysptools.util.ROIs
     :members:

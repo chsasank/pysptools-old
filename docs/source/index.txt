@@ -7,21 +7,12 @@
 	:description: Python tools for hyperspectral imaging
 	:keywords: python, telops, hyperspectral imaging, signal processing, library, endmembers, unmixing, pysptools, sam, sid, atgp, N-FINDR, NFINDR, spectroscopy, target detection, georessources, geoimaging, chemical imaging, pharmaceutical, pharma, minerals, spectral, remote sensing, hyperspectral drill core imaging
 
-Welcome to the PySptools documentation
+Welcome to the PySptools Documentation
 **************************************
 
 Tools for hyperspectral imaging ::
 
-	Documentation at 2016-01-16.
-
-Contents:
-
-.. toctree::
-   :maxdepth: 2
-
-   introduction
-   installation
-
+	Documentation at 2016-03-11.
 
 .. figure:: ./pic/pic_burner1.png
    :scale: 100 %
@@ -33,7 +24,7 @@ Project Page hosted by Sourceforge.net or from the pypi packages repository.
 
 `Project web site <http://ctherien.weebly.com/>`_
 
-New for version 0.13.3 (beta) and version 0.13.4 (beta)
+What's New : version 0.13.3 (beta) and version 0.13.4 (beta)
 =======================================================
 
 Versions 0.13.3 and 0.13.4 are the same: no google analytic inside the doc and the version string
@@ -56,149 +47,85 @@ See the :doc:`release notes<release_notes>` section.
 Examples
 ========
 
-A simple comparaison between ATGP and NFINDR.
+* A simple comparaison between ATGP and NFINDR.
 
-.. figure:: ./pic/pic_picture4.png
-   :scale: 100 %
-   :align: center
-   :alt: detection map
+   .. figure:: ./pic/pic_picture4.png
+      :scale: 100 %
+      :align: center
+      :alt: detection map
 
-   :doc:`NFINDR and ATGP<example1>`
+      :doc:`NFINDR and ATGP<example1>`
 
-Methanol gas synthetic images made by unmixing. The data used for the demonstration is acquired with a `Telops Hyper-Cam <http://www.telops.com/>`_ instrument.
+* Methanol gas synthetic images made by unmixing. The data used for the demonstration is acquired with a `Telops Hyper-Cam <http://www.telops.com/>`_ instrument.
 
-.. figure:: ./pic/pic_burner2.png
-   :scale: 100 %
-   :align: center
-   :alt: Telops image of methanol gas escaped form a burner
+   .. figure:: ./pic/pic_burner2.png
+      :scale: 100 %
+      :align: center
+      :alt: Telops image of methanol gas escaped form a burner
 
-   :doc:`Methanol gas<example2>`
+      :doc:`Methanol gas<example2>`
 
-Quartz classification of a drill core datacube. The data used for the demonstration is acquired with a `Telops Hyper-Cam <http://www.telops.com/>`_ instrument.
+* Quartz classification of a drill core datacube. The data used for the demonstration is acquired with a `Telops Hyper-Cam <http://www.telops.com/>`_ instrument.
 
-.. figure:: ./hem/hem_hematite.png
-   :scale: 100 %
-   :align: center
-   :alt: Telops image of a drill core
+   .. figure:: ./hem/hem_hematite.png
+      :scale: 100 %
+      :align: center
+      :alt: Telops image of a drill core
 
-   :doc:`Hematite drill core <example3>`
+      :doc:`Hematite drill core <example3>`
 
-Smokestack effluents analysis. The data used for the demonstration is acquired with a `Telops Hyper-Cam <http://www.telops.com/>`_ instrument.
+* Smokestack effluents analysis. The data used for the demonstration is acquired with a `Telops Hyper-Cam <http://www.telops.com/>`_ instrument.
 
-.. figure:: ./smk/smk_sm1.png
-   :scale: 100 %
-   :align: center
-   :alt: Telops image of a smokestack
+   .. figure:: ./smk/smk_sm1.png
+      :scale: 100 %
+      :align: center
+      :alt: Telops image of a smokestack
 
-   :doc:`Smokestack <example4>`
+      :doc:`Smokestack <example4>`
 
-Some examples of convex hull removal and features extraction.
+* Some examples of convex hull removal and features extraction.
 
-.. figure:: ./pic/pic_picture5.png
-   :scale: 100 %
-   :align: center
-   :alt: Convex hull plot
+   .. figure:: ./pic/pic_picture5.png
+      :scale: 100 %
+      :align: center
+      :alt: Convex hull plot
 
-   :doc:`Convex hull <example5>`
+      :doc:`Convex hull <example5>`
 
-Following examples use the IPython Notebook.
+Following examples use the IPython Notebook:
+++++++++++++++++++++++++++++++++++++++++++
 
-* Methanol gas `example <nbex_methanol_burner.html>`_
-* Hematite drill core `example <nbex_hematite.html>`_
-* Convex hull `example <nbex_convexhull.html>`_
-* Pine Creek `example 1 <nbex_pine_creek1.html>`_
-* Pine Creek `example 2 <nbex_pine_creek2.html>`_
-* Pine Creek `example 3 <nbex_pine_creek3.html>`_
-* Support Vector Classification `example <nbex_pine_creek4.html>`_
+   * Methanol gas `example <nbex_methanol_burner.html>`_
+   * Hematite drill core `example <nbex_hematite.html>`_
+   * Convex hull `example <nbex_convexhull.html>`_
+   * Pine Creek `example 1 <nbex_pine_creek1.html>`_
+   * Pine Creek `example 2 <nbex_pine_creek2.html>`_
+   * Pine Creek `example 3 <nbex_pine_creek3.html>`_
+   * Support Vector Classification `example <nbex_pine_creek4.html>`_
 
 
 Documentation
 =============
 
-:doc:`Download and installation<installation>`
+.. toctree::
+   :maxdepth: 2
 
-:doc:`Introduction<introduction>`
+   introduction
+   installation
+   abundance_maps
+   classification
+   detection
+   distance
+   eea
+   material_count
+   noise
+   sigproc
+   spectro
+   util
+   glossary
+   release_notes
+   links
 
-*Summary of functions and classes by modules*
-
-1. :doc:`abundance_maps (linear unmixing)<abundance_maps_front>`
-
-* FCLS (function and class)
-* NNLS (function and class)
-* UCLS (function and class)
-
-2. :doc:`classification<classification_front>`
-
-* AbundanceClassification (class) (new)
-* KMeans (class)
-* NormXCorr (class)
-* SAM (class)
-* SID (class)
-* SVC (class)
-
-3. :doc:`detection<detection_front>`
-
-* ACE (function and class)
-* CEM (function and class)
-* GLRT (function and class)
-* MatchedFilter (function and class)
-* OSP (function and class)
-
-4. :doc:`distance<distance>`
-
-* chebyshev (function)
-* NormXCorr (function)
-* SAM (function)
-* SID (function)
-
-5. :doc:`eea (endmembers extraction algorithms)<eea_front>`
-
-* ATGP (function and class)
-* FIPPI (function and class)
-* NFINDR (function and class)
-* PPI (function and class)
-
-6. :doc:`material_count<material_count_front>`
-
-* HfcVd (function and class)
-* HySime (function and class)
-
-7. :doc:`noise<noise_front>`
-
-* Savitzky Golay filter (class)
-* MNF (class)
-* Whiten (function and class)
-
-8. :doc:`sigproc<sigproc>`
-
-* bilateral (function)
-
-9. :doc:`spectro<spectro>`
-
-* convex_hull_removal (function)
-* FeaturesConvexHullQuotient (class)
-* SpectrumConvexHullQuotient (function with a class interface)
-* USGS06SpecLib (class)
-
-10. :doc:`util<util>`
-
-* load_ENVI_file (function) (Python 2.7 only)
-* load_ENVI_spec_lib (function) (Python 2.7 only)
-* corr (function)
-* cov (function)
-* display_linear_stretch (function)
-* plot_linear_stretch (function)
-* convert2d (function)
-* convert3d (function)
-* normalize (function)
-* ROIs (class)
-* InputValidation
-
-:doc:`Glossary<glossary>`
-
-:doc:`Release notes<release_notes>`
-
-:doc:`Links<links>`
 
 Indices and tables
 ==================
