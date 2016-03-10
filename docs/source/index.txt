@@ -7,12 +7,12 @@
 	:description: Python tools for hyperspectral imaging
 	:keywords: python, telops, hyperspectral imaging, signal processing, library, endmembers, unmixing, pysptools, sam, sid, atgp, N-FINDR, NFINDR, spectroscopy, target detection, georessources, geoimaging, chemical imaging, pharmaceutical, pharma, minerals, spectral, remote sensing, hyperspectral drill core imaging
 
-Welcome to the PySptools documentation
+Welcome to the PySptools Documentation
 **************************************
 
 Tools for hyperspectral imaging ::
 
-	Documentation at 2016-01-16.
+	Documentation at 2016-03-11.
 
 .. figure:: ./pic/pic_burner1.png
    :scale: 100 %
@@ -121,28 +121,10 @@ Documentation
    sigproc
    spectro
    util
+   glossary
+   release_notes
+   links
 
-
-
-10. :doc:`util<util>`
-
-* load_ENVI_file (function) (Python 2.7 only)
-* load_ENVI_spec_lib (function) (Python 2.7 only)
-* corr (function)
-* cov (function)
-* display_linear_stretch (function)
-* plot_linear_stretch (function)
-* convert2d (function)
-* convert3d (function)
-* normalize (function)
-* ROIs (class)
-* InputValidation
-
-:doc:`Glossary<glossary>`
-
-:doc:`Release notes<release_notes>`
-
-:doc:`Links<links>`
 
 Indices and tables
 ==================
