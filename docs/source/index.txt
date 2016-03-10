@@ -115,43 +115,9 @@ Contents:
    installation
    abundance_maps
    classification
+   detection
+   distance
 
-
-:doc:`Download and installation<installation>`
-
-:doc:`Introduction<introduction>`
-
-*Summary of functions and classes by modules*
-
-1. :doc:`abundance_maps (linear unmixing)<abundance_maps>`
-
-* FCLS (function and class)
-* NNLS (function and class)
-* UCLS (function and class)
-
-2. :doc:`classification<classification_front>`
-
-* AbundanceClassification (class) (new)
-* KMeans (class)
-* NormXCorr (class)
-* SAM (class)
-* SID (class)
-* SVC (class)
-
-3. :doc:`detection<detection_front>`
-
-* ACE (function and class)
-* CEM (function and class)
-* GLRT (function and class)
-* MatchedFilter (function and class)
-* OSP (function and class)
-
-4. :doc:`distance<distance>`
-
-* chebyshev (function)
-* NormXCorr (function)
-* SAM (function)
-* SID (function)
 
 5. :doc:`eea (endmembers extraction algorithms)<eea_front>`
 

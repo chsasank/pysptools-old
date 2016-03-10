@@ -3,32 +3,29 @@
 Distance functions
 ******************
 
-This module supports functions to calculate the distance between two vectors.
+This module supports functions to calculate the distance between two vectors. These distances are supported:
 
-------------------------------
+* `Chebychev`_
+* `Normalized Cross Correlation (NormXCorr)`_
+* `Spectral Angle Mapper (SAM)`_
+* `Spectral Information Divergence (SID)`_
 
-chebychev
+Chebychev
 =========
 
 .. autofunction:: pysptools.distance.chebyshev
 
-------------------------------
-
-NormXCorr
-=========
+Normalized Cross Correlation (NormXCorr)
+========================================
 
 .. autofunction:: pysptools.distance.NormXCorr
 
-------------------------------
-
-SAM
-===
+Spectral Angle Mapper (SAM)
+===========================
 
 .. autofunction:: pysptools.distance.SAM
 
-------------------------------
-
-SID
-===
+Spectral Information Divergence (SID)
+=======================================
 
 .. autofunction:: pysptools.distance.SID
