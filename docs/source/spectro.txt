@@ -7,8 +7,8 @@ This module supports the functions convex_hull_removal and the
 classes SpectrumConvexHullQuotient, FeaturesConvexHullQuotient and USGS06SpecLib.
 
 .. seealso::
-	See the file :download:`test_hull.py<../tests/test_hull.py>`
-	for a SpectrumConvexHullQuotient and FeaturesConvexHullQuotient example. The file :download:`test_spectro.py<../tests/test_spectro.py>` is the example for the USGS06SpecLib class.
+	See the file :download:`test_hull.py<../../pysptools/tests/test_hull.py>`
+	for a SpectrumConvexHullQuotient and FeaturesConvexHullQuotient example. The file :download:`test_spectro.py<../../pysptools/tests/test_spectro.py>` is the example for the USGS06SpecLib class.
 
 .. warning:: 
 	As version 0.13.3, the package PySptools run on both Python version 2.7 and 3.x. It don't need again the JSON patch to use the USGS library. This fonctionality is deprecated and partly removed. The JSON version of the USGS library will remain for future PySptools versions.
