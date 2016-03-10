@@ -1,4 +1,5 @@
-﻿from distutils.core import setup
+﻿# from distutils.core import setup
+from setuptools import setup, find_packages
 
 
 setup(name = "pysptools",
@@ -9,17 +10,19 @@ setup(name = "pysptools",
     url = "http://pysptools.sourceforge.net/",
     license = "Apache License Version 2.0",
     keywords = "python, telops, hyperspectral imaging, signal processing, library, endmembers, unmixing, pysptools, sam, sid, atgp, N-FINDR, NFINDR, spectroscopy, target detection, georessources, geoimaging, chemical imaging, pharmaceutical, pharma, minerals, spectral, remote sensing",
+    install_requires=[
+    			'numpy',
+    			'scipy',
+    			'scikit-learn',
+    			'spectral>=0.17',
+    			'matplotlib'
+    			],
     packages=[  'pysptools',
                 'pysptools/abundance_maps',
                 'pysptools/classification',
                 'pysptools/detection',
                 'pysptools/distance',
                 'pysptools/data',
-                'pysptools/doc',
-                'pysptools/doc/_downloads',
-                'pysptools/doc/_images',
-                'pysptools/doc/_sources',
-                'pysptools/doc/_static',
                 'pysptools/eea',
                 'pysptools/examples',
                 'pysptools/material_count',
@@ -30,11 +33,6 @@ setup(name = "pysptools",
                 'pysptools/util'],
     package_data={'pysptools': ['*.txt'],
                     'pysptools/data': ['*.*'],
-                    'pysptools/doc': ['*.*'],
-                    'pysptools/doc/_downloads': ['*.*'],
-                    'pysptools/doc/_images': ['*.*'],
-                    'pysptools/doc/_sources': ['*.*'],
-                    'pysptools/doc/_static': ['*.*'],
 					'pysptools/eea': ['*.*']},
     long_description = """
 PySptools is a hyperspectral and spectral imaging library that provides spectral algorithms for the Python programming language. Specializations of the library are the endmembers extraction, unmixing process, supervised classification, target detection, noise reduction, convex hull removal and features extraction at spectrum level.
