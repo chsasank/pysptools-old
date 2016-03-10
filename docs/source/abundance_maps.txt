@@ -8,7 +8,7 @@ Following algorithms are available to generate and plot abundance maps. Each of 
 
 * `Unconstrained Least Squares (UCLS)`_ 
 * `Non-negative Constrained Least Squares (NNLS)`_ 
-* `Fully Constrained Least Squares (FCLS)`
+* `Fully Constrained Least Squares (FCLS)`_
 
 .. seealso:: See the file :download:`test_eea.py<../../pysptools/tests/test_eea.py>` for an example.
 

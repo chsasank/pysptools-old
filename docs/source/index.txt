@@ -24,7 +24,7 @@ Project Page hosted by Sourceforge.net or from the pypi packages repository.
 
 `Project web site <http://ctherien.weebly.com/>`_
 
-New for version 0.13.3 (beta) and version 0.13.4 (beta)
+What's New : version 0.13.3 (beta) and version 0.13.4 (beta)
 =======================================================
 
 Versions 0.13.3 and 0.13.4 are the same: no google analytic inside the doc and the version string
@@ -47,60 +47,61 @@ See the :doc:`release notes<release_notes>` section.
 Examples
 ========
 
-A simple comparaison between ATGP and NFINDR.
+* A simple comparaison between ATGP and NFINDR.
 
-.. figure:: ./pic/pic_picture4.png
-   :scale: 100 %
-   :align: center
-   :alt: detection map
+   .. figure:: ./pic/pic_picture4.png
+      :scale: 100 %
+      :align: center
+      :alt: detection map
 
-   :doc:`NFINDR and ATGP<example1>`
+      :doc:`NFINDR and ATGP<example1>`
 
-Methanol gas synthetic images made by unmixing. The data used for the demonstration is acquired with a `Telops Hyper-Cam <http://www.telops.com/>`_ instrument.
+* Methanol gas synthetic images made by unmixing. The data used for the demonstration is acquired with a `Telops Hyper-Cam <http://www.telops.com/>`_ instrument.
 
-.. figure:: ./pic/pic_burner2.png
-   :scale: 100 %
-   :align: center
-   :alt: Telops image of methanol gas escaped form a burner
+   .. figure:: ./pic/pic_burner2.png
+      :scale: 100 %
+      :align: center
+      :alt: Telops image of methanol gas escaped form a burner
 
-   :doc:`Methanol gas<example2>`
+      :doc:`Methanol gas<example2>`
 
-Quartz classification of a drill core datacube. The data used for the demonstration is acquired with a `Telops Hyper-Cam <http://www.telops.com/>`_ instrument.
+* Quartz classification of a drill core datacube. The data used for the demonstration is acquired with a `Telops Hyper-Cam <http://www.telops.com/>`_ instrument.
 
-.. figure:: ./hem/hem_hematite.png
-   :scale: 100 %
-   :align: center
-   :alt: Telops image of a drill core
+   .. figure:: ./hem/hem_hematite.png
+      :scale: 100 %
+      :align: center
+      :alt: Telops image of a drill core
 
-   :doc:`Hematite drill core <example3>`
+      :doc:`Hematite drill core <example3>`
 
-Smokestack effluents analysis. The data used for the demonstration is acquired with a `Telops Hyper-Cam <http://www.telops.com/>`_ instrument.
+* Smokestack effluents analysis. The data used for the demonstration is acquired with a `Telops Hyper-Cam <http://www.telops.com/>`_ instrument.
 
-.. figure:: ./smk/smk_sm1.png
-   :scale: 100 %
-   :align: center
-   :alt: Telops image of a smokestack
+   .. figure:: ./smk/smk_sm1.png
+      :scale: 100 %
+      :align: center
+      :alt: Telops image of a smokestack
 
-   :doc:`Smokestack <example4>`
+      :doc:`Smokestack <example4>`
 
-Some examples of convex hull removal and features extraction.
+* Some examples of convex hull removal and features extraction.
 
-.. figure:: ./pic/pic_picture5.png
-   :scale: 100 %
-   :align: center
-   :alt: Convex hull plot
+   .. figure:: ./pic/pic_picture5.png
+      :scale: 100 %
+      :align: center
+      :alt: Convex hull plot
 
-   :doc:`Convex hull <example5>`
+      :doc:`Convex hull <example5>`
 
-Following examples use the IPython Notebook.
+Following examples use the IPython Notebook:
+++++++++++++++++++++++++++++++++++++++++++
 
-* Methanol gas `example <nbex_methanol_burner.html>`_
-* Hematite drill core `example <nbex_hematite.html>`_
-* Convex hull `example <nbex_convexhull.html>`_
-* Pine Creek `example 1 <nbex_pine_creek1.html>`_
-* Pine Creek `example 2 <nbex_pine_creek2.html>`_
-* Pine Creek `example 3 <nbex_pine_creek3.html>`_
-* Support Vector Classification `example <nbex_pine_creek4.html>`_
+   * Methanol gas `example <nbex_methanol_burner.html>`_
+   * Hematite drill core `example <nbex_hematite.html>`_
+   * Convex hull `example <nbex_convexhull.html>`_
+   * Pine Creek `example 1 <nbex_pine_creek1.html>`_
+   * Pine Creek `example 2 <nbex_pine_creek2.html>`_
+   * Pine Creek `example 3 <nbex_pine_creek3.html>`_
+   * Support Vector Classification `example <nbex_pine_creek4.html>`_
 
 
 Documentation
