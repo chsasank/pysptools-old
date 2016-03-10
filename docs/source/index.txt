@@ -106,8 +106,6 @@ Following examples use the IPython Notebook.
 Documentation
 =============
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
 
@@ -118,36 +116,13 @@ Contents:
    detection
    distance
    eea
+   material_count
+   noise
+   sigproc
+   spectro
+   util
 
 
-5. :doc:`eea (endmembers extraction algorithms)<eea_front>`
-
-* ATGP (function and class)
-* FIPPI (function and class)
-* NFINDR (function and class)
-* PPI (function and class)
-
-6. :doc:`material_count<material_count_front>`
-
-* HfcVd (function and class)
-* HySime (function and class)
-
-7. :doc:`noise<noise_front>`
-
-* Savitzky Golay filter (class)
-* MNF (class)
-* Whiten (function and class)
-
-8. :doc:`sigproc<sigproc>`
-
-* bilateral (function)
-
-9. :doc:`spectro<spectro>`
-
-* convex_hull_removal (function)
-* FeaturesConvexHullQuotient (class)
-* SpectrumConvexHullQuotient (function with a class interface)
-* USGS06SpecLib (class)
 
 10. :doc:`util<util>`
 
