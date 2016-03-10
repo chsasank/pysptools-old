@@ -113,7 +113,8 @@ Contents:
 
    introduction
    installation
-   abundance_maps_front
+   abundance_maps
+   classification
 
 
 :doc:`Download and installation<installation>`
@@ -122,7 +123,7 @@ Contents:
 
 *Summary of functions and classes by modules*
 
-1. :doc:`abundance_maps (linear unmixing)<abundance_maps_front>`
+1. :doc:`abundance_maps (linear unmixing)<abundance_maps>`
 
 * FCLS (function and class)
 * NNLS (function and class)
