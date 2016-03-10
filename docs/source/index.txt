@@ -14,15 +14,6 @@ Tools for hyperspectral imaging ::
 
 	Documentation at 2016-01-16.
 
-Contents:
-
-.. toctree::
-   :maxdepth: 2
-
-   introduction
-   installation
-
-
 .. figure:: ./pic/pic_burner1.png
    :scale: 100 %
    :align: center
@@ -114,6 +105,16 @@ Following examples use the IPython Notebook.
 
 Documentation
 =============
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   introduction
+   installation
+   abundance_maps_front
+
 
 :doc:`Download and installation<installation>`
 
