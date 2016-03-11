@@ -15,7 +15,8 @@ setup(name = "pysptools",
     			'scipy',
     			'scikit-learn',
     			'spectral>=0.17',
-    			'matplotlib'
+    			'matplotlib',
+                'ipython'
     			],
     packages=[  'pysptools',
                 'pysptools/abundance_maps',

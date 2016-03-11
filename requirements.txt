@@ -3,3 +3,4 @@ scipy
 scikit-learn
 spectral>=0.17
 matplotlib
+ipython
