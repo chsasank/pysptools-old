@@ -25,7 +25,7 @@ Project Page hosted by Sourceforge.net or from the pypi packages repository.
 `Project web site <http://ctherien.weebly.com/>`_
 
 What's New : version 0.13.3 (beta) and version 0.13.4 (beta)
-=======================================================
+=============================================================
 
 Versions 0.13.3 and 0.13.4 are the same: no google analytic inside the doc and the version string
 is fixed for the most recent.
@@ -93,7 +93,7 @@ Examples
       :doc:`Convex hull <example5>`
 
 Following examples use the IPython Notebook:
-++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++
 
    * Methanol gas `example <nbex_methanol_burner.html>`_
    * Hematite drill core `example <nbex_hematite.html>`_
@@ -112,6 +112,7 @@ Documentation
 
    introduction
    installation
+   examples_front
    abundance_maps
    classification
    detection

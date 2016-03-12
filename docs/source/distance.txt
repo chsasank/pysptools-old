@@ -11,12 +11,12 @@ This module supports functions to calculate the distance between two vectors. Th
 * `Spectral Information Divergence (SID)`_
 
 Chebychev
-=========
+==========
 
 .. autofunction:: pysptools.distance.chebyshev
 
 Normalized Cross Correlation (NormXCorr)
-========================================
+=========================================
 
 .. autofunction:: pysptools.distance.NormXCorr
 

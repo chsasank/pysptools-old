@@ -47,7 +47,7 @@ Class
 
 
 Generalized Likelihood Ratio Test (GLRT)
-=======================================
+=========================================
 
 Function
 --------
@@ -81,7 +81,7 @@ Class
 
 
 Othogonal Subspace Projection (OSP)
-===============
+=====================================
 
 Function
 --------

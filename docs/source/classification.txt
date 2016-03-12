@@ -27,7 +27,7 @@ Apart from these supervised algorithms, following unsupervised algorithm is also
 
 
 Abundance Classification
-=======================
+========================
 
 .. autoclass:: pysptools.classification.AbundanceClassification
     :members:

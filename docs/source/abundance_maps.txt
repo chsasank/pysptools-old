@@ -14,7 +14,7 @@ Following algorithms are available to generate and plot abundance maps. Each of 
 
 
 Unconstrained Least Squares (UCLS)
-============================
+====================================
 
 Function
 --------
@@ -29,7 +29,7 @@ Class
 
 
 Non-negative Constrained Least Squares (NNLS)
-=========================================
+=============================================
 
 Function
 --------
@@ -44,7 +44,7 @@ Class
 
 
 Fully Constrained Least Squares (FCLS)
-================================
+========================================
 
 Function
 --------

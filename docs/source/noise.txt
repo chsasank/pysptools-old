@@ -37,7 +37,7 @@ Minimum Noise Fraction (MNF) Transformation
 
 
 Savitzky Golay
-=============
+==============
 
 .. autoclass:: pysptools.noise.SavitzkyGolay
     :members:
